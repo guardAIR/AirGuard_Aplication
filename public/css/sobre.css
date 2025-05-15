@@ -1,0 +1,396 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.navbar {
+    position: fixed;
+    backdrop-filter: blur(15px);
+    z-index: 100;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar img {
+    width: 70%;
+    max-width: 9.4rem;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 4rem;
+    margin-right: 8vw;
+    flex-wrap: wrap;
+}
+
+.navbar li a {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+}
+
+.logo img {
+    width: 5.2vw;
+}
+
+.links ul {
+    list-style-type: none;
+    display: flex;
+    width: 20.8vw;
+    justify-content: space-between;
+}
+
+.links ul li a {
+    color: currentColor;
+    text-decoration: none;
+}
+
+.destaque_link {
+    border: 0.05vw solid #fff;
+    padding: 0.1vh 1.04vw;
+    border-radius: 0.26vw;
+}
+
+.banner {
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../assets/sobre-nos/banner.png');
+    background-size: 150vw;
+    background-position: -30vw -21.6vh;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    background-repeat: inherit;
+    filter: brightness(0.6) blur(0.37vw);
+    z-index: 0;
+}
+
+.banner>* {
+    position: relative;
+    z-index: 1;
+}
+
+.banner .content {
+    margin: 29.63vh 0 0 6.35vw;
+    color: #fff;
+}
+
+.banner .content h1 {
+    width: 20.83vw;
+    font-size: 6.25vw;
+}
+
+.banner .content p {
+    width: 36.46vw;
+    font-weight: 500;
+    font-size: 1.56vw;
+}
+
+.fade {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 17.87vh;
+    background-image: linear-gradient(to top, #fff5, #fff0);
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.fade img {
+    width: 5.2vw;
+    margin-bottom: 1.85vh;
+}
+
+.msg {
+    margin-top: 14.35vh;
+    display: flex;
+    justify-content: center;
+}
+
+.msg h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 5.21vw;
+    color: rgba(31, 31, 27, 0.86);
+    width: 71.93vw;
+}
+
+.color {
+    color: #006DAC;
+}
+
+.section {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 7.81vw;
+    margin: 9.26vh 0;
+}
+
+.section .item h3,
+.section .item p {
+    color: rgba(31, 31, 27, 0.86);
+}
+
+.section .item h3 {
+    width: 18.23vw;
+    font-size: 4.17vw;
+}
+
+.section .item p {
+    width: 37.97vw;
+    font-size: 1.35vw;
+}
+
+.item img {
+    width: 30vw;
+}
+
+.sub {
+    text-decoration: underline;
+}
+
+.color.bold {
+    font-weight: 600;
+}
+
+.card_container {
+    color: #1F1F1B;
+}
+
+.card_container .cards {
+    display: flex;
+    justify-content: center;
+    gap: 4.9vw;
+}
+
+.card_container .cards .card {
+    width: 26.04vw;
+    height: 64.81vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding-bottom: 7.78vh;
+    box-shadow: 0.21vw 0.21vw 0.52vw 0.26vw rgba(0, 0, 0, 0.25);
+    border-radius: 1.04vw;
+}
+
+.card_container .cards .card .card_text {
+    font-size: 1.15vw;
+    padding: 0 1.41vw;
+    text-align: center;
+}
+
+.card_container .cards .card .card_title {
+    font-size: 1.56vw;
+    font-weight: 700;
+}
+
+.card_container .cards_title {
+    margin: 0 0 2.87vh 7.08vw;
+}
+
+.card_container .cards_title h3,
+.card_container .cards_title h4 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: rgba(31, 31, 27, 0.86);
+}
+
+.card_container .cards_title h3 {
+    font-size: 3.33vw;
+}
+
+.card_container .cards_title h4 {
+    font-size: 1.67vw;
+}
+
+.card img {
+    width: 100%;
+}
+
+/* Missao, Visao e valores*/
+.titulo-secao {
+    margin: 40px 0 20px 90px;
+    font-size: 3.5vw;
+    color: rgba(31, 31, 27, 0.86);
+}
+
+.bloco-info {
+    position: relative;
+    width: 85%;
+    margin: 0 auto 30px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    padding: 30px;
+    background-color: #000; 
+}
+
+.imagem-fundo-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.imagem-fundo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+    border-radius: 10px;
+}
+
+.conteudo-texto {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    padding: 30px;
+}
+
+
+/* Entre em contato */
+.secao-contato {
+    background-color: #00243B;
+    color: white;
+    padding: 60px 20px;
+}
+  
+.contato-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+  
+.texto-contato {
+    flex: 1;
+    min-width: 280px;
+}
+  
+.texto-contato h1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+}
+  
+.texto-contato p {
+    font-size: 1rem;
+    max-width: 400px;
+    line-height: 1.6;
+}
+  
+.formulario-contato {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+.formulario-contato label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+  
+.formulario-contato input,
+.formulario-contato textarea {
+    padding: 10px;
+    border: 1px solid white;
+    background-color: #00243B;
+    color: white;
+    font-size: 1rem;
+    resize: none;
+}
+  
+.formulario-contato button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.formulario-contato button:hover {
+    background-color: #00b4ff;
+    border-color: #00b4ff;
+    color: #00243B;
+}
+
+  /* footer */
+.rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #00243B;
+    color: white;
+    padding: 3rem 5rem;
+    flex-wrap: wrap;
+    gap: 2rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+.rodape-logo {
+    max-width: 250px;
+}
+
+.rodape-logo img {
+    width: 15.5rem;
+    margin-bottom: 1rem;
+}
+
+.rodape-links {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.rodape-coluna h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.rodape-coluna p {
+    margin: 0.3rem 0;
+    cursor: pointer;
+}
+
+.rodape-coluna p:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard por área | AirGuard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+
+<body class="specific_body">
+    <nav class="horizontal_nav">
+        <a href="/index.html" class="logo">
+            <img src="/assets/dashboard/logo.svg">
+        </a>
+        <div class="links">
+            <ul>
+                <li><a href="/pages/sobre-nos/sobre_nos.html">Sobre nós</a></li>
+                <li><a href="/pages/calculadora/calculadora.html">Orçamento</a></li>
+                <li><a href="./dashboard.html" class="destaque_link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="vertical_nav">
+        <ul>
+            <li>
+                <a href="dashboard.html">
+                    <span class="material-symbols-outlined">
+                        domain
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="dashboard_area.html" class="active">
+                    <span class="material-symbols-outlined">
+                        location_on
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="add_member.html">
+                    <span class="material-symbols-outlined">
+                        person_add
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <section class="dashboard_area">
+        <div class="dashboard_header dashboard_specific_header">
+            <h1>Medição especifica por área</h1>
+            <p>Acompanhe o nível de CO em cada uma das <strong>áreas</strong> e dos <strong>sensores</strong>.</p>
+        </div>
+        <div class="dashboard_specific_cards">
+            <div class="cards_header">
+                <ul>
+                    <li>Área</li>
+                    <li>Nível de atenção</li>
+                    <li>Gráfico em tempo-real</li>
+                    <li class="atual">Medição atual</li>
+                    <li class="variacao">Variação</li>
+                </ul>
+            </div>
+            <div class="cards">
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area1()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 1">
+                        <p class="area_name_specific">Linha de produção 1</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area1_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon1">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_1">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts1()" id="buttonShowAlerts1">Alertas</button>
+                            <button onclick="showGraphs1()" id="buttonShowGraphs1" class="clicked">Geral</button>
+                            <button onclick="showSensors1()" id="buttonShowSensors1">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph1_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts1_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 1
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 1
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph1" class="alert_graph" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors1_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph1" class="sensors_graph" width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area2()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 2">
+                        <p class="area_name_specific">Linha de produção 2</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area2_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon2">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_2">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts2()" id="buttonShowAlerts2">Alertas</button>
+                            <button onclick="showGraphs2()" id="buttonShowGraphs2" class="clicked">Geral</button>
+                            <button onclick="showSensors2()" id="buttonShowSensors2">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph2_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph2" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart2" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts2_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 2
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 2
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph2" class="alert_graph2" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors2_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph2" class="sensors_graph2" width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area3()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 3">
+                        <p class="area_name_specific">Linha de produção 3</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area3_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon3">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_3">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts3()" id="buttonShowAlerts3">Alertas</button>
+                            <button onclick="showGraphs3()" id="buttonShowGraphs3" class="clicked">Geral</button>
+                            <button onclick="showSensors3()" id="buttonShowSensors3">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph3_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph3" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart3" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts3_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 3
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 3
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph3" class="alert_graph3" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors3_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph3" class="sensors_graph3" width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area4()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 4">
+                        <p class="area_name_specific">Linha de produção 4</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area4_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon4">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_4">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts4()" id="buttonShowAlerts4">Alertas</button>
+                            <button onclick="showGraphs4()" id="buttonShowGraphs4" class="clicked">Geral</button>
+                            <button onclick="showSensors4()" id="buttonShowSensors4">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph4_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph4" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart4" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts4_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 4
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 4
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph4" class="alert_graph4" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors4_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph4" class="sensors_graph4" width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area5()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 5">
+                        <p class="area_name_specific">Linha de produção 5</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area5_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon5">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_5">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts5()" id="buttonShowAlerts5">Alertas</button>
+                            <button onclick="showGraphs5()" id="buttonShowGraphs5" class="clicked">Geral</button>
+                            <button onclick="showSensors5()" id="buttonShowSensors5">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph5_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph5" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart5" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts5_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 5
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 5
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph5" class="alert_graph5" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors5_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph5" class="sensors_graph5" width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area6()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 6">
+                        <p class="area_name_specific">Linha de produção 6</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area6_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon6">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_6">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts6()" id="buttonShowAlerts6">Alertas</button>
+                            <button onclick="showGraphs6()" id="buttonShowGraphs6" class="clicked">Geral</button>
+                            <button onclick="showSensors6()" id="buttonShowSensors6">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph6_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph6" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart6" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts6_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 6
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 6
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph6" class="alert_graph6" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors6_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph6" class="sensors_graph6" width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card_row" onclick="expandir_area7()">
+                        <img src="/assets/dashboard/img_area.png" alt="Área 7">
+                        <p class="area_name_specific">Linha de produção 7</p>
+                        <div class="attention_level">
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span class="marked"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <canvas class="area_graph" id="area7_geral" width="360" height="85"></canvas>
+                        <p>30ppm</p>
+                        <p class="comparison trending_down">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_down
+                            </span>
+                            23.08%
+                        </p>
+                        <button class="button_expand">
+                            <span class="material-symbols-outlined" id="expandir_area_icon7">
+                                keyboard_arrow_down
+                            </span>
+                        </button>
+                    </div>
+                    <div class="card_row row_graphs" id="expand_7">
+                        <div class="graph_buttons">
+                            <button onclick="showAlerts7()" id="buttonShowAlerts7">Alertas</button>
+                            <button onclick="showGraphs7()" id="buttonShowGraphs7" class="clicked">Geral</button>
+                            <button onclick="showSensors7()" id="buttonShowSensors7">Sensores</button>
+                        </div>
+                        <div class="graph graph1 selected" id="graph7_wrapper">
+                            <div class="first_graph">
+                                <h3>Nível de gás (por hora)</h3>
+                                <canvas id="limitPerArea_graph7" width="700" height="400"></canvas>
+                            </div>
+                            <div class="second_graph">
+                                <h3>Sensores espalhados pela área</h3>
+                                <canvas class="bubble_chart" id="bubble_chart7" width="700" height="400"></canvas>
+                                <p class="bubble_chart_legend">Momento atual</p>
+                            </div>
+                        </div>
+                        <div class="alerts_wrapper" id="alerts7_wrapper">
+                            <div class="alerts_specific">
+                                <h3>Alertas (últimas 24h)</h3>
+                                <div class="alerts_container">
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_high">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 7
+                                        </p>
+                                        <p>45ppm</p>
+                                        <p class="alert_time">17:00h</p>
+                                    </div>
+                                    <div class="alert_specific">
+                                        <p class="alert_text">
+                                            <span class="material-symbols-outlined alert_icon_specific_medium">
+                                                error
+                                            </span>
+                                            Sensor 6 - Linha de produção 7
+                                        </p>
+                                        <p>30ppm</p>
+                                        <p class="alert_time">16:00h</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alerts_graph">
+                                <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
+                                <canvas id="alert_graph7" class="alert_graph7" width="700" height="400"></canvas>
+                            </div>
+                        </div>
+                        <div class="sensors_wrapper" id="sensors7_wrapper">
+                            <div class="sensors_graph_container">
+                                <h3>Medição dos sensores (atual)</h3>
+                                <canvas id="sensors_graph7" class="sensors_graph7"  width="700" height="400"></canvas>
+                            </div>
+                            <div class="sensors_kpis">
+                                <h3>Estado dos sensores</h3>
+                                <div class="sensors_kpis_container">
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 1<br>5ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 2<br>19ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 3<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 4<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 5<br>30ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 6<br>45ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 7<br>18ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 8<br>24ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 9<br>25ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi normal">
+                                        <p>Sensor 10<br>15ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi atencao">
+                                        <p>Sensor 11<br>20ppm</p>
+                                    </div>
+                                    <div class="sensor_kpi alerta">
+                                        <p>Sensor 12<br>30ppm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="../../js/specificDashboards.js"></script>
+<script src="../../js/buttons.js"></script>

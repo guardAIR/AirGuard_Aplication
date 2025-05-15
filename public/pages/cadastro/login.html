@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="../../css/cadastro.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <section class="navbar">
+          <a href="/index.html">
+              <img class="logo" src="../../assets/home/logo.svg" alt="Logo Air Guard" />
+          </a>
+          <ul>
+              <li><a href="../sobre-nos/sobre_nos.html">Sobre nós</a></li>
+              <li><a href="../calculadora/calculadora.html">Orçamento</a></li>
+              <li><a href="./login.html">Entrar</a></li>
+          </ul>
+      </section>
+  </header>
+    <img class="imgBack" src="/assets/cadastro/fundoLogin.jpeg" alt="">
+    <form>
+      <h4>Que bom que você voltou,</h4>
+      <h1>Faça login</h1>
+
+      <div class="input-wrapper">
+        <input type="email" id="ipt_email" placeholder="exemplo@email.com" required />
+        <label for="email" class="floating">E-mail</label>
+        <span class="icon">📧</span>
+      </div>
+
+      <div class="input-wrapper">
+        <input type="password" id="ipt_senha" placeholder="************" required />
+        <label for="password" class="floating">Senha</label>
+        <span class="icon">👁️</span>
+      </div>
+      <a href="registro.html" class="btn">Cadastre-se</a>
+      <button type="button" class="btn-login" onclick="login()">Entrar</button>
+    </form>
+  </div>
+</body>
+
+</html>
+<script>
+  let tentativas = 0;
+
+  function login() {
+    var email = ipt_email.value;
+    var senha = ipt_senha.value;
+
+    const emailteste = 'sptech@gmail.com';
+    const senhateste = '123';
+
+    if (email === emailteste && senha === senhateste) {
+      window.location.href = '/pages/dashboard/dashboard.html';
+    } else {
+      tentativas++;
+      if (tentativas >= 3) {
+        alert('Você excedeu o número máximo de tentativas. Tente novamente mais tarde.');
+      } else {
+        alert(`Email ou senha inválidos. Tentativa ${tentativas} de 3.`);
+      }
+    }
+  }
+</script>

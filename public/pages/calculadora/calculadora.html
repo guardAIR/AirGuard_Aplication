@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Financeira</title>
+</head>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+  /* Reset básico */
+  * {
+    /* Remove as margens padrão de todos os elementos */
+    margin: 0;
+    /* Remove o preenchimento padrão */
+    padding: 0;
+    /* Garante que largura e altura incluam padding e bordas */
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+
+  }
+
+  .navbar {
+    position: fixed;
+    backdrop-filter: blur(15px);
+    z-index: 1;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    flex-wrap: wrap;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .navbar img {
+    width: 70%;
+    max-width: 9.4rem;
+  }
+
+  .navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-right: 3vw;
+  }
+
+  .navbar li a {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+  }
+
+  /* Body e fonte */
+  .body {
+    /* Define a fonte principal */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Define uma cor de fundo suave */
+    background-color: #f4f4f9;
+    /* Define a cor padrão do texto */
+    color: #333;
+    /* Usa flexbox para centralizar conteúdo */
+    display: flex;
+    /* Centraliza o conteúdo horizontalmente */
+    justify-content: center;
+    /* Adiciona um espaçamento ao redor */
+    padding: 30px;
+  }
+
+  /* Container principal */
+  .container {
+    /* Define a largura máxima do container */
+    max-width: 1200px;
+    /* Garante que ele ocupe toda a largura disponível */
+    width: 100%;
+    /* Adiciona um espaçamento interno */
+    padding: 40px;
+    /* Fundo branco */
+    background-color: #fff;
+    /* Bordas arredondadas */
+    border-radius: 12px;
+    /* Adiciona uma sombra suave */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 10vh;
+  }
+
+  /* Estilizando o cabeçalho */
+  .header {
+    /* Centraliza o conteúdo do cabeçalho */
+    text-align: center;
+    /* Adiciona um espaçamento abaixo */
+    margin-bottom: 40px;
+  }
+
+  /* Estilizando o título principal do .header */
+  .header h1 {
+    /* Define a cor do título */
+    color: #048abf;
+    /* Define o tamanho da fonte */
+    font-size: 2.8em;
+    /* Deixa o texto em negrito */
+    font-weight: bold;
+  }
+
+  /* Estilizando o título da calculadora */
+  .header .tituloCalculadora {
+    /* Adiciona espaçamento superior */
+    margin-top: 5rem;
+  }
+
+  /* Estilizando os parágrafos dentro do .header */
+  .header p {
+    /* Define o tamanho da fonte */
+    font-size: 1.1em;
+    /* Define a cor do texto */
+    color: #555;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 20px;
+  }
+
+  /* Estilizando o subtítulo da calculadora */
+  .sub-title {
+    /* Define o tamanho da fonte */
+    font-size: 1.2em;
+    /* Define uma cor um pouco mais clara */
+    color: #777;
+  }
+
+  /* Estilizando o container da calculadora */
+  .calculadora-container {
+    /* Usa flexbox para organizar os elementos */
+    display: flex;
+    /* Permite que os elementos quebrem linha */
+    flex-wrap: wrap;
+    /* Centraliza os itens */
+    justify-content: center;
+  }
+
+  /* Estilizando a calculadora */
+  .calculadora {
+    /* Define a largura */
+    width: 48%;
+    /* Define uma cor de fundo suave */
+    background-color: #f9f9f9;
+    /* Espaçamento interno */
+    padding: 0px 25px 25px 25px;
+    /* Bordas arredondadas */
+    border-radius: 10px;
+    /* Adiciona uma sombra leve */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Estilizando o título da calculadora */
+  .calculadora h2 {
+    /* Define a cor do título */
+    color: #048abf;
+    /* Define o tamanho da fonte */
+    font-size: 1.8em;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 20px;
+    /* Deixa o texto em negrito */
+    font-weight: bold;
+  }
+
+  /* Estilizando os parágrafos dentro da calculadora */
+  .calculadora p {
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 15px;
+    /* Define a cor do texto */
+    color: #555;
+    /* Define o tamanho da fonte */
+    font-size: 1em;
+  }
+
+  /* Estilizando os rótulos dos campos da calculadora */
+  .calculadora label {
+    /* Faz com que cada label ocupe uma linha */
+    display: block;
+    /* Deixa o texto em negrito */
+    font-weight: bold;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 8px;
+    /* Define a cor do texto */
+    color: #333;
+    /* Define o tamanho da fonte */
+    font-size: 1.1em;
+  }
+
+  /* Estilizando os inputs e selects da calculadora */
+  .calculadora input,
+  .calculadora select {
+    /* Faz com que ocupem toda a largura disponível */
+    width: 100%;
+    /* Adiciona espaçamento interno */
+    padding: 14px;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 20px;
+    /* Define a cor da borda */
+    border: 2px solid #048abf;
+    /* Bordas arredondadas */
+    border-radius: 8px;
+    /* Define o tamanho da fonte */
+    font-size: 1.1em;
+    /* Define a cor de fundo */
+    background-color: #f9f9f9;
+    /* Adiciona uma transição suave */
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Alteração no input e select quando recebem foco */
+  .calculadora input:focus,
+  .calculadora select:focus {
+    /* Remove a borda padrão do navegador */
+    outline: none;
+    /* Muda a cor da borda */
+    border-color: #035f86;
+    /* Muda a cor do fundo */
+    background-color: #fff;
+  }
+
+  /* Estilizando os placeholders */
+  .calculadora input::placeholder,
+  .calculadora select:placeholder {
+    /* Define uma cor mais clara para o texto */
+    color: #888;
+  }
+
+  /* Estilizando os botões */
+  .buttons {
+    /* Usa flexbox */
+    display: flex;
+    /* Adiciona espaçamento entre os botões */
+    gap: 15px;
+    /* Centraliza os botões */
+    justify-content: center;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 25px;
+  }
+
+  /* Estilizando os botões */
+  button {
+    /* Adiciona espaçamento interno */
+    padding: 15px 30px;
+    /* Define o tamanho da fonte */
+    font-size: 1.1em;
+    /* Define a cor de fundo */
+    background-color: #048abf;
+    /* Define a cor do texto */
+    color: white;
+    /* Remove as bordas */
+    border: none;
+    /* Bordas arredondadas */
+    border-radius: 8px;
+    /* Muda o cursor ao passar por cima */
+    cursor: pointer;
+    /* Adiciona um efeito suave */
+    transition: 0.3s;
+  }
+
+  /* Efeito ao passar o mouse sobre o botão */
+  button:hover {
+    /* Altera a cor do fundo */
+    background-color: #035f86;
+    /* Aumenta ligeiramente o tamanho */
+    transform: scale(1.1);
+  }
+
+  /* Efeito ao clicar no botão */
+  button:active {
+    /* Diminui ligeiramente o tamanho */
+    transform: scale(0.95);
+  }
+
+  /* Estilizando a seção de resultados */
+  .resultados {
+    /* Centraliza o texto */
+    text-align: center;
+    /* Adiciona espaçamento acima */
+    margin-top: 25px;
+  }
+
+  .resultados h3 {
+    /* Define o tamanho da fonte */
+    font-size: 1.4em;
+    /* Define a cor do texto */
+    color: #048abf;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 15px;
+  }
+
+  .resultados p {
+    /* Define o tamanho da fonte */
+    font-size: 1.1em;
+    /* Define a cor do texto */
+    color: #555;
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 12px;
+  }
+
+  .resultados p strong {
+    /* Muda a cor do texto em destaque */
+    color: #048abf;
+    /* Deixa em negrito */
+    font-weight: bold;
+  }
+
+  /* Estilizando a seção "Saiba Mais" */
+  .divSaibaMais {
+    /* Inicialmente escondida */
+    display: none;
+    /* Adiciona espaçamento acima */
+    margin-top: 25px;
+    /* Centraliza o texto */
+    text-align: center;
+    /* Define o tamanho da fonte */
+    font-size: 1.1em;
+    /* Define a cor do texto */
+    color: #555;
+  }
+
+  /* Título da seção "Saiba Mais" */
+  .divSaibaMais h3 {
+    /* Adiciona espaçamento abaixo */
+    margin-bottom: 20px;
+    /* Define a cor do texto */
+    color: #048abf;
+  }
+</style>
+
+<body>
+  <header>
+    <section class="navbar">
+      <a href="/index.html">
+        <img class="logo" src="../../assets/home/logo.svg" alt="Logo Air Guard" />
+      </a>
+      <ul>
+        <li><a href="../sobre-nos/sobre_nos.html">Sobre nós</a></li>
+        <li><a href="./calculadora.html">Orçamento</a></li>
+        <li><a href="../cadastro/login.html">Entrar</a></li>
+      </ul>
+    </section>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <div class="header">
+        <div id="headerAlteravel" class="headerAlteravel">
+          <h1>Você conhece a taxa de absenteísmo?</h1>
+          <p>As empresas de metalúrgica sofrem com um dano silencioso, chamado taxa de absenteísmo. Essa taxa se refere
+            a funcionários que ficam ausentes, ou trabalham mal, o que gera um prejuízo para a empresa devido ao fato de
+            que não foi obtido o valor investido no colaborador.</p>
+          <p>Por exemplo, uma empresa de porte médio possui em média 1000 funcionários. Supondo que o salário médio de
+            metalúrgicos é 2500, a empresa acaba gastando 3500 com o funcionário, devido a benefícios, como
+            Vale-Alimentação e Vale-Transporte. Como a taxa de absenteísmo no setor metalúrgico é aproximadamente 6%, é
+            estimado que essa empresa tenha um prejuízo de R$2.520.000 milhões por ano.</p>
+          <button id="btnSaberMais" onclick="saibaMais()">Saber Mais sobre a Taxa de Absenteísmo</button>
+          <div id="div_alteravel" class="divSaibaMais"></div>
+          <section class="tituloCalculadora">
+            <h1>Calculadora de Economia para Empresas</h1>
+            <p class="sub-title">Saiba quanto sua empresa pode economizar com a redução da taxa de absenteísmo.</p>
+          </section>
+        </div>
+      </div>
+
+      <main class="calculadora-container">
+        <div id="calculadoraAlterar" class="calculadora">
+          <h2>Simulação para Empresa Fictícia</h2>
+          <p>Digite a área e selecione o porte da empresa para ver o impacto da redução de absenteísmo.</p>
+
+          <label for="ipt_empresaFicticia">Área (m²):</label>
+          <input type="number" id="ipt_empresaFicticia" min="6" placeholder="Ex: 100">
+
+          <label for="slc_porte">Porte da Empresa:</label>
+          <select id="slc_porte">
+            <option value="100">Porte Pequeno</option>
+            <option value="1000">Porte Médio</option>
+            <option value="5000">Porte Grande</option>
+          </select>
+
+          <div class="buttons">
+            <button onclick="AnualFicticio()">Anual</button>
+            <button onclick="MensalFicticio()">Semestral</button>
+            <button onclick="Real()">Sua Empresa</button>
+          </div>
+
+          <div class="resultados">
+            <h3 id="div_titulo1"></h3>
+            <p id="div_texto1"></p>
+            <p id="div_texto4"></p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script>
+  function AnualFicticio() {
+    var metros = Number(ipt_empresaFicticia.value); // Convertendo os inputs para número
+    var qtdSensores = metros / 6;  // Calculando a quantidade necessária de sensores por metro quadrado.
+    var sensores = qtdSensores * 100; // Preço base dos sensores
+    var valor_final_sensor = (sensores * 1.1) //Preço que cobramos em cima de cada sensor
+    var manutencao = valor_final_sensor * 0.1; //Preço da manutenção
+    var instalacao = (valor_final_sensor * 0.1); //Preço da instalação
+
+    //adição de desconto conforme a quantidade de sensores
+    if (qtdSensores >= 10 && qtdSensores <= 30) {
+      instalacao = valor_final_sensor * 0.20;
+    }
+    else if (qtdSensores > 30 && qtdSensores <= 50) {
+      instalacao = valor_final_sensor * 0.15;
+    }
+    else if (qtdSensores > 50) {
+      instalacao = valor_final_sensor * 0.05;
+    }
+    //Relação com a taxa de absenteismo
+    var valorMensal = (valor_final_sensor + manutencao + instalacao) * 0.90; // Soma de todas as despesas com um desconto de 10%
+    var valorAnual = valorMensal * 12;
+    var funcionarios = Number(slc_porte.value); //Quantidade de funcionários
+    var salario = 3500; //Salário Médio
+    var prejuizo = ((funcionarios * salario) * 12) * 0.06; //Quanto a empresa perde com o absenteísmo
+    var economia = prejuizo / 2 //Nosso objetivo: cortar pela metade a taxa de absenteísmo
+
+    //Validações dos inputs
+    if (metros < 6) {
+      div_texto1.innerHTML = `O número ${metros} não é valido, por favor insira um valor válido será apenas aceito valores apartir de 6`
+    }
+    else if (metros == " ") {
+      div_texto1.innerHTML = `Por favor insira um valor válido nos metros, será apenas aceito valores apartir de 6`
+    }
+    //Exibição dos resultados, formatando com toFixed.
+    else {
+      div_titulo1.innerHTML = `Lucros`
+      div_texto1.innerHTML = `Com um investimento mensal de apenas R$${valorMensal.toFixed(2)}, diminuiríamos a taxa de absenteísmo para 3%, cortando o prejuízo de R$${prejuizo.toFixed(2)} ao ano pela metade.
+             <br> Totalizando R$${economia.toFixed(2)} de economia anual.
+             <br> Nossos serviços sairiam por R$${valorAnual.toFixed(2)} por ano.
+             <br> A quantidade total de sensores seria de: ${qtdSensores.toFixed(0)}`
+    }
+  }
+
+  function MensalFicticio() {
+    var metros = Number(ipt_empresaFicticia.value);
+    var qtdSensores = metros / 6;
+    var sensores = qtdSensores * 100;
+    var valor_final_sensor = (sensores * 0.1) + sensores;
+    var manutencao = valor_final_sensor * 0.10;
+
+    var instalacao = valor_final_sensor * 0.1;
+
+    if (qtdSensores >= 10 && qtdSensores <= 30) {
+      instalacao = valor_final_sensor * 0.50;
+      div_texto4.innerHTML = `Desconto de 50% aplicado na instalação em relação aos sensores`
+    }
+    else if (qtdSensores > 30 && qtdSensores <= 50) {
+      instalacao = valor_final_sensor * 0.45;
+      div_texto4.innerHTML = `Desconto de 45% aplicado na instalação em relação aos sensores`
+    }
+    else if (qtdSensores > 50) {
+      instalacao = valor_final_sensor * 0.40;
+      div_texto4.innerHTML = `Desconto de 40% aplicado na instalação em relação aos sensores`
+    }
+
+    var valorMensal = valor_final_sensor + manutencao + instalacao;
+    var valorSemestral = valorMensal * 6;
+    var funcionarios = Number(slc_porte.value)
+    var salario = 3500
+    var prejuizo = ((funcionarios * salario) * 12) * 0.06
+    var economia = prejuizo / 2
+
+    if (metros < 6 || metros == " " || funcionarios == 0 || funcionarios == " ") {
+      div_texto1.innerHTML = `O número ${metros} não é valido, por favor insira um valor válido será apenas aceito valores apartir de 6`
+    }
+    else {
+      div_texto1.innerHTML = `Com um investimento de apenas R$${valorMensal.toFixed(2)}
+             mensais, diminuiríamos a taxa de absenteísmo para 3%, cortando o prejuízo de R$${prejuizo.toFixed(2)} pela metade.
+             <br> Se tornando R$${economia.toFixed(2)}  de economia ao ano
+             <br> Nosso serciço totaliza R$${valorSemestral.toFixed(2)} por semestre.
+             <br> A quantidade total de sensores será de: ${qtdSensores.toFixed(0)}`;
+    }
+  }
+
+  function Anual() {
+    var metros = Number(ipt_metros.value);
+    var qtdSensores = metros / 6;
+    var sensores = qtdSensores * 100;
+    var valor_final_sensor = (sensores * 1.1)
+    var manutencao = valor_final_sensor * 0.1;
+    var instalacao = (valor_final_sensor * 0.1);
+    //adição de desconto conforme a quantidade de sensores
+    if (qtdSensores >= 10 && qtdSensores <= 30) {
+      instalacao = valor_final_sensor * 0.20;
+    }
+    else if (qtdSensores > 30 && qtdSensores <= 50) {
+      instalacao = valor_final_sensor * 0.15;
+    }
+    else if (qtdSensores > 50) {
+      instalacao = valor_final_sensor * 0.05;
+    }
+    //Relação com a taxa de absenteismo
+    var valorMensal = (valor_final_sensor + manutencao + instalacao) * 0.90;
+    var valorAnual = valorMensal * 12;
+    var funcionarios = Number(ipt_funcionarios.value);
+    var salario = 3500
+    var prejuizo = ((funcionarios * salario) * 12) * 0.06
+    var economia = prejuizo / 2
+
+    if (metros < 6 || metros == " " || funcionarios == 0 || funcionarios == " ") {
+      div_texto2.innerHTML = `O número ${metros} não é valido, por favor insira um valor válido será apenas aceito valores apartir de 6`
+    }
+    else {
+      div_titulo2.innerHTML = `Lucros`
+      div_texto2.innerHTML = `Com um investimento mensal de apenas R$${valorMensal.toFixed(2)}, diminuiríamos a taxa de absenteísmo para 3%, cortando o prejuízo de R$${prejuizo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ao ano pela metade.
+        <br> Totalizando R$${economia.toFixed(2)} de economia anual.
+        <br> Nossos serviços sairiam por R$${valorAnual.toFixed(2)} por ano.
+        <br> A quantidade total de sensores seria de: ${qtdSensores.toFixed(0)}`;
+    }
+
+  }
+
+  function Semestral() {
+    var metros = Number(ipt_metros.value);
+    var qtdSensores = metros / 6;
+    var sensores = qtdSensores * 100;
+    var valor_final_sensor = (sensores * 1.1)
+    var manutencao = valor_final_sensor * 0.1;
+    var instalacao = (valor_final_sensor * 0.1);
+    //adição de desconto conforme a quantidade de sensores
+    if (qtdSensores >= 10 && qtdSensores <= 30) {
+      instalacao = valor_final_sensor * 0.20;
+    }
+    else if (qtdSensores > 30 && qtdSensores <= 50) {
+      instalacao = valor_final_sensor * 0.15;
+    }
+    else if (qtdSensores > 50) {
+      instalacao = valor_final_sensor * 0.05;
+    }
+    //Relação com a taxa de absenteismo
+    var valorMensal = (valor_final_sensor + manutencao + instalacao) * 0.90;
+    var valorSemestral = valorMensal * 6;
+    var funcionarios = Number(ipt_funcionarios.value);
+    var salario = 3500
+    var prejuizo = ((funcionarios * salario) * 12) * 0.06
+    var economia = prejuizo / 2
+
+    if (metros < 6 || metros == " " || funcionarios == 0 || funcionarios == " ") {
+      div_texto2.innerHTML = `O número ${metros} não é valido, por favor insira um valor válido será apenas aceito valores apartir de 6`
+    }
+    else {
+      div_titulo2.innerHTML = `Lucros`
+      div_texto2.innerHTML = `Com um investimento mensal de apenas R$${valorMensal.toFixed(2)}, diminuiríamos a taxa de absenteísmo para 3%, cortando o prejuízo de R$${prejuizo.toFixed(2)} ao ano pela metade.
+        <br> Totalizando R$${economia.toFixed(2)} de economia anual.
+        <br> Nossos serviços sairiam por R$${valorSemestral.toFixed(2)} por semestre.
+        <br> A quantidade total de sensores seria de: ${qtdSensores.toFixed(0)}`;
+    }
+  }
+
+  function saibaMais() {
+    headerAlteravel.innerHTML = `
+      <h1>Você conhece a taxa de absenteísmo?</h1>
+      <p>As empresas de metalúrgica sofrem com um dano silencioso, chamado taxa de absenteísmo. Essa taxa se refere a funcionários que ficam ausentes, ou trabalham mal, o que gera um prejuízo para a empresa devido ao fato de que não foi obtido o valor investido no colaborador.</p>
+      <p>Por exemplo, uma empresa de porte médio possui em média 1000 funcionários. Supondo que o salário médio de metalúrgicos é 2500, a empresa acaba gastando 3500 com o funcionário, devido a benefícios, como Vale-Alimentação e Vale-Transporte. Como a taxa de absenteísmo no setor metalúrgico é aproximadamente 6%, é estimado que essa empresa tenha um prejuízo de R$2.520.000 milhões por ano.</p>
+      <button id="btnSaberMais" onclick="saibaMenos()">Fechar saiba mais</button>
+      <div id="div_alteravel" class="divSaibaMais">
+      <h3>Impacto da Taxa de Absenteísmo nas Finanças da Empresa</h3>
+      <p>A taxa de absenteísmo representa a porcentagem de funcionários que se ausentam do trabalho ou não desempenham suas funções adequadamente. Este impacto direto resulta em perdas significativas para as empresas, especialmente no setor metalúrgico, onde a produtividade está intimamente ligada ao desempenho de cada trabalhador.</p>
+      <p>As empresas podem enfrentar prejuízos devido ao tempo perdido, à necessidade de contratar trabalhadores temporários, à redução da qualidade do trabalho e até mesmo à sobrecarga de outros funcionários. Com a aplicação de medidas para reduzir essa taxa, a empresa pode melhorar sua rentabilidade, diminuir os custos operacionais e aumentar a eficiência.</p>
+      </div>
+      <h1>Calculadora de Economia para Empresas</h1>
+      <p class="sub-title">Saiba quanto sua empresa pode economizar com a redução da taxa de absenteísmo.</p>
+    `;
+    div_alteravel.style.display = "block";
+  }
+
+  function saibaMenos() {
+    headerAlteravel.innerHTML = `
+      <h1>Você conhece a taxa de absenteísmo?</h1>
+      <p>As empresas de metalúrgica sofrem com um dano silencioso, chamado taxa de absenteísmo. Essa taxa se refere a funcionários que ficam ausentes, ou trabalham mal, o que gera um prejuízo para a empresa devido ao fato de que não foi obtido o valor investido no colaborador.</p>
+      <p>Por exemplo, uma empresa de porte médio possui em média 1000 funcionários. Supondo que o salário médio de metalúrgicos é 2500, a empresa acaba gastando 3500 com o funcionário, devido a benefícios, como Vale-Alimentação e Vale-Transporte. Como a taxa de absenteísmo no setor metalúrgico é aproximadamente 6%, é estimado que essa empresa tenha um prejuízo de R$2.520.000 milhões por ano.</p>
+      <button id="btnSaberMais" onclick="saibaMais()">Saber Mais sobre a Taxa de Absenteísmo</button>
+      <div id="div_alteravel" class="divSaibaMais"></div>
+      <h1>Calculadora de Economia para Empresas</h1>
+      <p class="sub-title">Saiba quanto sua empresa pode economizar com a redução da taxa de absenteísmo.</p>
+    `;
+  }
+
+
+  function Real() {
+    calculadoraAlterar.innerHTML = `
+      <h2>Simulação para Sua Empresa</h2>
+        <p>Insira os dados da sua empresa para calcular a economia anual com a redução de absenteísmo.</p>
+
+        <label for="ipt_metros">Área (m²):</label>
+        <input type="number" id="ipt_metros" min="6" placeholder="Ex: 100">
+
+        <label for="ipt_funcionarios">Número de Funcionários:</label>
+        <input type="number" id="ipt_funcionarios" placeholder="Ex: 150">
+
+        <div class="buttons">
+          <button onclick="Anual()">Anual</button>
+          <button onclick="Semestral()">Semestral</button>
+          <button onclick="Ficticia()">Empresa Ficticia</button>
+        </div>
+
+        <div class="resultados">
+          <h3 id="div_titulo2"></h3>
+          <p id="div_texto2"></p>
+          <p id="div_texto3"></p>
+        </div>
+      </div>
+  `
+  }
+
+  function Ficticia() {
+    calculadoraAlterar.innerHTML = `
+        <h2>Simulação para Empresa Fictícia</h2>
+        <p>Digite a área e selecione o porte da empresa para ver o impacto da redução de absenteísmo.</p>
+
+        <label for="ipt_empresaFicticia">Área (m²):</label>
+        <input type="number" id="ipt_empresaFicticia" min="6" placeholder="Ex: 100">
+
+        <label for="slc_porte">Porte da Empresa:</label>
+        <select id="slc_porte">
+          <option value="100">Porte Pequeno</option>
+          <option value="1000">Porte Médio</option>
+          <option value="5000">Porte Grande</option>
+        </select>
+
+        <div class="buttons">
+          <button onclick="AnualFicticio()">Anual</button>
+          <button onclick="MensalFicticio()">Semestral</button>
+          <button onclick="Real()">Sua Empresa</button>
+        </div>
+
+        <div class="resultados">
+          <h3 id="div_titulo1"></h3>
+          <p id="div_texto1"></p>
+          <p id="div_texto4"></p>
+  `
+  }
+</script>
