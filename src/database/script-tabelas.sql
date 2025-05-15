@@ -1,62 +1,149 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+DROP DATABASE IF EXISTS airguard;
 
-/*
-comandos para mysql server
-*/
+CREATE DATABASE airguard;
+USE airguard;
 
-CREATE DATABASE aquatech;
-
-USE aquatech;
+CREATE TABLE endereco (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    endereco VARCHAR(200) NOT NULL,
+    numero VARCHAR(50) NOT NULL,
+    complemento VARCHAR(50),
+    bairro VARCHAR(100) NOT NULL,
+    cidade VARCHAR(50) NOT NULL,
+    estado VARCHAR(2) NOT NULL,
+    cep VARCHAR(8) NOT NULL
+);
 
 CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    cnpj VARCHAR(14) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fkEndereco INT,
+    fkEmpresaMatriz INT,
+    CONSTRAINT uc_empresa_cnpj UNIQUE (cnpj),
+    CONSTRAINT uc_empresa_email UNIQUE (email)
+);
+
+CREATE TABLE contatoEmpresa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_contato VARCHAR(100) NOT NULL,
+    numero_contato VARCHAR(15) NOT NULL,
+    fkEmpresa INT NOT NULL
+);
+
+CREATE TABLE cargo (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_cargo VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50) NOT NULL,
+    sobrenome VARCHAR(50) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    telefone VARCHAR(13) NOT NULL,
+    fkEmpresa INT NOT NULL,
+    fkCargo INT NOT NULL,
+    fkEndereco INT,
+    CONSTRAINT uc_usuario_cpf UNIQUE (cpf),
+    CONSTRAINT uc_usuario_email UNIQUE (email)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+CREATE TABLE credenciais (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_login VARCHAR(50) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fkUsuario INT NOT NULL,
+    CONSTRAINT uc_credenciais_login UNIQUE (usuario_login)
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE areas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_area VARCHAR(100) NOT NULL,
+    fkEmpresa INT NOT NULL
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+CREATE TABLE sensor (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    localizacao VARCHAR(100) NOT NULL,
+    status_sensor VARCHAR(50) NOT NULL,
+    fkAreas INT NOT NULL,
+    CONSTRAINT chk_status_sensor CHECK (status_sensor IN ('inativo', 'manutencao', 'ativo'))
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+CREATE TABLE leituraSensor (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    concentracao_gas FLOAT NOT NULL,
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fkSensor INT NOT NULL
+);
+
+CREATE TABLE alerta (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    concentracao_gas FLOAT NOT NULL,
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    nivel_alerta VARCHAR(7) NOT NULL,
+    mensagem_alerta VARCHAR(200),
+    fkLeituraSensor INT NOT NULL,
+    CONSTRAINT chk_nivel_alerta CHECK (nivel_alerta IN ('baixo', 'medio', 'alto', 'critico'))
+);
+
+ALTER TABLE empresa
+ADD CONSTRAINT fk_endereco_empresa
+FOREIGN KEY (fkEndereco) REFERENCES endereco(id);
+
+ALTER TABLE empresa
+ADD CONSTRAINT fk_matriz_empresa
+FOREIGN KEY (fkEmpresaMatriz) REFERENCES empresa(id);
+
+ALTER TABLE contatoEmpresa
+ADD CONSTRAINT fk_empresa_contato
+FOREIGN KEY (fkEmpresa) REFERENCES empresa(id);
+
+ALTER TABLE usuario
+ADD CONSTRAINT fk_empresa_usuario
+FOREIGN KEY (fkEmpresa) REFERENCES empresa(id);
+
+ALTER TABLE usuario
+ADD CONSTRAINT fk_cargo_usuario
+FOREIGN KEY (fkCargo) REFERENCES cargo(id);
+
+ALTER TABLE usuario
+ADD CONSTRAINT fk_endereco_usuario
+FOREIGN KEY (fkEndereco) REFERENCES endereco(id);
+
+ALTER TABLE credenciais
+ADD CONSTRAINT fk_usuario_credenciais
+FOREIGN KEY (fkUsuario) REFERENCES usuario(id);
+
+ALTER TABLE areas
+ADD CONSTRAINT fk_empresa_area
+FOREIGN KEY (fkEmpresa) REFERENCES empresa(id);
+
+ALTER TABLE sensor
+ADD CONSTRAINT fk_area_sensor
+FOREIGN KEY (fkAreas) REFERENCES areas(id);
+
+ALTER TABLE leituraSensor
+ADD CONSTRAINT fk_sensor_leituraSensor
+FOREIGN KEY (fkSensor) REFERENCES sensor(id);
+
+ALTER TABLE alerta
+ADD CONSTRAINT fk_leituraSensor_alerta
+FOREIGN KEY (fkLeituraSensor) REFERENCES leituraSensor(id);
+
+DESC endereco;
+DESC empresa;
+DESC contatoEmpresa;
+DESC cargo;
+DESC usuario;
+DESC credenciais;
+DESC areas;
+DESC sensor;
+DESC leituraSensor;
+DESC alerta;
