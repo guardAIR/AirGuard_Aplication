@@ -13,7 +13,7 @@
     <header>
       <section class="navbar">
         <a href="/index.html">
-          <img class="logo" src="/assets/home/logo.svg" alt="Logo Air Guard" />
+          <img class="logo" src="../../assets/home/logo.svg" alt="Logo Air Guard" />
         </a>
         <ul>
           <li><a href="../sobre-nos/sobre_nos.html">Sobre nós</a></li>
@@ -27,24 +27,29 @@
       <h4>Seja bem-vindo a AirGuard</h4>
       <h1>Crie a sua conta</h1>
       <div class="input-wrapper">
-        <input type="email" id="iptEmail" placeholder="Exemplo@Email.com " required />
-        <label for="email" class="floating">E-mail</label>
-        <span class="icon">📧</span>
+        <input type="text" id="input_nome" placeholder="Ex. João" required>
+        <label for="input_nome" class="floating">Nome</label>
+        <span class="error" id="nomeError"></span>
+      </div>
+      <div class="input-wrapper">
+        <input type="text" id="input_sobrenome" placeholder="Ex. da Silva" required>
+        <label for="input_sobrenome" class="floating">Sobrenome</label>
+        <span class="error" id="sobrenomeError"></span>
+      </div>
+      <div class="input-wrapper">
+        <input type="email" id="input_email" placeholder="exemplo@email.com " required />
+        <label for="input_email" class="floating">E-mail</label>
+        <span class="error" id="emailError"></span>
       </div>
       <div class="input-wrapper" id="Senha">
-        <input type="password" id="iptSenha" placeholder="***********" required />
-        <label for="senha" class="floating">Senha</label>
-        <button onclick="view()" class="icon">👁️</button>
+        <input type="password" id="input_senha" placeholder="***********" required />
+        <label for="input_senha" class="floating">Senha</label>
+        <span class="error" id="senhaError"></span>
       </div>
       <div class="input-wrapper">
-        <input type="text" id="iptEmpresa" placeholder="Ex. Google" required>
-        <label for="nomeEmpresa" class="floating">Nome da Empresa</label>
-        <span class="error" id="nomeEmpresaError"></span>
-      </div>
-      <div class="input-wrapper">
-        <input type="number" id="iptCnpj" placeholder="CNPJ" required>
-        <label for="cnpjempresa" class="floating">Nome da Empresa</label>
-        <span class="error" id="nomeEmpresaError"></span>
+        <input type="text" id="input_codigo_empresa" placeholder="Ex. ABC1234" required>
+        <label for="input_codigo_empresa" class="floating">Código da empresa</label>
+        <span class="error" id="codEmpresaError"></span>
       </div>
       <button type="button" class="btn-registro" onclick="registrar()">Registrar</button>
       <div id="resultado"></div>
@@ -54,52 +59,56 @@
 
 </html>
 
+<script src="../../js/cadastro.js"></script>
 <script>
-  function view() {
-    iptSenha.innerHTML = `<input type="text" id="senha" placeholder="456123" required />
-        <label for="senha" class="floating">Senha</label>
-        <button onclick="viewoff()" class="icon">👁️</button>`
-  }
-  function viewoff() {
-    iptSenha.innerHTML = `
-    <input type="password" id="senha" placeholder="***********" required />
-        <label for="senha" class="floating">Senha</label>
-        <button onclick="view()" class="icon">👁️</button>`
-  }
-
   function registrar() {
-    var email = iptEmail.value;
-    var senha = iptSenha.value;
-    var empresa = iptEmpresa.value;
-    var cnpj = iptCnpj.value;
-
-    resultado.innerHTML = '';
-
+    var email = input_email.value;
+    var senha = input_senha.value;
+    var empresacod = input_codigo_empresa.value;
+    var nome = input_nome.value;
+    var sobrenome = input_sobrenome.value;
+    
+    nomeError.innerHTML = '';
+    sobrenomeError.innerHTML = '';
+    emailError.innerHTML = '';
+    senhaError.innerHTML = '';
+    codEmpresaError.innerHTML = '';
+    
+    
     let isValid = true;
+    if(!nome){
+      nomeError.innerHTML += 'Insira um nome.';
+      nomeError.style.color = 'red';
+      isValid = false;
+    }
 
-    if (!email.includes('@')) {
-      resultado.innerHTML += '<br>O e-mail deve conter um "@"<br>';
-      resultado.style.color = 'red';
+    if(!sobrenome){
+      sobrenomeError.innerHTML += 'Insira um sobrenome.';
+      sobrenomeError.style.color = 'red';
+      isValid = false;
+    }
+
+    if(!email || !email.includes('@')){
+      emailError.innerHTML += 'Insira um email válido.';
+      emailError.style.color = 'red';
       isValid = false;
     }
 
     if (senha.length < 6) {
-      resultado.innerHTML += 'A senha deve ter pelo menos 6 caracteres.<br>';
+      senhaError.innerHTML += 'A senha deve ter pelo menos 6 caracteres.';
+      senhaError.style.color = 'red';
       isValid = false;
     }
 
-    if (empresa == '') {
-      resultado.innerHTML += 'O nome da empresa não pode estar vazio.';
-      isValid = false;
-    }
-
-    if (cnpj.length < 14) {
-      resultado.innerHTML += 'O CNPJ deve conter 14 caracteres.<br>';
+    if (empresacod == '') {
+      codEmpresaError.innerHTML += 'Insira um código de empresa válido.';
+      codEmpresaError.style.color = 'red';
       isValid = false;
     }
 
     if (isValid) {
-      window.location.href = 'login.html';
+      cadastrar();
+      // window.location.href = 'login.html';
     }
   }
 </script>
