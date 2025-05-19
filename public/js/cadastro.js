@@ -1,14 +1,3 @@
-function finalizarAguardar(texto) {
-    // var divAguardar = document.getElementById("div_aguardar");
-    // divAguardar.style.display = "none";
-
-    // var divErrosLogin = document.getElementById("div_erros_login");
-    // if (texto) {
-    //     divErrosLogin.style.display = "flex";
-    //     divErrosLogin.innerHTML = texto;
-    // }
-}
-
 function cadastrar() {
 
     var nomeVar = input_nome.value;
@@ -36,10 +25,8 @@ function cadastrar() {
     ) {
         cardErro.style.display = "block";
         mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-        // finalizarAguardar();
         return false;
     } else {
-        // setInterval(sumirMensagem, 5000);
         console.log('sumir mensagem')
     }
 
@@ -59,25 +46,16 @@ function cadastrar() {
         .then(function (resposta) {
             console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                cardErro.style.display = "block";
-
-                mensagem_erro.innerHTML =
-                    "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-                setTimeout(() => {
-                    window.location = "login.html";
-                }, "2000");
-
-                // limparFormulario();
-                // finalizarAguardar();
+            if (resposta.ok) {               
+                window.location = "login.html";
             } else {
                 throw "Houve um erro ao tentar realizar o cadastro!";
             }
         })
         .catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
-            // finalizarAguardar();
+            codEmpresaError.innerHTML += 'Insira um código de empresa válido.';
+            codEmpresaError.style.color = 'red';
         });
 
     return false;

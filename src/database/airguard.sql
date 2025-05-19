@@ -1,152 +1,122 @@
-DROP DATABASE IF EXISTS airguard;
+-- Exculindo o database se já existir
+DROP DATABASE IF EXISTS air_guard;
 
-CREATE DATABASE airguard;
-USE airguard;
+-- Criando usuário air guard
+CREATE USER 'webdataviz' IDENTIFIED BY 'Sptech#2024';
+GRANT INSERT, SELECT, DELETE, UPDATE ON air_guard.* TO 'webdataviz';
+GRANT INSERT, SELECT ON air_guard.* TO 'dataquino';
 
-CREATE TABLE endereco (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    endereco VARCHAR(200) NOT NULL,
-    numero VARCHAR(50) NOT NULL,
+-- Criando o banco de dados
+CREATE DATABASE air_guard;
+
+-- Colocando o banco de dados em uso
+USE air_guard;
+
+-- Criando as tabelas
+CREATE TABLE empresa
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+    cnpj VARCHAR(18),
+    nome_fantasia VARCHAR(100),
+    razao_social VARCHAR(150),
+    foto_perfil VARCHAR(255),
+    data_cadastro DATE,
+    codigo_empresa VARCHAR(10),
+    fkmatriz INT
+);
+
+CREATE TABLE usuario
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+    nome VARCHAR(50),
+    sobrenome VARCHAR(100),
+    email VARCHAR(100),
+    senha VARCHAR(255),
+    data_cadastro DATE,
+    fkempresa INT
+);
+
+CREATE TABLE endereco
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+    logradouro VARCHAR(100),
+    cep VARCHAR(8),
+    estado VARCHAR(25),
+    cidade VARCHAR(45),
+    bairro VARCHAR(45),
+    numero VARCHAR(10),
     complemento VARCHAR(50),
-    bairro VARCHAR(100) NOT NULL,
-    cidade VARCHAR(50) NOT NULL,
-    estado VARCHAR(2) NOT NULL,
-    cep VARCHAR(8) NOT NULL
+    fkempresa INT
 );
 
-CREATE TABLE empresa (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50) NOT NULL,
-    cnpj VARCHAR(14) NOT NULL,
-    email VARCHAR(200) NOT NULL,
-    senha VARCHAR(50) NOT NULL,
-    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fkEndereco INT,
-    fkEmpresaMatriz INT,
-    CONSTRAINT uc_empresa_cnpj UNIQUE (cnpj),
-    CONSTRAINT uc_empresa_email UNIQUE (email)
+CREATE TABLE contato
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+	telefone VARCHAR(15),
+    fkempresa INT
 );
 
-CREATE TABLE contatoEmpresa (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome_contato VARCHAR(100) NOT NULL,
-    numero_contato VARCHAR(15) NOT NULL,
-    fkEmpresa INT NOT NULL
+CREATE TABLE area
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+	nome VARCHAR(50),
+    foto_perfil VARCHAR(255),
+    fkempresa INT
 );
 
-CREATE TABLE cargo (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome_cargo VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE sensor
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+	eixo_x INT,
+    eixo_y INT,
+    fkarea INT
 );
 
-CREATE TABLE usuario (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(50) NOT NULL,
-    sobrenome VARCHAR(50) NOT NULL,
-    cpf VARCHAR(11) NOT NULL,
-    email VARCHAR(200) NOT NULL,
-    telefone VARCHAR(13) NOT NULL,
-    fkEmpresa INT NOT NULL,
-    fkCargo INT NOT NULL,
-    fkEndereco INT,
-    CONSTRAINT uc_usuario_cpf UNIQUE (cpf),
-    CONSTRAINT uc_usuario_email UNIQUE (email)
+CREATE TABLE alerta
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+	mensagem VARCHAR(50),
+    nivel_alerta VARCHAR(50),
+    fkleitura INT
 );
 
-CREATE TABLE credenciais (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario_login VARCHAR(50) NOT NULL,
-    senha VARCHAR(50) NOT NULL,
-    data_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fkUsuario INT NOT NULL,
-    CONSTRAINT uc_credenciais_login UNIQUE (usuario_login)
+CREATE TABLE leitura
+(
+	id INT PRIMARY KEY NOT NULL UNIQUE AUTO_INCREMENT,
+	concentracao_gas FLOAT,
+    data_hora DATETIME,
+    fksensor INT
 );
 
-CREATE TABLE areas (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nome_area VARCHAR(100) NOT NULL,
-    fkEmpresa INT NOT NULL
-);
-
-CREATE TABLE sensor (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    localizacao VARCHAR(100) NOT NULL,
-    status_sensor VARCHAR(50) NOT NULL,
-    fkAreas INT NOT NULL,
-    CONSTRAINT chk_status_sensor CHECK (status_sensor IN ('inativo', 'manutencao', 'ativo'))
-);
-
-CREATE TABLE leituraSensor (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    concentracao_gas FLOAT NOT NULL,
-    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fkSensor INT NOT NULL
-);
-
-CREATE TABLE alerta (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    concentracao_gas FLOAT NOT NULL,
-    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    nivel_alerta VARCHAR(7) NOT NULL,
-    mensagem_alerta VARCHAR(200),
-    fkLeituraSensor INT NOT NULL,
-    CONSTRAINT chk_nivel_alerta CHECK (nivel_alerta IN ('baixo', 'medio', 'alto', 'critico'))
-);
-
+-- Fazendo os acertos das chaves estrangeiras
 ALTER TABLE empresa
-ADD CONSTRAINT fk_endereco_empresa
-FOREIGN KEY (fkEndereco) REFERENCES endereco(id);
-
-ALTER TABLE empresa
-ADD CONSTRAINT fk_matriz_empresa
-FOREIGN KEY (fkEmpresaMatriz) REFERENCES empresa(id);
-
-ALTER TABLE contatoEmpresa
-ADD CONSTRAINT fk_empresa_contato
-FOREIGN KEY (fkEmpresa) REFERENCES empresa(id);
+ADD CONSTRAINT foreign_key_empresa_matriz
+FOREIGN KEY(fkmatriz) REFERENCES empresa(id);
 
 ALTER TABLE usuario
-ADD CONSTRAINT fk_empresa_usuario
-FOREIGN KEY (fkEmpresa) REFERENCES empresa(id);
+ADD CONSTRAINT foreign_key_empresa_usuario
+FOREIGN KEY(fkempresa) REFERENCES empresa(id);
 
-ALTER TABLE usuario
-ADD CONSTRAINT fk_cargo_usuario
-FOREIGN KEY (fkCargo) REFERENCES cargo(id);
+ALTER TABLE endereco
+ADD CONSTRAINT foreign_key_empresa_endereco
+FOREIGN KEY(fkempresa) REFERENCES empresa(id);
 
-ALTER TABLE usuario
-ADD CONSTRAINT fk_endereco_usuario
-FOREIGN KEY (fkEndereco) REFERENCES endereco(id);
+ALTER TABLE contato
+ADD CONSTRAINT foreign_key_empresa_contato
+FOREIGN KEY(fkempresa) REFERENCES empresa(id);
 
-ALTER TABLE credenciais
-ADD CONSTRAINT fk_usuario_credenciais
-FOREIGN KEY (fkUsuario) REFERENCES usuario(id);
-
-ALTER TABLE areas
-ADD CONSTRAINT fk_empresa_area
-FOREIGN KEY (fkEmpresa) REFERENCES empresa(id);
+ALTER TABLE area
+ADD CONSTRAINT foreign_key_empresa_area
+FOREIGN KEY(fkempresa) REFERENCES empresa(id);
 
 ALTER TABLE sensor
-ADD CONSTRAINT fk_area_sensor
-FOREIGN KEY (fkAreas) REFERENCES areas(id);
+ADD CONSTRAINT foreign_key_area_sensor
+FOREIGN KEY(fkarea) REFERENCES area(id);
 
-ALTER TABLE leituraSensor
-ADD CONSTRAINT fk_sensor_leituraSensor
-FOREIGN KEY (fkSensor) REFERENCES sensor(id);
+ALTER TABLE leitura
+ADD CONSTRAINT foreign_key_sensor_leitura
+FOREIGN KEY(fksensor) REFERENCES sensor(id);
 
 ALTER TABLE alerta
-ADD CONSTRAINT fk_leituraSensor_alerta
-FOREIGN KEY (fkLeituraSensor) REFERENCES leituraSensor(id);
-
-DESC endereco;
-DESC empresa;
-DESC contatoEmpresa;
-DESC cargo;
-DESC usuario;
-DESC credenciais;
-DESC areas;
-DESC sensor;
-DESC leituraSensor;
-DESC alerta;
-
-create user 'airguard_webdataviz' identified by 'airguard';
-grant insert, update, delete, select on airguard.* to 'airguard_webdataviz';
+ADD CONSTRAINT foreign_key_leitura_alerta
+FOREIGN KEY(fkleitura) REFERENCES leitura(id);
