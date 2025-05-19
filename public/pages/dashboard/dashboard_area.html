@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
-<body class="specific_body">
+<body class="specific_body" onload="getAreasById(1)">
     <nav class="horizontal_nav">
         <a href="/index.html" class="logo">
             <img src="/assets/dashboard/logo.svg">
@@ -50,8 +50,8 @@
                     <li class="variacao">Variação</li>
                 </ul>
             </div>
-            <div class="cards">
-                <div class="card">
+            <div class="cards" id="cards_container">
+                <!-- <div class="card">
                     <div class="card_row" onclick="expandir_area1()">
                         <img src="/assets/dashboard/img_area.png" alt="Área 1">
                         <p class="area_name_specific">Linha de produção 1</p>
@@ -939,7 +939,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -951,3 +951,4 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
 <script src="../../js/specificDashboards.js"></script>
 <script src="../../js/buttons.js"></script>
+<script src="../../js/getAreasById.js"></script>

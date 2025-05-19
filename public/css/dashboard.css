@@ -488,25 +488,19 @@ nav ul li a {
     border: 3px solid #00263b;
 }
 
-#expand_1,
-#expand_2,
-#expand_3,
-#expand_4,
-#expand_5,
-#expand_6,
-#expand_7 {
+.expand{
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s;
 }
 
-#expand_1.expanded,
-#expand_2.expanded,
-#expand_3.expanded,
-#expand_4.expanded,
-#expand_5.expanded,
-#expand_6.expanded,
-#expand_7.expanded {
+.expand.expanded,
+.expand.expanded,
+.expand.expanded,
+.expand.expanded,
+.expand.expanded,
+.expand.expanded,
+.expand.expanded {
     max-height: 1300px;
 }
 
