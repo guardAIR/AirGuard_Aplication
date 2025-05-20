@@ -1,5 +1,5 @@
 function getAreasById(id) {
-    fetch('http://localhost:3333/areas/getAllById/' + id, { method: 'GET' })
+    fetch('/areas/getAllById/' + id, { method: 'GET' })
         .then((resultado) => {
             resultado.json()
                 .then((data) => {
