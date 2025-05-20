@@ -6,24 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="../../css/cadastro.css">
+  <script src="../../js/sessao.js"></script>
 </head>
 
 <body>
   <div class="container">
     <header>
       <section class="navbar">
-          <a href="/index.html">
-              <img class="logo" src="../../assets/home/logo.svg" alt="Logo Air Guard" />
-          </a>
-          <ul>
-              <li><a href="../sobre-nos/sobre_nos.html">Sobre nós</a></li>
-              <li><a href="../calculadora/calculadora.html">Orçamento</a></li>
-              <li><a href="./login.html">Entrar</a></li>
-          </ul>
+        <a href="/index.html">
+          <img class="logo" src="../../assets/home/logo.svg" alt="Logo Air Guard" />
+        </a>
+        <ul>
+          <li><a href="../sobre-nos/sobre_nos.html">Sobre nós</a></li>
+          <li><a href="../calculadora/calculadora.html">Orçamento</a></li>
+          <li><a href="./login.html">Entrar</a></li>
+        </ul>
       </section>
-  </header>
+    </header>
     <img class="imgBack" src="/assets/cadastro/fundoLogin.jpeg" alt="">
     <form>
+      <div class="alerta_erro">
+        <div class="card_erro" id="cardErro">
+          <span id="mensagem_erro"></span>
+        </div>
+      </div>
       <h4>Que bom que você voltou,</h4>
       <h1>Faça login</h1>
 
@@ -39,7 +45,7 @@
         <span class="icon">👁️</span>
       </div>
       <a href="registro.html" class="btn">Cadastre-se</a>
-      <button type="button" class="btn-login" onclick="login()">Entrar</button>
+      <button type="button" class="btn-login" onclick="entrar()">Entrar</button>
     </form>
   </div>
 </body>
@@ -48,22 +54,94 @@
 <script>
   let tentativas = 0;
 
-  function login() {
-    var email = ipt_email.value;
-    var senha = ipt_senha.value;
+  // function login() {
+  //   var email = ipt_email.value;
+  //   var senha = ipt_senha.value;
 
-    const emailteste = 'sptech@gmail.com';
-    const senhateste = '123';
+  //   const emailteste = 'sptech@gmail.com';
+  //   const senhateste = '123';
 
-    if (email === emailteste && senha === senhateste) {
-      window.location.href = '/pages/dashboard/dashboard.html';
+  //   if (email === emailteste && senha === senhateste) {
+  //     window.location.href = '/pages/dashboard/dashboard.html';
+  //   } else {
+  //     tentativas++;
+  //     if (tentativas >= 3) {
+  //       alert('Você excedeu o número máximo de tentativas. Tente novamente mais tarde.');
+  //     } else {
+  //       alert(`Email ou senha inválidos. Tentativa ${tentativas} de 3.`);
+  //     }
+  //   }
+  // }
+
+  function entrar() {
+
+    var emailVar = ipt_email.value;
+    var senhaVar = ipt_senha.value;
+
+    if (emailVar == "" || senhaVar == "") {
+      cardErro.style.display = "block"
+      mensagem_erro.innerHTML = "Preencha todos os campos!";
+      finalizarAguardar();
+      return false;
     } else {
-      tentativas++;
-      if (tentativas >= 3) {
-        alert('Você excedeu o número máximo de tentativas. Tente novamente mais tarde.');
-      } else {
-        alert(`Email ou senha inválidos. Tentativa ${tentativas} de 3.`);
-      }
+      setInterval(sumirMensagem, 5000)
     }
+
+    console.log
+      (
+        "E-mail " + emailVar + "\n",
+        "Senha " + senhaVar + "\n"
+      );
+
+    fetch("/usuarios/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: emailVar,
+        senha: senhaVar
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+
+      if (resposta.ok) {
+        console.log(resposta);
+
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "Login realizado com sucesso! Redirecionando para tela de inicial...";
+
+        resposta.json().then(json => {
+          console.log(json);
+          console.log(JSON.stringify(json));
+          sessionStorage.EMAIL_USUARIO = json.email;
+          sessionStorage.NOME_USUARIO = json.nome;
+          sessionStorage.ID_USUARIO = json.id;
+          sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+
+          setTimeout(function () {
+            window.location = "../dashboard/dashboard.html";
+          }, 1000);
+
+        });
+
+      } else {
+
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        resposta.text().then(texto => {
+          console.error(texto);
+          finalizarAguardar(texto);
+        });
+      }
+
+    }).catch(function (erro) {
+      console.log(erro);
+    })
+    return false;
+  }
+
+  function sumirMensagem() {
+    cardErro.style.display = "none"
   }
 </script>
