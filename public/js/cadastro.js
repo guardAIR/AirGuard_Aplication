@@ -30,7 +30,7 @@ function cadastrar() {
         console.log('sumir mensagem')
     }
 
-    fetch("http://localhost:3333/usuarios/cadastrar", {
+    fetch("/usuarios/cadastrar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

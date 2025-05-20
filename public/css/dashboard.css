@@ -149,14 +149,6 @@ nav ul li a {
     height: 300px !important;
 }
 
-.card2 {
-    max-height: 100% !important;
-    flex: 3;
-    padding: 10px !important;
-    box-sizing: border-box !important;
-    height: 300px !important;
-}
-
 .card3 {
     flex: 1;
     padding: 15px !important;
@@ -223,8 +215,8 @@ nav ul li a {
 
 .kpi_card1 {
     position: absolute;
-    bottom: 12.5vh;
-    left: 6.5vw;
+    bottom: 13vh;
+    left: 22.5vw;
 }
 
 .kpi_card1 span {
