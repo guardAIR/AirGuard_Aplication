@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AirGuard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+</head>
+
+<body class="airguard_dash">
+    <nav class="horizontal_nav">
+        <a href="/index.html" class="logo">
+            <img src="/assets/dashboard/logo.svg">
+        </a>
+        <div class="links">
+            <ul>
+                <li><a href="/pages/sobre-nos/sobre_nos.html">Sobre nós</a></li>
+                <li><a href="/pages/calculadora/calculadora.html">Orçamento</a></li>
+                <li><a href="./dashboard_area.html" class="destaque_link">dashboard area</a></li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="vertical_nav">
+        <ul>
+            <li><a href="dashboard.html" class="active"><span class="material-symbols-outlined">domain</span></a></li>
+            <li><a href="airguard_suporte.html"><span class="material-symbols-outlined">support_agent</span></a></li>
+            <li><a href="perfil.html"><span class="material-symbols-outlined">account_circle</span></a></li>
+        </ul>
+    </nav>
+    <h1>Clientes AirGuard</h1>
+    <header class="kpis_airguard">
+        <div>
+            <p>Quantidade de clientes ativos</p>
+            <p class="number">3</p>
+        </div>
+        <button onclick="showRegisterModal()">
+            <span class="material-symbols-outlined">
+                add
+            </span>
+        </button>
+    </header>
+    <section class="empresas_container">
+        <div>
+            <span><img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg"></span>
+            <span>Metalúrgica Barroso</span>
+            <span>00.000.000/0000-00</span>
+            <span>00.000-000</span>
+            <span>00/00/2025</span>
+            <span>(11) 90000-0000</span>
+            <span>MA001</span>
+        </div>
+        <div>
+            <span><img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg"></span>
+            <span>Metalúrgica Barroso</span>
+            <span>00.000.000/0000-00</span>
+            <span>00.000-000</span>
+            <span>00/00/2025</span>
+            <span>(11) 90000-0000</span>
+            <span>MA001</span>
+        </div>
+        <div>
+            <span><img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg"></span>
+            <span>Metalúrgica Barroso</span>
+            <span>00.000.000/0000-00</span>
+            <span>00.000-000</span>
+            <span>00/00/2025</span>
+            <span>(11) 90000-0000</span>
+            <span>MA001</span>
+        </div>
+    </section>
+    <div class="out" onclick="hideRegisterModal()" id="out"></div>
+    <section class="empresas_modal_register" id="register_modal">
+        <h2>Cadastrar empresa</h2>
+        <div class="fields_container">
+            <div class="profile_picture">
+                <img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg">
+            </div>
+            <div class="fields">
+                <label for="">Razão Social</label>
+                <input type="text">
+            </div>
+            <div class="fields">
+                <label for="">Nome Fantasia</label>
+                <input type="text">
+            </div>
+            <div class="fields">
+                <label for="">CNPJ</label>
+                <input type="text">
+            </div>
+            <div class="fields">
+                <button>
+                    Cadastrar
+                </button>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
+<script>
+    function showRegisterModal(){
+        register_modal.classList.add('open');
+        out.classList.add('open');
+    }
+    function hideRegisterModal(){
+        register_modal.classList.remove('open');
+        out.classList.remove('open');
+    }
+</script>
