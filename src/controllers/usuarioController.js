@@ -20,10 +20,11 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log("Usuário autenticado com sucesso!");
                         res.json({
-                            email: resultadoAutenticar[0].email,
-                            nome: resultadoAutenticar[0].nome,
-                            sobrenome: resultadoAutenticar[0].sobrenome,
-                            data_cadastro: resultadoAutenticar[0].data_cadastro,
+                            email: resultadoAutenticar[0].EmailUsuario,
+                            nome: resultadoAutenticar[0].NomeUsuario,
+                            sobrenome: resultadoAutenticar[0].SobrenomeUsuario,
+                            data_cadastro: resultadoAutenticar[0].dtCadastro,
+                            nome_empresa: resultadoAutenticar[0].NomeEmpresa,
                             id: resultadoAutenticar[0].id
                         });
                     } else if (resultadoAutenticar.length == 0) {

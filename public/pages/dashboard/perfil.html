@@ -67,6 +67,7 @@
     var nome = sessionStorage.NOME_USUARIO;
     var sobrenome = sessionStorage.SOBRENOME_USUARIO;
     var data = sessionStorage.DATACADASTRO_USUARIO;
+    var empresa = sessionStorage.NOME_EMPRESA;
 
     var local1 = data.indexOf('-');
     var local2 = data.indexOf('-', local1 + 1);
@@ -82,7 +83,7 @@
       <p class="dados">${nome}</p>
       <p class="dados">${sobrenome}</p>
       <p class="dados">${email}</p>
-      <p class="dados">${id}</p>
+      <p class="dados">${empresa}</p>
     `
 
 
