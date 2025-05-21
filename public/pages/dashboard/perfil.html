@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
-<body class="cadastro_body">
+<body onload="info()" class="cadastro_body">
   <nav class="horizontal_nav">
     <a href="/index.html" class="logo">
       <img src="/assets/dashboard/logo.svg" />
@@ -46,16 +46,47 @@
         <p class="info">E-mail:</p>
         <p class="info">Empresa:</p>
       </section>
-      <section class="perfil_dados">
-        <p class="dados">Ally</p>
-        <p class="dados">Awada</p>
-        <p class="dados">ally.awada@sptech.school</p>
-        <p class="dados">São Paulo Tech School</p>
+      <section class="perfil_dados" id="perfil_dados">
+        <p class="dados">Nome</p>
+        <p class="dados">Sobrenome</p>
+        <p class="dados">E-mail</p>
+        <p class="dados">Empresa</p>
       </section>
     </div>
-    <p class="perfil_data">Membro desde: <span id="dataCadastro">21/12/2024</span></p>
+    <p class="perfil_data">Membro desde: <span id="dataCadastro">data</span></p>
   </div>
 
 </body>
 
 </html>
+
+<script>
+  function info() {
+    var id = sessionStorage.ID_USUARIO;
+    var email = sessionStorage.EMAIL_USUARIO;
+    var nome = sessionStorage.NOME_USUARIO;
+    var sobrenome = sessionStorage.SOBRENOME_USUARIO;
+    var data = sessionStorage.DATACADASTRO_USUARIO;
+
+    var local1 = data.indexOf('-');
+    var local2 = data.indexOf('-', local1 + 1);
+    var localT = data.indexOf('T');
+    var ano = data.substring(0, local1);
+    var mes = data.substring(local1 + 1, local2);
+    var dia = data.substring(local2 + 1, localT);
+
+
+
+
+    perfil_dados.innerHTML = `
+      <p class="dados">${nome}</p>
+      <p class="dados">${sobrenome}</p>
+      <p class="dados">${email}</p>
+      <p class="dados">${id}</p>
+    `
+
+
+    dataCadastro.innerHTML = `   ${dia}/${mes}/${ano}`
+
+  }
+</script>

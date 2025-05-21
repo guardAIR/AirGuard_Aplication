@@ -20,9 +20,11 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log("Usuário autenticado com sucesso!");
                         res.json({
-                            id: resultadoAutenticar[0].id,
                             email: resultadoAutenticar[0].email,
-                            nome: resultadoAutenticar[0].nome
+                            nome: resultadoAutenticar[0].nome,
+                            sobrenome: resultadoAutenticar[0].sobrenome,
+                            data_cadastro: resultadoAutenticar[0].data_cadastro,
+                            id: resultadoAutenticar[0].id
                         });
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");

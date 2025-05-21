@@ -754,7 +754,7 @@ h3 {
     align-items: start;
     justify-content: space-between;
     font-weight: bold;
-    gap: 3vh;
+    gap: 2vh;
     font-size: 1.4vw;
 }
 
@@ -774,6 +774,7 @@ h3 {
     align-self: flex-start;
     justify-self: end;
     font-weight: bold;
+    margin-top: 2vh;
 }
 
 .perfil_container .perfil_data span{
