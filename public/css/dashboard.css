@@ -349,6 +349,10 @@ nav ul li a {
     background-color: #006dac;
 }
 
+.attention_level span.red {
+    background-color: #5f0a00;
+}
+
 .dashboard_specific_cards {
     margin-left: 2.083vw;
     /* 40px */
@@ -405,9 +409,13 @@ nav ul li a {
 
 .card .area_name_specific {
     font-size: 1.042vw;
+    text-align: center;
+    align-self: center;
     /* 20px */
     font-weight: 600;
     color: #000;
+    min-width: 8.7vw;
+    max-width: 9vw;
 }
 
 .atual {
@@ -460,7 +468,7 @@ nav ul li a {
 #limitPerArea_graph5,
 #limitPerArea_graph6,
 #limitPerArea_graph7 {
-    width: 36.458vw !important;
+    width: 18.75vw !important;
     height: 320px !important;
     margin-top: 1vh;
 }
