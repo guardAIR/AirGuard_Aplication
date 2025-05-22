@@ -29,7 +29,7 @@
         </div>
     </nav>
     <nav class="vertical_nav">
-                <ul>
+        <ul>
             <li><a href="dashboard.html" class="active"><span class="material-symbols-outlined">domain</span></a></li>
             <li><a href="dashboard_area.html"><span class="material-symbols-outlined">location_on</span></a></li>
             <li><a href="add_member.html"><span class="material-symbols-outlined">person_add</span></a></li>
@@ -47,53 +47,17 @@
                 <div class="row row2">
                     <div class="card card3">
                         <h3>5 Áreas com a maior concentração de CO</h3>
-                        <div class="ranking">
-                            <div class="ranking_header">
-                                <span class="header_area">Nome da área</span>
-                                <span class="header_comparison">Barra de comparação</span>
-                                <span class="header_concentration">ppm</span>
-                                <span class="header_percentage">%</span>
-                            </div>
-                            <div class="ranking_item">
-                                <span class="area_name">Linha de produção 1</span>
-                                <div class="bar_container">
-                                    <div class="bar blackred_bar" style="width: 107.69%; max-width: 100%;"></div>
-                                </div>
-                                <span class="area_value">42ppm</span>
-                                <div class="percentage above">107%</div>
-                            </div>
-                            <div class="ranking_item">
-                                <span class="area_name">Linha de produção 2</span>
-                                <div class="bar_container">
-                                    <div class="bar red_bar" style="width: 76.92%; max-width: 100%;"></div>
-                                </div>
-                                <span class="area_value">30ppm</span>
-                                <div class="percentage">76%</div>
-                            </div>
-                            <div class="ranking_item">
-                                <span class="area_name">Linha de produção 3</span>
-                                <div class="bar_container">
-                                    <div class="bar yellow_bar" style="width: 58.97%; max-width: 100%;"></div>
-                                </div>
-                                <span class="area_value">23ppm</span>
-                                <div class="percentage">58%</div>
-                            </div>
-                            <div class="ranking_item">
-                                <span class="area_name">Linha de produção 4</span>
-                                <div class="bar_container">
-                                    <div class="bar yellow_bar" style="width: 41.03%; max-width: 100%;"></div>
-                                </div>
-                                <span class="area_value">16ppm</span>
-                                <div class="percentage">41%</div>
-                            </div>
-                            <div class="ranking_item">
-                                <span class="area_name">Linha de produção 5</span>
-                                <div class="bar_container">
-                                    <div class="bar green_bar" style="width: 25.64%; max-width: 100%;"></div>
-                                </div>
-                                <span class="area_value">10ppm</span>
-                                <div class="percentage">25%</div>
-                            </div>
+                        <div class="ranking" id="rankingContainer"></div>
+                        <div class="ranking_legend">
+                            <p><strong>Legenda:</strong></p>
+                            <ul>
+                                <li><span class="legend_color blackred_bar"></span> Acima de 39 ppm – Perigoso (vermelho escuro)</li>
+                                <li><span class="legend_color red_bar"></span> Até 39 ppm – Alerta (vermelho)</li>
+                                <li><span class="legend_color yellow_bar"></span> Até 30 ppm – Atenção (amarelo)</li>
+                                <li><span class="legend_color green_bar"></span> Até 20 ppm – Nível seguro (verde)</li>
+                            </ul>
+                            <p><em>Observação:</em> 100% representa 39 ppm. Valores acima disso estão além do limite
+                                seguro recomendado.</p>
                         </div>
                     </div>
                 </div>
@@ -166,11 +130,12 @@
 </html>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
 <script src="../../js/geralDashboards.js"></script>
 
 <script>
-    function dados(){
+    function dados() {
         var nome = sessionStorage.NOME_USUARIO;
         var sobrenome = sessionStorage.SOBRENOME_USUARIO;
 
