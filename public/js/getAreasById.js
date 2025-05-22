@@ -73,8 +73,7 @@ function getAreasById(id) {
                                                         </div>
                                                         <div class="second_graph">
                                                             <h3>Sensores espalhados pela área</h3>
-                                                            <canvas class="bubble_chart" id="bubble_chart" width="700" height="400"></canvas>
-                                                            <p class="bubble_chart_legend">Momento atual</p>
+                                                            <div class="heatmap"></div> 
                                                         </div>
                                                     </div>
                                                     <div class="alerts_wrapper">
@@ -158,6 +157,7 @@ function getAreasById(id) {
                                                 </div>
                                             </div>
                                         `;
+
                                         setTimeout(() => {
                                             const area_geral = document.getElementById(`${canvasId}`).getContext('2d');
                                             const gradient = area_geral.createLinearGradient(0, 0, 0, 90); // criando gradiente para o fundo do gráfico
@@ -180,6 +180,25 @@ function getAreasById(id) {
                                                 options: options_specific_geral
                                             });
                                         }, 200);
+
+                                        var instanciaHeatmap = h337.create({
+                                            container: document.querySelector('.heatmap')
+                                        });
+
+                                        var dadosPorLocal = {
+                                            local1: [
+                                                { x: 95, y: 175, value: 1000, radius: 50, dataHora: '2024-10-01T10:30' },
+                                                { x: 150, y: 150, value: 1000, radius: 50, dataHora: '2024-10-01T10:30' },
+                                                { x: 450, y: 300, value: 1500, radius: 100, dataHora: '2024-10-01T10:30' },
+                                                { x: 200, y: 300, value: 1000, radius: 150, dataHora: '2024-10-01T10:30' },
+                                                { x: 450, y: 100, value: 1000, radius: 50, dataHora: '2024-10-01T10:30' },
+                                                { x: 400, y: 100, value: 1000, radius: 150, dataHora: '2024-10-01T10:30' }
+                                            ]
+                                        };
+
+                                        (function renderHeatmap() {
+                                        instanciaHeatmap.setData({ data: dadosPorLocal.local1 });
+                                        })();
                                     })
                             })
                     }

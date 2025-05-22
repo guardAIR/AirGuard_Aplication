@@ -504,6 +504,7 @@ nav ul li a {
 
 .row_graphs .graph {
     display: flex;
+    flex: 1;
     margin-top: 3vh;
 }
 
@@ -518,7 +519,7 @@ nav ul li a {
 #limitPerArea_graph5,
 #limitPerArea_graph6,
 #limitPerArea_graph7 {
-    width: 18.75vw !important;
+    flex: 1;
     height: 320px !important;
     margin-top: 1vh;
 }
@@ -550,7 +551,9 @@ nav ul li a {
 h3 {
     text-align: center;
 }
-
+.second_graph{
+    flex: 1;
+}
 .second_graph h3 {
     margin-left: 4.5vw;
 }
@@ -968,4 +971,12 @@ header.kpis_airguard div p.number{
     border: none;
     padding: 20px;
     border-radius: 10px;
+}
+.heatmap {
+    flex: 1;
+    height: 400px;
+    background-image: url('../assets/dashboard/planta.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 1px solid #00263b; 
 }
