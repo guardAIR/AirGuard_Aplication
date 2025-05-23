@@ -40,7 +40,7 @@ function getAreasById(id) {
 
                                         cards_container.innerHTML += `
                                             <div class="card">
-                                                <div class="card_row" onclick="expandir_area(this)">
+                                                <div class="card_row" fkarea="${areas[i].id}" onclick="expandir_area(this)">
                                                     <img src="/assets/dashboard/img_area.png" alt="Imagem ${areas[i].nome}">
                                                     <p class="area_name_specific">${areas[i].nome}</p>
                                                     <div class="attention_level">
@@ -63,7 +63,7 @@ function getAreasById(id) {
                                                 <div class="card_row row_graphs expand">
                                                     <div class="graph_buttons">
                                                         <button onclick="showAlerts(this)" class="button">Alertas</button>
-                                                        <button onclick="showGraphs(this)" class="clicked button">Geral</button>
+                                                        <button onclick="showGraphs(this)" class="clicked button" fkarea="${areas[i].id}">Geral</button>
                                                         <button onclick="showSensors(this)" class="button">Sensores</button>
                                                     </div>
                                                     <div class="graph selected">
@@ -180,25 +180,6 @@ function getAreasById(id) {
                                                 options: options_specific_geral
                                             });
                                         }, 200);
-
-                                        var instanciaHeatmap = h337.create({
-                                            container: document.querySelector('.heatmap')
-                                        });
-
-                                        var dadosPorLocal = {
-                                            local1: [
-                                                { x: 95, y: 175, value: 1000, radius: 50, dataHora: '2024-10-01T10:30' },
-                                                { x: 150, y: 150, value: 1000, radius: 50, dataHora: '2024-10-01T10:30' },
-                                                { x: 450, y: 300, value: 1500, radius: 100, dataHora: '2024-10-01T10:30' },
-                                                { x: 200, y: 300, value: 1000, radius: 150, dataHora: '2024-10-01T10:30' },
-                                                { x: 450, y: 100, value: 1000, radius: 50, dataHora: '2024-10-01T10:30' },
-                                                { x: 400, y: 100, value: 1000, radius: 150, dataHora: '2024-10-01T10:30' }
-                                            ]
-                                        };
-
-                                        (function renderHeatmap() {
-                                        instanciaHeatmap.setData({ data: dadosPorLocal.local1 });
-                                        })();
                                     })
                             })
                     }

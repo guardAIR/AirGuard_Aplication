@@ -11,4 +11,8 @@ router.get('/getMediaAreaById/:id', function(req, res){
     areaController.getMediaAreaById(req, res);
 })
 
+router.get('/getSensorsAndRead/:fkarea', function(req, res){
+    areaController.getSensorsAndRead(req, res)
+})
+
 module.exports = router;
