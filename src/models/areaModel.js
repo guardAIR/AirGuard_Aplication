@@ -1,5 +1,25 @@
 var database = require("../database/config");
 
+function getAlertaById(fkEmpresa) {
+    var instrucaoSql = `
+        select 
+	        e.id as 'id',
+            a.nome as 'nome',
+            l.concentracao_gas as 'concentracao'
+        from 
+	        empresa e
+        inner join
+	        area a on e.id = a.${fkEmpresa}
+        inner join
+	        sensor s on a.id = s.fkarea
+        inner join
+	        leitura l on s.id = l.fksensor;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function getAllByFkEmpresa(fkEmpresa) {
     var instrucaoSql = `
         select * from area where fkEmpresa = ${fkEmpresa};
@@ -29,7 +49,7 @@ function getMediaAreaById(id) {
     return database.executar(instrucaoSql);
 }
 
-function getSensorsAndReads(fkarea){
+function getSensorsAndReads(fkarea) {
     var instrucaoSql = `
         select  
         l.fksensor,
@@ -55,5 +75,6 @@ function getSensorsAndReads(fkarea){
 module.exports = {
     getAllByFkEmpresa,
     getMediaAreaById,
-    getSensorsAndReads
+    getSensorsAndReads,
+    getAlertaById
 }
