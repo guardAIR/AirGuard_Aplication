@@ -1,5 +1,21 @@
 var areaModel = require("../models/areaModel");
 
+function getAlertaById(req, res) {
+  let fkEmpresa = req.params.id;
+
+  areaModel.getAlertaById(fkEmpresa).then((resultado) => {
+    if (resultado.length > 0) {
+      res.status(200).json(resultado);
+    } else {
+      res.status(204).json([]);
+    }
+  }).catch(function (erro) {
+    console.log(erro);
+    console.log("Houve um erro ao buscar os alertas: ", erro.sqlMessage);
+    res.status(500).json(erro.sqlMessage);
+  });
+}
+
 
 function getAllByFkEmpresa(req, res) {
   var fkEmpresa = req.params.id;
@@ -51,5 +67,6 @@ function getSensorsAndRead(req, res) {
 module.exports = {
   getAllByFkEmpresa,
   getMediaAreaById,
-  getSensorsAndRead
+  getSensorsAndRead,
+  getAlertaById
 }
