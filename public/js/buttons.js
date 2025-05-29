@@ -1,28 +1,37 @@
 function renderHeatmap(fkarea, local) {
     if(local){
         const container = local.querySelector('.heatmap');
-        console.log(container)
-        var instanciaHeatmap = h337.create({
-            container: container
-        });
-        data = []
-        fetch('/areas/getSensorsAndRead/'+fkarea, { method: 'GET' })
-            .then((result) => result.json())
-            .then((json) => {
-                for(let i=0; i<json.length; i++){
-                    data.push({ 
-                        x: json[i].eixo_x, 
-                        y: json[i].eixo_y, 
-                        value: json[i].concentracao_gas*100, 
-                        radius: json[i].concentracao_gas*4, 
-                        dataHora: json[i].data_hora 
-                    });
-                }
+        console.log(container);
+        
+        if (!window.instanciaHeatmap) {
+            window.instanciaHeatmap = h337.create({
+                container: container
+            });
+        }
 
-                instanciaHeatmap.setData({ data: data });
-            })
+        let data = [];
+
+        fetch('/areas/getSensorsAndRead/' + fkarea, { method: 'GET' })
+        .then((result) => result.json())
+        .then((json) => {
+            for (let i = 0; i < json.length; i++) {
+                data.push({ 
+                    x: json[i].eixo_x, 
+                    y: json[i].eixo_y, 
+                    value: json[i].concentracao_gas, 
+                    radius: json[i].concentracao_gas, 
+                    dataHora: json[i].data_hora 
+                });
+            }
+
+            window.instanciaHeatmap.setData({ data: data });
+        })
+        .catch((error) => {
+            console.error("Erro ao obter os dados dos sensores:", error);
+        });
     }
 }
+
 
 function expandir_area(element) {
     const expandElement = element.parentElement.getElementsByClassName('expand')[0];
@@ -37,7 +46,9 @@ function expandir_area(element) {
     }
 
     const fkarea = element.getAttribute('fkarea');
-    renderHeatmap(fkarea, expandElement);
+    setInterval(() => {
+        renderHeatmap(fkarea, expandElement);
+    }, 100);
 };
 
 function showAlerts(element) {
