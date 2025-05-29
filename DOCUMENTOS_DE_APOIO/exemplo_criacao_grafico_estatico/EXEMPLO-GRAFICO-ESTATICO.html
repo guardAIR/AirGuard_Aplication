@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body onload="obterDados()"> <!-- Chamando a função obterDados ao carregar a página -->
-  
+
 <!-- Título para o gráfico de linhas -->
 Gráfico de linhas
 <div>
@@ -26,7 +26,7 @@ Gráfico de linhas
 function obterDados(){
   // Aqui seria a função que obteria os dados do banco de dados
   // No caso, aqui você colocaria o fetch que teria o endereço da sua rota que você criou na pasta /routes e chamaria a função plotarGraficoLinha nessa função. Exemplo:
- 
+
   // fetch('/obterDados')
   // .then(function(response){
   //   return response.json();
@@ -73,7 +73,7 @@ function obterDados(){
 
 // Função para plotar o gráfico de linha
 function plotarGraficoLinha(dados){
-  
+
   // Separando os rótulos (labels) e os dados dos votos
   var votos = [];
   var jogadores = [];
@@ -84,14 +84,14 @@ function plotarGraficoLinha(dados){
     jogadores.push(dados[i].jogador);
   }
 
-  // Capturando o elemento canvas pelo id 
+  // Capturando o elemento canvas pelo id
   var ctx = document.getElementById('linha').getContext('2d');
   // Criando o gráfico de linha usando o Chart.js
   var myChart = new Chart(ctx, {
       type: 'line', // Tipo de gráfico: linha
       data: { // Dados para o gráfico
           labels: jogadores, // Rótulos no eixo X
-          datasets: [{ 
+          datasets: [{
               label: 'Votos', // Nome do conjunto de dados
               data: votos, // Dados dos votos
               backgroundColor: [
@@ -104,7 +104,7 @@ function plotarGraficoLinha(dados){
           }]
       },
   });
-} 
+}
 
 // Função para plotar o gráfico de barra
 function plotarGraficoBarra(dados){
@@ -118,7 +118,7 @@ function plotarGraficoBarra(dados){
     jogadores.push(dados[i].jogador);
   }
 
-  // Capturando o elemento canvas pelo id 
+  // Capturando o elemento canvas pelo id
   var ctx = document.getElementById('barra').getContext('2d');
   // Criando o gráfico de barra usando o Chart.js
   var myChart = new Chart(ctx, {

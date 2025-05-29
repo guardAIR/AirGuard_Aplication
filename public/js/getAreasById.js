@@ -1,3 +1,6 @@
+let charts = {};
+let datasets = {};
+let ids = [];
 function getAreasById(id) {
     fetch('/areas/getAllById/' + id, { method: 'GET' })
         .then((resultado) => {
@@ -9,51 +12,33 @@ function getAreasById(id) {
                     for (let i = 0; i < areas.length; i++) {
                         var id = areas[i].id
                         fetch('/areas/getMediaAreaById/' + id, { method: 'GET' })
-
                             .then((resultado) => {
-
                                 resultado.json()
-
                                     .then((data) => {
 
                                         const area = data;
-
                                         console.log("Estou no then do getMediaAreaById")
 
                                         var valorMedio = Number(area[0].ultimaMedia)
                                         var mediaSpan = (valorMedio / 39) * 10
                                         var porcentagem = (valorMedio / 39) * 100
-                                        var attention_level;
                                         let canvasId = `area${areas[i].id}_geral`;
+                                        var attention_level = mediaDoSpan(mediaSpan);
 
-                                        if (mediaSpan < 1) attention_level = `<span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 2) attention_level = `<span class="marked"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 3) attention_level = `<span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 4) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 5) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 6) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 7) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 8) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span>`
-                                        else if (mediaSpan < 9) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span>`
-                                        else if (mediaSpan < 10) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span>`
-                                        else attention_level = `<span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span>`
 
                                         cards_container.innerHTML += `
                                             <div class="card">
                                                 <div class="card_row" fkarea="${areas[i].id}" onclick="expandir_area(this)">
                                                     <img src="/assets/dashboard/img_area.png" alt="Imagem ${areas[i].nome}">
                                                     <p class="area_name_specific">${areas[i].nome}</p>
-                                                    <div class="attention_level">
+                                                    <div class="attention_level" id="span${areas[i].id}">
                                                         ${attention_level}
                                                     </div>
+
                                                     <canvas class="area_graph" id="${canvasId}" width="360" height="85"></canvas>
-                                                    <p>${valorMedio.toFixed(2)}ppm</p>
-                                                    <p class="comparison trending_down">
-                                                        <span class="material-symbols-outlined alert_icon">
-                                                            trending_down
-                                                        </span>
-                                                        ${porcentagem.toFixed(2)}%
-                                                    </p>
+
+                                                    <p id="ppm${areas[i].id}">${valorMedio.toFixed(2)}ppm</p>
+                                                    <p id="porcentagem${areas[i].id}" class="comparison">${porcentagem.toFixed(2)}%</p>
                                                     <button class="button_expand">
                                                         <span class="material-symbols-outlined expandir_area_icon">
                                                             keyboard_arrow_down
@@ -73,7 +58,7 @@ function getAreasById(id) {
                                                         </div>
                                                         <div class="second_graph">
                                                             <h3>Sensores espalhados pela área</h3>
-                                                            <div class="heatmap"></div> 
+                                                            <div class="heatmap"></div>
                                                         </div>
                                                     </div>
                                                     <div class="alerts_wrapper">
@@ -157,33 +142,96 @@ function getAreasById(id) {
                                                 </div>
                                             </div>
                                         `;
-
                                         setTimeout(() => {
-                                            const area_geral = document.getElementById(`${canvasId}`).getContext('2d');
-                                            const gradient = area_geral.createLinearGradient(0, 0, 0, 90); // criando gradiente para o fundo do gráfico
-                                            gradient.addColorStop(0, 'rgb(0, 109, 172, .2)'); // cor azul para o início do gráfico
-                                            gradient.addColorStop(1, 'rgba(0, 123, 255, 0)'); // adicionando cor transparente para o fundo do gráfico
-
-                                            new Chart(area_geral, {
-                                                type: 'line',
-                                                data: {
-                                                    labels: ['7h', '8h', '9h', '10h', '11h', '12h', '13h', '14h', '15h', '16h', '17h'],
-                                                    datasets: [{
-                                                        data: [10, 14, 15, 16, 10, 5, 10, 16, 20, 30, 39],
-                                                        borderColor: '#006DAC',
-                                                        backgroundColor: gradient, // aplicando o gradiente como fundo do gráfico
-                                                        fill: true,
-                                                        tension: 0.4, // deixa o gráfico mais suave
-                                                        pointRadius: 0 // remove os pontos do gráfico
-                                                    }]
-                                                },
-                                                options: options_specific_geral
-                                            });
-                                        }, 200);
+                                            iniciarGraficosTempoReal(canvasId, areas[i].id);
+                                        }, 200)
                                     })
                             })
                     }
+                    plotGraph()
                 })
         })
+}
 
+function iniciarGraficosTempoReal(canvasId, id) {
+    const plotarGraph = [0];
+    const area_geral = document.getElementById(`${canvasId}`).getContext('2d');
+    const gradient = area_geral.createLinearGradient(0, 0, 0, 90);
+    gradient.addColorStop(0, 'rgb(0, 109, 172, .2)');
+    gradient.addColorStop(1, 'rgba(0, 123, 255, 0)');
+
+    const chart = new Chart(area_geral, {
+        type: 'line',
+        data: {
+            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            datasets: [{
+                data: plotarGraph,
+                borderColor: '#006DAC',
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0
+            }]
+        },
+        options: options_specific_geral
+    });
+
+    charts[id] = chart;
+    datasets[id] = plotarGraph;
+    ids.push(id);
+    console.log(ids)
+}
+
+var obg = 0;
+function plotGraph() {
+    setInterval(() => {
+        for (let i = 0; i < ids.length; i++) {
+            const id = ids[i];
+            const p_span = document.getElementById(`span${id}`);
+            const p_ppm = document.getElementById(`ppm${id}`);
+            const p_porcentagem = document.getElementById(`porcentagem${id}`);
+
+            fetch('/areas/getMediaAreaById/' + id, { method: 'GET' })
+                .then(res => res.json())
+                .then(area => {
+                    const valor = Number(area[0].ultimaMedia);
+                    const porcentagem = (valor / 39) * 100;
+                    const dataset = datasets[id];
+
+                    if (dataset.length >= 11) {
+                        dataset.shift();
+                    }
+                    if (valor == dataset[9]) {
+                        console.log("Valores iguais")
+                    } else {
+                        console.log(dataset[9], valor)
+                        dataset.push(valor);
+
+                        charts[id].data.datasets[0].data = dataset;
+                        charts[id].update();
+                        console.log("Gráfico " + id + " plotado");
+
+                        p_span.innerHTML = `${mediaDoSpan((valor / 39) * 10)}`;
+                        p_ppm.innerHTML = `${valor.toFixed(2)}ppm`;
+                        p_porcentagem.innerHTML = `${porcentagem.toFixed(2)}%`;
+                    }
+                });
+        }
+    }, 1000);
+}
+
+function mediaDoSpan(mediaSpan) {
+    var attention_level = "";
+    if (mediaSpan < 1) attention_level = `<span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 2) attention_level = `<span class="marked"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 3) attention_level = `<span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 4) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 5) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 6) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 7) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 8) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span><span></span>`
+    else if (mediaSpan < 9) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span><span></span>`
+    else if (mediaSpan < 10) attention_level = `<span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span class="marked"></span><span></span>`
+    else attention_level = `<span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span>`
+    return attention_level;
 }
