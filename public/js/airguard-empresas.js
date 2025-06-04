@@ -24,3 +24,37 @@ function obterTodasEmpresas(){
         console.log(data)
     })
 }
+
+function cadastrar(){
+    const razaoSocialLocal = document.getElementById('ipt_razao_social');
+    const nomeFantasiaLocal = document.getElementById('ipt_nome_fantasia');
+    const cnpjLocal = document.getElementById('ipt_cnpj');
+
+    const razaoSocial = razaoSocialLocal.value;
+    const nomeFantasia = nomeFantasiaLocal.value;
+    const cnpj = cnpjLocal.value;
+
+    const resultLocal = document.getElementById("result");
+
+    fetch('/empresas/cadastrar', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            razaoSocial,
+            nomeFantasia,
+            cnpj
+        })
+    }).then((result) => {
+        result.json().then((data) => {
+            resultLocal.innerHTML = data.mensagem
+        })
+    }).catch(err => {
+        console.log(err)
+    })
+
+    razaoSocialLocal.value = '';
+    nomeFantasiaLocal.value = '';
+    cnpjLocal.value = '';
+}

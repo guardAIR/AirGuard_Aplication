@@ -18,8 +18,8 @@ function buscarPorCnpj(cnpj) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(razaoSocial, cnpj) {
-  var instrucaoSql = `INSERT INTO empresa (razao_social, cnpj) VALUES ('${razaoSocial}', '${cnpj}')`;
+function cadastrar(razaoSocial, nomeFantasia, cnpj, codigo) {
+  var instrucaoSql = `INSERT INTO empresa (razao_social, nome_fantasia, cnpj, codigo_empresa) VALUES ('${razaoSocial}', '${nomeFantasia}', '${cnpj}', '${codigo}')`;
 
   return database.executar(instrucaoSql);
 }
@@ -27,8 +27,8 @@ function cadastrar(razaoSocial, cnpj) {
 function obterTodas(){
   var instrucaoSql = `
     select nome_fantasia, cnpj, DATE_FORMAT(data_cadastro, '%d/%m/%Y') data_cadastro, codigo_empresa, cep, telefone from empresa emp
-      inner join endereco en on en.fkempresa = emp.id
-      inner join contato cont on cont.fkempresa = emp.id;
+      left join endereco en on en.fkempresa = emp.id
+      left join contato cont on cont.fkempresa = emp.id;
   `;
 
   return database.executar(instrucaoSql);
