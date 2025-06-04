@@ -1,13 +1,17 @@
-function renderHeatmap(fkarea, local) {
+function renderPrimeiraVezHeatmap(local){
     if(local){
         const container = local.querySelector('.heatmap');
         
-        if (!window.instanciaHeatmap) {
-            window.instanciaHeatmap = h337.create({
-                container: container
-            });
-        }
+        const instanciaHeatmap = h337.create({
+            container: container
+        });
 
+        return instanciaHeatmap; 
+    }
+}
+
+function renderHeatmap(fkarea, instanciaHeatmap) {
+    if(instanciaHeatmap){
         let data = [];
 
         fetch('/areas/getSensorsAndRead/' + fkarea, { method: 'GET' })
@@ -23,7 +27,7 @@ function renderHeatmap(fkarea, local) {
                 });
             }
 
-            window.instanciaHeatmap.setData({ data: data });
+            instanciaHeatmap.setData({ data: data });
         })
         .catch((error) => {
             console.error("Erro ao obter os dados dos sensores:", error);
@@ -91,8 +95,9 @@ function expandir_area(element) {
 
     const fkarea = element.getAttribute('fkarea');
     const graphGasHora = renderPrimeiraVezNivelGasHora(expandElement);
+    const heatmap = renderPrimeiraVezHeatmap(expandElement);
     setInterval(() => {
-        renderHeatmap(fkarea, expandElement);
+        renderHeatmap(fkarea, heatmap);
         renderNivelGasHora(fkarea, graphGasHora)
     }, 100);
 };
