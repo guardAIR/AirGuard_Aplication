@@ -882,9 +882,19 @@ header.kpis_airguard div p.number{
     align-items: center;
     gap: 50px;
     justify-content: center;
-    width: 90%;
+    width: 75%;
     padding: 10px 20px;
     border-radius: 10px;
+}
+.empresas_container div span{
+    width: 100px;
+    text-align: center;
+}
+.empresas_container div span:nth-child(1){
+    width: 80px;
+}
+.empresas_container div span:nth-child(2){
+    width: 300px;
 }
 .empresas_container div img{
     width: 60px;

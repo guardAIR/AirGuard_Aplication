@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | AirGuard</title>
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
+    <script src="../../js/airguard-empresas.js"></script>
 </head>
 
-<body class="airguard_dash">
+<body class="airguard_dash" onload="obterTodasEmpresas()">
     <nav class="horizontal_nav">
         <a href="/index.html" class="logo">
             <img src="/assets/dashboard/logo.svg">
@@ -39,7 +39,7 @@
     <header class="kpis_airguard">
         <div>
             <p>Quantidade de clientes ativos</p>
-            <p class="number">3</p>
+            <p class="number" id="numero_clientes"></p>
         </div>
         <button onclick="showRegisterModal()">
             <span class="material-symbols-outlined">
@@ -47,35 +47,7 @@
             </span>
         </button>
     </header>
-    <section class="empresas_container">
-        <div>
-            <span><img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg"></span>
-            <span>Metalúrgica Barroso</span>
-            <span>00.000.000/0000-00</span>
-            <span>00.000-000</span>
-            <span>00/00/2025</span>
-            <span>(11) 90000-0000</span>
-            <span>MA001</span>
-        </div>
-        <div>
-            <span><img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg"></span>
-            <span>Metalúrgica Barroso</span>
-            <span>00.000.000/0000-00</span>
-            <span>00.000-000</span>
-            <span>00/00/2025</span>
-            <span>(11) 90000-0000</span>
-            <span>MA001</span>
-        </div>
-        <div>
-            <span><img src="https://st2.depositphotos.com/1157740/5935/i/450/depositphotos_59355045-stock-photo-worker-work-hard-with-welding.jpg"></span>
-            <span>Metalúrgica Barroso</span>
-            <span>00.000.000/0000-00</span>
-            <span>00.000-000</span>
-            <span>00/00/2025</span>
-            <span>(11) 90000-0000</span>
-            <span>MA001</span>
-        </div>
-    </section>
+    <section class="empresas_container" id="empresas_container"></section>
     <div class="out" onclick="hideRegisterModal()" id="out"></div>
     <section class="empresas_modal_register" id="register_modal">
         <h2>Cadastrar empresa</h2>

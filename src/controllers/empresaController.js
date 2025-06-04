@@ -39,9 +39,18 @@ function cadastrar(req, res) {
   });
 }
 
+function obterTodas(req, res){
+  empresaModel.obterTodas().then((result) => {
+    res.status(200).json(result)
+  }).catch((erro) => {
+    res.status(400).json({ mensagem: erro })
+  });
+}
+
 module.exports = {
   buscarPorCnpj,
   buscarPorId,
   cadastrar,
   listar,
+  obterTodas
 };
