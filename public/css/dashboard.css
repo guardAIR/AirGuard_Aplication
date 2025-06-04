@@ -507,6 +507,9 @@ nav ul li a {
     flex: 1;
     margin-top: 3vh;
 }
+.row_graphs .graph > div{
+    flex: 1;
+}
 
 .row_graphs {
     display: block !important;
