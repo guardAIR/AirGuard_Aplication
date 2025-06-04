@@ -19,4 +19,8 @@ router.get('/getSensorsAndRead/:fkarea', function(req, res){
     areaController.getSensorsAndRead(req, res)
 })
 
+router.get('/buscarMediaCOPorHoraPorID/:idarea', function (req, res){
+    areaController.buscarMediaCOPorHoraPorID(req, res);
+})
+
 module.exports = router;

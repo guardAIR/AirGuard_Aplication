@@ -1,7 +1,6 @@
 function renderHeatmap(fkarea, local) {
     if(local){
         const container = local.querySelector('.heatmap');
-        console.log(container);
         
         if (!window.instanciaHeatmap) {
             window.instanciaHeatmap = h337.create({
@@ -16,11 +15,11 @@ function renderHeatmap(fkarea, local) {
         .then((json) => {
             for (let i = 0; i < json.length; i++) {
                 data.push({ 
-                    x: json[i].eixo_x, 
-                    y: json[i].eixo_y, 
-                    value: json[i].concentracao_gas, 
-                    radius: json[i].concentracao_gas, 
-                    dataHora: json[i].data_hora 
+                    x: json[i].eixo_x,
+                    y: json[i].eixo_y,
+                    value: json[i].concentracao_gas,
+                    radius: json[i].concentracao_gas,
+                    dataHora: json[i].data_hora
                 });
             }
 
@@ -30,6 +29,51 @@ function renderHeatmap(fkarea, local) {
             console.error("Erro ao obter os dados dos sensores:", error);
         });
     }
+}
+
+function renderPrimeiraVezNivelGasHora(local){
+    const graph_local = local.getElementsByClassName('limitPerArea_graph')[0];
+    
+    const chart_nivel = new Chart(graph_local, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Nível de gás (ppm)',
+                    data: [],
+                    borderColor: '#006DAC',
+                    backgroundColor: '#006DAC',
+                    fill: true,
+                    borderRadius: 5
+                }
+            ]
+        },
+    });
+
+    return chart_nivel;
+}
+function renderNivelGasHora(fkarea, graphGasHora){
+
+    fetch('/areas/buscarMediaCOPorHoraPorID/'+fkarea, {
+        method: 'GET'
+    }).then(res => {
+        res.json().then(data => {
+            let labels = [];
+            let dados = [];
+            
+            for(let i=0; i<data.length; i++){
+                labels.push(data[i].hora+'h');
+                dados.push(data[i].media_gas);
+            }
+
+            graphGasHora.data.datasets[0].data = dados;
+            graphGasHora.data.labels = labels;
+
+            graphGasHora.update();
+        })
+    })
+
 }
 
 
@@ -46,8 +90,10 @@ function expandir_area(element) {
     }
 
     const fkarea = element.getAttribute('fkarea');
+    const graphGasHora = renderPrimeiraVezNivelGasHora(expandElement);
     setInterval(() => {
         renderHeatmap(fkarea, expandElement);
+        renderNivelGasHora(fkarea, graphGasHora)
     }, 100);
 };
 

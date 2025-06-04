@@ -54,7 +54,7 @@ function getAreasById(id) {
                                                     <div class="graph selected">
                                                         <div class="first_graph">
                                                             <h3>Nível de gás (por hora)</h3>
-                                                            <canvas id="limitPerArea_graph" width="700" height="400"></canvas>
+                                                            <canvas class="limitPerArea_graph" width="700" height="400"></canvas>
                                                         </div>
                                                         <div class="second_graph">
                                                             <h3>Sensores espalhados pela área</h3>

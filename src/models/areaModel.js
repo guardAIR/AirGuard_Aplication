@@ -72,9 +72,23 @@ function getSensorsAndReads(fkarea) {
     return database.executar(instrucaoSql);
 }
 
+
+function buscarMediaCOPorHoraPorID(areaID){
+    var instrucaoSql = `
+        select hour(data_hora) hora, round(avg(concentracao_gas), 0) media_gas from leitura lei
+        inner join sensor sen on sen.id = lei.fksensor
+        inner join area ar on ar.id = sen.fkarea
+        where ar.id = ${areaID} and date(data_hora) = curdate()
+        group by hora;
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     getAllByFkEmpresa,
     getMediaAreaById,
     getSensorsAndReads,
-    getAlertaById
+    getAlertaById,
+    buscarMediaCOPorHoraPorID
 }

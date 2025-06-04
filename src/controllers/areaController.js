@@ -64,9 +64,23 @@ function getSensorsAndRead(req, res) {
   })
 }
 
+function buscarMediaCOPorHoraPorID(req, res){
+  var areaID = req.params.idarea
+
+  areaModel.buscarMediaCOPorHoraPorID(areaID).then((resultado) => {
+    console.log("Este é o resultado: ", resultado);
+    res.status(200).json(resultado);
+  }).catch(function (erro) {
+    console.log(erro);
+    console.log("Houve um erro ao buscar os sensores: ", erro.sqlMessage);
+    res.status(500).json(erro.sqlMessage);
+  })
+}
+
 module.exports = {
   getAllByFkEmpresa,
   getMediaAreaById,
   getSensorsAndRead,
-  getAlertaById
+  getAlertaById,
+  buscarMediaCOPorHoraPorID
 }
