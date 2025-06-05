@@ -25,15 +25,24 @@ function buscarPorId(req, res) {
 function cadastrar(req, res) {
   var cnpj = req.body.cnpj;
   var razaoSocial = req.body.razaoSocial;
+  var nomeFantasia = req.body.nomeFantasia;
+
+  const letrasPossiveisCodigo = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+  var codigo = letrasPossiveisCodigo[Math.round(Math.random()*letrasPossiveisCodigo.length)]
+  +letrasPossiveisCodigo[Math.round(Math.random()*letrasPossiveisCodigo.length)]+
+  Math.round(Math.random()*9)+
+  Math.round(Math.random()*9)+
+  Math.round(Math.random()*9);
 
   empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
     if (resultado.length > 0) {
       res
         .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
+        .json({ mensagem: `A empresa com o CNPJ: ${cnpj} já existe.` });
     } else {
-      empresaModel.cadastrar(razaoSocial, cnpj).then((resultado) => {
-        res.status(201).json(resultado);
+      empresaModel.cadastrar(razaoSocial, nomeFantasia, cnpj, codigo).then((resultado) => {
+        res.status(201).json({mensagem:"Empresa cadastrada com sucesso.", resultado});
       });
     }
   });
