@@ -15,7 +15,7 @@
 
 </head>
 
-<body>
+<body class="bodySuporte">
     <nav class="horizontal_nav">
         <a href="/index.html" class="logo">
             <img src="/assets/dashboard/logo.svg">
@@ -31,11 +31,38 @@
     <nav class="vertical_nav">
         <ul>
             <li><a href="airguard_dash.html"><span class="material-symbols-outlined">domain</span></a></li>
-            <li><a href="airguard_suporte.html" class="active"><span class="material-symbols-outlined">support_agent</span></a></li>
+            <li><a href="airguard_suporte.html" class="active"><span
+                        class="material-symbols-outlined">support_agent</span></a></li>
             <li><a href="perfil.html"><span class="material-symbols-outlined">account_circle</span></a></li>
         </ul>
     </nav>
-    <!-- bobIA -->
+    <div class="Suporte_container">
+        <h2>Suporte N3 - BOB IA</h2>
+        <div class="content" id="divChat">
+
+        </div>
+        <div class="input">
+            <input type="text" id="iptPergunta">
+            <button onclick="enviar()"><img src="../../assets/dashboard/buttonEviar.svg" alt=""></button>
+        </div>
+    </div>
 </body>
+
+<script>
+    function enviar() {
+        var pergunta = iptPergunta.value;
+        var resposta = `Oi! Tudo ótimo por aqui, obrigado por perguntar! E você, como está? 😊 Me chame de BOBIA, o assistente sempre pronto para ajudar! O que posso fazer por você hoje?`;
+        divChat.innerHTML += `
+            <section class="pergunta">
+                <p>${pergunta}</p>
+                <img src="../../assets/dashboard/fotoUser.svg" alt="Foto do usuario">
+            </section>
+            <section class="resposta">
+                <img src="../../assets/dashboard/bobia.svg" alt="Foto do bobIA">
+                <p>${resposta}</p>
+            </section>
+        `
+    }
+</script>
 
 </html>

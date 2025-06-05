@@ -271,7 +271,7 @@ nav ul li a {
 }
 
 .bar {
-    max-width: 100%; 
+    max-width: 100%;
     height: 100%;
     border-radius: 4px;
     transition: width 0.4s ease;
@@ -284,7 +284,7 @@ nav ul li a {
     background-color: #ffffff;
     padding: 15px 20px;
     border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .ranking_legend ul {
@@ -310,12 +310,15 @@ nav ul li a {
 .legend_color.green_bar {
     background-color: #2ECC71;
 }
+
 .legend_color.yellow_bar {
     background-color: #F1C40F;
 }
+
 .legend_color.red_bar {
     background-color: #E74C3C;
 }
+
 .legend_color.blackred_bar {
     background-color: #5f0a00;
 }
@@ -507,7 +510,8 @@ nav ul li a {
     flex: 1;
     margin-top: 3vh;
 }
-.row_graphs .graph > div{
+
+.row_graphs .graph>div {
     flex: 1;
 }
 
@@ -541,7 +545,7 @@ nav ul li a {
     border: 3px solid #00263b;
 }
 
-.expand{
+.expand {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s;
@@ -554,9 +558,11 @@ nav ul li a {
 h3 {
     text-align: center;
 }
-.second_graph{
+
+.second_graph {
     flex: 1;
 }
+
 .second_graph h3 {
     margin-left: 4.5vw;
 }
@@ -841,20 +847,22 @@ h3 {
     margin-top: 2vh;
 }
 
-.perfil_container .perfil_data span{
+.perfil_container .perfil_data span {
     font-weight: lighter;
 }
 
 /* airguard dash */
-.airguard_dash{
+.airguard_dash {
     padding: 100px 0 0 100px;
 }
-header.kpis_airguard{
+
+header.kpis_airguard {
     display: flex;
     justify-content: center;
     position: relative;
 }
-header.kpis_airguard div{
+
+header.kpis_airguard div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -864,18 +872,21 @@ header.kpis_airguard div{
     border-radius: 10px;
     box-shadow: 0 0 10px 5px #07070756;
 }
-header.kpis_airguard div p.number{
+
+header.kpis_airguard div p.number {
     font-size: 30px;
     font-weight: 600;
 }
-.empresas_container{
+
+.empresas_container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
     gap: 10px;
 }
-.empresas_container div{
+
+.empresas_container div {
     background-color: #d8d8d8;
     margin-left: -50px;
     display: flex;
@@ -886,23 +897,27 @@ header.kpis_airguard div p.number{
     padding: 10px 20px;
     border-radius: 10px;
 }
-.empresas_container div span{
+
+.empresas_container div span {
     width: 100px;
     text-align: center;
 }
-.empresas_container div span:nth-child(1){
+
+.empresas_container div span:nth-child(1) {
     width: 80px;
 }
-.empresas_container div span:nth-child(2){
+
+.empresas_container div span:nth-child(2) {
     width: 300px;
 }
-.empresas_container div img{
+
+.empresas_container div img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
 }
 
-.kpis_airguard button{
+.kpis_airguard button {
     position: absolute;
     width: 70px;
     height: 70px;
@@ -916,10 +931,12 @@ header.kpis_airguard div p.number{
     border: none;
     border-radius: 10px;
 }
-.kpis_airguard button span{
+
+.kpis_airguard button span {
     font-size: 30px;
 }
-.empresas_modal_register{
+
+.empresas_modal_register {
     position: absolute;
     z-index: 10000;
     right: 0;
@@ -929,7 +946,8 @@ header.kpis_airguard div p.number{
     background-color: #f1f1f1;
     display: none;
 }
-.empresas_modal_register.open{
+
+.empresas_modal_register.open {
     display: flex;
     flex-direction: column;
     padding: 60px 30px;
@@ -937,7 +955,8 @@ header.kpis_airguard div p.number{
     align-items: center;
     gap: 20px;
 }
-.out{
+
+.out {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -947,36 +966,43 @@ header.kpis_airguard div p.number{
     z-index: 9999;
     display: none;
 }
-.out.open{
+
+.out.open {
     display: block;
 }
-.empresas_modal_register .fields_container{
+
+.empresas_modal_register .fields_container {
     display: flex;
     flex-direction: column;
     width: 80%;
     gap: 20px;
 }
-.empresas_modal_register .fields_container .profile_picture{
+
+.empresas_modal_register .fields_container .profile_picture {
     display: flex;
     justify-content: center;
 }
-.empresas_modal_register .fields_container .profile_picture img{
+
+.empresas_modal_register .fields_container .profile_picture img {
     width: 150px;
     height: 150px;
     border-radius: 50%;
 }
-.empresas_modal_register .fields_container .fields{
+
+.empresas_modal_register .fields_container .fields {
     display: flex;
     flex-direction: column;
 }
-.empresas_modal_register .fields_container .fields input{
+
+.empresas_modal_register .fields_container .fields input {
     font-size: 16px;
     padding: 10px 20px;
     outline: none;
     border: 2px #005a8c solid;
     border-radius: 50px;
 }
-.empresas_modal_register .fields_container .fields button{
+
+.empresas_modal_register .fields_container .fields button {
     background-color: #005a8c;
     color: #fff;
     font-size: 16px;
@@ -985,11 +1011,116 @@ header.kpis_airguard div p.number{
     padding: 20px;
     border-radius: 10px;
 }
+
 .heatmap {
     flex: 1;
     height: 400px;
     background-image: url('../assets/dashboard/planta.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    border: 1px solid #00263b; 
+    border: 1px solid #00263b;
+}
+
+
+/* Suporte */
+
+.bodySuporte {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e6f0f6;
+}
+
+.Suporte_container {
+    width: 90%;
+    max-width: 600px;
+    background-color: #f0f0f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Suporte_container .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: 50vh;
+    scroll-behavior: smooth;
+    padding-right: 4px;
+}
+
+.Suporte_container .content section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.Suporte_container .content .pergunta {
+    justify-content: end;
+}
+
+.Suporte_container .content .resposta {
+    justify-content: start;
+}
+
+
+.Suporte_container .content section img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.Suporte_container .content .pergunta p {
+    max-width: 80%;
+    background-color: #006DAC;
+    color: #fff;
+    font-weight: bold;
+    padding: 12px 16px;
+    border-radius: 20px 20px 0 20px;
+}
+
+.Suporte_container .content .resposta p {
+    max-width: 80%;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+    font-weight: bold;
+    padding: 12px 16px;
+    border-radius: 20px 20px 20px 0;
+}
+
+.Suporte_container .input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 30px;
+    padding: 12px 16px;
+    margin-top: 16px;
+}
+
+.Suporte_container .input input {
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000;
+    background-color: rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.Suporte_container .input button {
+    border: none;
+    background: none;
+    padding: 10px 14px;
+    cursor: pointer;
 }
