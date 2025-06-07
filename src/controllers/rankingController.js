@@ -11,6 +11,17 @@ function listarMaioresCO(req, res) {
         });
 }
 
+function listarAreasLimite(req, res) {
+    rankingModel.listarAreasLimite()
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+        });
+}
+
 module.exports = {
-    listarMaioresCO
+    listarMaioresCO,
+    listarAreasLimite
 };
