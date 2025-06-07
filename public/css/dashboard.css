@@ -214,13 +214,24 @@ nav ul li a {
 }
 
 .kpi_card1 {
+
     position: absolute;
-    bottom: 13vh;
-    left: 22.5vw;
+    bottom: 16vh;
+    left: 3vw;
 }
 
 .kpi_card1 span {
-    font-size: .8vw;
+    font-size: 1vw;
+}
+
+.kpi_card2 {
+    position: absolute;
+    bottom: 19.5vh;
+    left: 34vw;
+}
+
+.kpi_card2 span {
+    font-size: 1vw;
 }
 
 .kpi_destaque {

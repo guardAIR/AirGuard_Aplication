@@ -66,10 +66,14 @@
                 </div>
                 <div class="row">
                     <div class="card card1">
-                        <h3>Resumo de áreas</h3>
+                        <h3>Distribuição de áreas por nível de risco</h3>
                         <div class="kpi_card1">
-                            <span>Atenção:</span><br>
-                            <span class="kpi_destaque">1 Área acima</span>
+                            <span>Total de áreas monitoradas:</span><br>
+                            <span class="kpi_destaque" id="kpiTotalAreas">0</span> <br><br>
+                        </div>
+                        <div class="kpi_card2">
+                            <span>Áreas acima do limite seguro:</span><br>
+                            <span class="kpi_destaque" id="kpiAreasPerigosas">0</span>
                         </div>
                         <canvas id="COperArea"></canvas>
                     </div>
