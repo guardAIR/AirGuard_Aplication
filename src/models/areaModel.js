@@ -14,10 +14,9 @@ function getAlertaById(fkEmpresa) {
             sensor s ON a.id = s.fkarea
         INNER JOIN
             leitura l ON s.id = l.fksensor
-        WHERE e.id = ${fkEmpresa};
-    `;
+        WHERE e.id = ${fkEmpresa};`
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 

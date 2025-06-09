@@ -256,13 +256,46 @@ function listarAreasLimite() {
         });
 }
 
+function getAlertaById() {
+
+    let fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+    fetch(`/areas/getAlertaById/${fkEmpresa}`)
+        .then(function (resposta) {
+            if (!resposta.ok) {
+                console.log("Erro ao executar o getAlertaById");
+            }
+            return resposta.json();
+        })
+        .then(function (resultado) {
+            let alerta = document.getElementById("alert");
+
+            for (let i = 0; i < resultado.length; i++) {
+                alerta.innerHTML +=
+                    `<div class="alert alert1">
+                        <img src="/assets/dashboard/img_area.png">
+                        <h4>${resultado[i].nome}</h4>
+                        <p>${resultado[i].concentracao}ppm</p>
+                        <p class="comparison trending_up">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_up
+                            </span>
+                            7.69%
+                        </p>
+                    </div>`
+            }
+        })
+}
+
 window.onload = function () {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
+    getAlertaById();
 };
 setInterval(function () {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
+    getAlertaById();
 }, 10000); 
