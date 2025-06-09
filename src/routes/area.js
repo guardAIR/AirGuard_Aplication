@@ -23,4 +23,9 @@ router.get('/buscarMediaCOPorHoraPorID/:idarea', function (req, res){
     areaController.buscarMediaCOPorHoraPorID(req, res);
 })
 
+router.get('/ultimasLeituras/:fkarea', function(req, res){
+    areaController.ultimasLeiturasPorArea(req, res);
+});
+
+
 module.exports = router;
