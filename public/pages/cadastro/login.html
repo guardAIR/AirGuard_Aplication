@@ -121,11 +121,17 @@
           sessionStorage.NOME_EMPRESA = json.nome_empresa;
           sessionStorage.ID_USUARIO = json.id;
           sessionStorage.ID_EMPRESA = json.idEmpresa
+          if (sessionStorage.ID_EMPRESA != 1) {
+            setTimeout(function () {
+              window.location = "../dashboard/dashboard.html";
+            }, 1000);
+          }
+          else{
+            setTimeout(function () {
+              window.location = "../dashboard/airguard_dash.html";
+            }, 1000);
 
-          setTimeout(function () {
-            window.location = "../dashboard/dashboard.html";
-          }, 1000);
-
+          }
         });
 
       } else {

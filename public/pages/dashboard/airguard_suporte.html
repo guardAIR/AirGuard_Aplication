@@ -49,9 +49,18 @@
 </body>
 
 <script>
-    function enviar() {
-        var pergunta = iptPergunta.value;
-        var resposta = `Oi! Tudo ótimo por aqui, obrigado por perguntar! E você, como está? 😊 Me chame de BOBIA, o assistente sempre pronto para ajudar! O que posso fazer por você hoje?`;
+    async function enviar() {
+        const pergunta = iptPergunta.value;
+
+        const response = await fetch('/perguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pergunta })
+        });
+
+        const data = await response.json();
         divChat.innerHTML += `
             <section class="pergunta">
                 <p>${pergunta}</p>
@@ -59,9 +68,9 @@
             </section>
             <section class="resposta">
                 <img src="../../assets/dashboard/bobia.svg" alt="Foto do bobIA">
-                <p>${resposta}</p>
-            </section>
-        `
+                <p>${data.resultado}</p>
+            `
+
     }
 </script>
 
