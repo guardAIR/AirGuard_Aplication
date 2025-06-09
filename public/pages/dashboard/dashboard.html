@@ -15,7 +15,7 @@
 
 </head>
 
-<body onload="dados(); getAlertaById(sessionStorage.getItem('ID_EMPRESA'))">
+<body onload="dados(); getAlertaById();">
     <nav class="horizontal_nav">
         <a href="/index.html" class="logo">
             <img src="/assets/dashboard/logo.svg">
@@ -82,52 +82,7 @@
             <div class="right">
                 <div class="card card4">
                     <h3>Alertas</h3>
-                    <div class="alerts" id="alert">
-                        <div class="alert alert1">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>Linha de produção 1</h4>
-                            <p>42ppm</p>
-                            <p class="comparison trending_up">
-                                <span class="material-symbols-outlined alert_icon">
-                                    trending_up
-                                </span>
-                                7.69%
-                            </p>
-                        </div>
-                        <div class="alert alert2">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>Linha de produção 2</h4>
-                            <p>30ppm</p>
-                            <p class="comparison trending_down">
-                                <span class="material-symbols-outlined alert_icon">
-                                    trending_down
-                                </span>
-                                23.08%
-                            </p>
-                        </div>
-                        <div class="alert alert3">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>Linha de produção 3</h4>
-                            <p>23ppm</p>
-                            <p class="comparison trending_down">
-                                <span class="material-symbols-outlined alert_icon">
-                                    trending_down
-                                </span>
-                                41.03%
-                            </p>
-                        </div>
-                        <div class="alert alert4">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>Linha de produção 4</h4>
-                            <p>16ppm</p>
-                            <p class="comparison trending_down">
-                                <span class="material-symbols-outlined alert_icon">
-                                    trending_down
-                                </span>
-                                58.97%
-                            </p>
-                        </div>
-                    </div>
+                    <div class="alerts" id="alert"></div>
                 </div>
             </div>
         </div>
@@ -147,31 +102,5 @@
         var sobrenome = sessionStorage.SOBRENOME_USUARIO;
 
         NomeUsuario.innerHTML = `${nome} ${sobrenome}`;
-    }
-
-    function getAlertaById(id) {
-        console.log('bruno');
-        fetch('/areas/getAlertaById/' + id, { method: 'GET' })
-            .then(function (resultado) {
-                resultado.json()
-                    .then(function (json) {
-                        var alerta = document.getElementById("alert");
-
-                        for (let i = 0; i < json.length; i++) {
-                            alerta.innerHTML += `                        
-                        <div class="alert alert1">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>${json[i].nome}</h4>
-                            <p>${json[i].concentracao}ppm</p>
-                            <p class="comparison trending_up">
-                                <span class="material-symbols-outlined alert_icon">
-                                    trending_up
-                                </span>
-                                7.69%
-                            </p>
-                        </div>`
-                        }
-                    })
-            })
     }
 </script>
