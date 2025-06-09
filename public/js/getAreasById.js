@@ -100,43 +100,7 @@ function getAreasById(id) {
                                                         </div>
                                                         <div class="sensors_kpis">
                                                             <h3>Estado dos sensores</h3>
-                                                            <div class="sensors_kpis_container">
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 1<br>5ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 2<br>19ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 3<br>20ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 4<br>20ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi alerta">
-                                                                    <p>Sensor 5<br>30ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi alerta">
-                                                                    <p>Sensor 6<br>45ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 7<br>18ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 8<br>24ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 9<br>25ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 10<br>15ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 11<br>20ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi alerta">
-                                                                    <p>Sensor 12<br>30ppm</p>
-                                                                </div>
+                                                            <div class="sensors_kpis_container" id="kpis_leitura_sensor">git git
                                                             </div>
                                                         </div>
                                                     </div>

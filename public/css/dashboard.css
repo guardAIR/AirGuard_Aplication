@@ -713,15 +713,20 @@ h3 {
     box-sizing: border-box;
 }
 
-.sensor_kpi.normal {
+.sensor_kpi.seguro {
     background-color: #2ECC71
 }
 
+
 .sensor_kpi.atencao {
-    background-color: #F1C40F;
+    background-color: #F1C40F
 }
 
 .sensor_kpi.alerta {
+    background-color: #E74C3C;
+}
+
+.sensor_kpi.perigo {
     background-color: #E74C3C;
 }
 
