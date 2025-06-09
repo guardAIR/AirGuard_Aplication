@@ -25,7 +25,8 @@ function autenticar(req, res) {
                             data_cadastro: resultadoAutenticar[0].dtCadastro,
                             nome_empresa: resultadoAutenticar[0].NomeEmpresa,
                             id: resultadoAutenticar[0].id,
-                            idEmpresa: resultadoAutenticar[0].idEmpresa
+                            idEmpresa: resultadoAutenticar[0].idEmpresa,
+                            isADM: resultadoAutenticar[0].isADM
                         });
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");

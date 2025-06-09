@@ -1153,4 +1153,10 @@ header.kpis_airguard div p.number {
     font-weight: bold;
     font-size: 16px;
     background-color: gray;
-  }     
+  }
+
+.nav_superior a{
+    gap: 6px;
+    display: flex;
+    align-items: center;
+}
