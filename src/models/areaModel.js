@@ -2,6 +2,7 @@ var database = require("../database/config");
 
 function getAlertaById(fkEmpresa) {
     var instrucaoSql = `
+<<<<<<< Updated upstream
         SELECT 
             e.id AS id,
             a.nome AS nome,
@@ -15,9 +16,24 @@ function getAlertaById(fkEmpresa) {
         INNER JOIN
             leitura l ON s.id = l.fksensor
         WHERE e.id = ${fkEmpresa};
+=======
+        select 
+	        e.id as id,
+            a.nome as nome,
+            l.concentracao_gas as concentracao
+        from 
+	        empresa e
+        inner join
+	        area a on e.id = a.fkEmpresa
+        inner join
+	        sensor s on a.id = s.fkarea
+        inner join
+	        leitura l on s.id = l.fksensor
+        where e.id = ${fkEmpresa};
+>>>>>>> Stashed changes
     `;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
