@@ -138,6 +138,42 @@ function showGraphs(element) {
     renderHeatmap(fkarea);
 };
 
+function renderPrimeiraVezMedicaoAtual(local){
+    const graph_local = local.getElementsByClassName('sensors_graph')[0];
+    
+    const chart_nivel = new Chart(graph_local, {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'PPM dos Sensores',
+                            data: [],
+                            backgroundColor: '#006DAC',
+                            borderColor: '#006DAC',
+                            borderRadius: 5,
+                            tension: 0.3,
+                        }]
+                    },
+                    options: options_sensor_graph
+                });
+
+    return chart_nivel;
+}
+
+function MedicaoSensor(fkarea, local) {
+    fetch(`/areas/ultimasLeituras/${fkarea}`)
+        .then(res => res.json())
+        .then(dados => {
+            const labels = dados.map(sensor => `Sensor ${sensor.sensor_id}`); // sensor_id conforme no banco
+            const valores = dados.map(sensor => sensor.concentracao_gas);
+
+            local.data.labels = labels;
+            local.data.datasets[0].data = valores;
+            local.update();
+        });
+}
+
+
 function showSensors(element) {
     const sensors_wrapper = element.parentElement.parentElement.getElementsByClassName('sensors_wrapper')[0];
     const alerts_wrapper = element.parentElement.parentElement.getElementsByClassName('alerts_wrapper')[0];
@@ -147,9 +183,17 @@ function showSensors(element) {
     alerts_wrapper.classList.remove('selected');
     graph.classList.remove('selected');
 
+    const fkarea = element.getAttribute('fkarea');
+
+    const graphMedicao = renderPrimeiraVezMedicaoAtual(sensors_wrapper);
     const buttons = element.parentElement.getElementsByClassName("button")
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove('clicked')
     }
     element.classList.add('clicked');
+
+    
+    setInterval(() => {
+        MedicaoSensor(fkarea, graphMedicao);
+    }, 1000);
 }

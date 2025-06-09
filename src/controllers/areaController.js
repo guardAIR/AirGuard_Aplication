@@ -77,10 +77,25 @@ function buscarMediaCOPorHoraPorID(req, res){
   })
 }
 
+function ultimasLeiturasPorArea(req, res) {
+    var fkarea = req.params.fkarea;
+    areaModel.getUltimasLeiturasPorArea(fkarea)
+        .then(resultado => {
+            res.status(200).json(resultado);
+        }).catch(erro => {
+            console.error("Erro ao buscar leituras por área:", erro);
+            res.status(500).json({ erro: erro });
+        });
+}
+
+
+
+
 module.exports = {
   getAllByFkEmpresa,
   getMediaAreaById,
   getSensorsAndRead,
   getAlertaById,
-  buscarMediaCOPorHoraPorID
+  buscarMediaCOPorHoraPorID,
+  ultimasLeiturasPorArea
 }

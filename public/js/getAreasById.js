@@ -1,6 +1,7 @@
 let charts = {};
 let datasets = {};
 let ids = [];
+let graficoMedicao = null;
 function getAreasById(id) {
     fetch('/areas/getAllById/' + id, { method: 'GET' })
         .then((resultado) => {
@@ -49,7 +50,7 @@ function getAreasById(id) {
                                                     <div class="graph_buttons">
                                                         <button onclick="showAlerts(this)" class="button">Alertas</button>
                                                         <button onclick="showGraphs(this)" class="clicked button" fkarea="${areas[i].id}">Geral</button>
-                                                        <button onclick="showSensors(this)" class="button">Sensores</button>
+                                                        <button onclick="showSensors(this)" class="button" fkarea="${areas[i].id}">Sensores</button>
                                                     </div>
                                                     <div class="graph selected">
                                                         <div class="first_graph">
@@ -235,3 +236,7 @@ function mediaDoSpan(mediaSpan) {
     else attention_level = `<span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span>`
     return attention_level;
 }
+
+
+
+
