@@ -7,14 +7,17 @@ function getAlertaById(fkEmpresa) {
             a.nome AS nome,
             l.concentracao_gas AS concentracao
         FROM 
-            empresa e
-        INNER JOIN
-            area a ON e.id = a.fkEmpresa
-        INNER JOIN
-            sensor s ON a.id = s.fkarea
-        INNER JOIN
-            leitura l ON s.id = l.fksensor
-        WHERE e.id = ${fkEmpresa};`
+			alerta al 
+		INNER JOIN
+			leitura l ON al.fkleitura = l.id
+		INNER JOIN 
+			sensor s ON l.fksensor = s.id
+		INNER JOIN
+			area a ON s.fkarea = a.id
+		INNER JOIN
+			empresa e ON a.fkempresa = ${fkEmpresa}
+		WHERE
+			e.id = 1 AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP());`
 
     console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
