@@ -268,7 +268,10 @@ function getAlertaById() {
             return resposta.json();
         })
         .then(function (resultado) {
+
             let alerta = document.getElementById("alert");
+
+            alerta.innerHTML = ``;
 
             for (let i = 0; i < resultado.length; i++) {
                 alerta.innerHTML +=
@@ -280,7 +283,7 @@ function getAlertaById() {
                             <span class="material-symbols-outlined alert_icon">
                                 trending_up
                             </span>
-                            7.69%
+                            ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
                         </p>
                     </div>`
             }
