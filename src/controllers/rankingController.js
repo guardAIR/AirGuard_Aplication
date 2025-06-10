@@ -1,7 +1,7 @@
 var rankingModel = require("../models/rankingModel");
 
 function listarMaioresCO(req, res) {
-    rankingModel.buscarMaioresCO()
+    rankingModel.buscarMaioresCO(req.params.ID_EMPRESA)
         .then(function (resultado) {
             res.json(resultado);
         })
@@ -12,7 +12,7 @@ function listarMaioresCO(req, res) {
 }
 
 function listarAreasLimite(req, res) {
-    rankingModel.listarAreasLimite()
+    rankingModel.listarAreasLimite(req.params.ID_EMPRESA)
         .then(function (resultado) {
             res.json(resultado);
         })

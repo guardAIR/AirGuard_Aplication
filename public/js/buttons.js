@@ -96,11 +96,18 @@ function expandir_area(element) {
     const fkarea = element.getAttribute('fkarea');
     const graphGasHora = renderPrimeiraVezNivelGasHora(expandElement);
     const heatmap = renderPrimeiraVezHeatmap(expandElement);
-    setInterval(() => {
-        renderHeatmap(fkarea, heatmap);
-        renderNivelGasHora(fkarea, graphGasHora)
-    }, 100);
+    // setInterval(() => {
+    //     renderHeatmap(fkarea, heatmap);
+    //     renderNivelGasHora(fkarea, graphGasHora)
+    // }, 100);
+    buscarDados(fkarea, heatmap, graphGasHora);
 };
+
+function buscarDados(fkarea, heatmap, graphGasHora) {
+    renderHeatmap(fkarea, heatmap);
+    renderNivelGasHora(fkarea, graphGasHora)
+    setTimeout(() => buscarDados(fkarea, heatmap, graphGasHora), 1000);
+}
 
 function showAlerts(element) {
     const sensors_wrapper = element.parentElement.parentElement.getElementsByClassName('sensors_wrapper')[0];

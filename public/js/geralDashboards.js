@@ -10,7 +10,7 @@ function carregarRankingComChartJs() {
         rankingChart = null;
     }
 
-    fetch("/ranking/maiores-co")
+    fetch("/ranking/maiores-co/" + sessionStorage.getItem("ID_EMPRESA"))
         .then(function (resposta) {
 
             return resposta.json();
@@ -129,18 +129,10 @@ function carregarRankingComChartJs() {
 var meuGraficoCOperArea = null;
 
 function listarAreasLimite() {
-    let statusNivel = [];
-    let numeroAreas = [];
+    const statusNivel = ["seguro", "atencao", "alerta", "perigoso"];
+    const quantidadeNivel = [];
 
-    let totalAreasGrafico = 0;
-    let areasAcimaDoLimite = 0;
-
-    if (meuGraficoCOperArea) {
-        meuGraficoCOperArea.destroy();
-        meuGraficoCOperArea = null;
-    }
-
-    fetch("/ranking/areaslimite")
+    fetch("/ranking/areaslimite/" + sessionStorage.getItem("ID_EMPRESA"))
         .then(function (resposta) {
             if (!resposta.ok) {
                 throw new Error(`Erro HTTP: ${resposta.status}`);
@@ -150,92 +142,63 @@ function listarAreasLimite() {
         .then(function (dados) {
             console.log("Dados para gráfico de pizza/KPIs:", dados);
 
+
+            let seguro = 0;
+            let atencao = 0;
+            let alerta = 0;
+            let perigoso = 0;
+            let total = 0;
+
             for (let i = 0; i < dados.length; i++) {
-                const status = dados[i].status_nivel;
-                const count = dados[i].numero_de_areas;
-
-                statusNivel.push(status);
-                numeroAreas.push(count);
-
-                totalAreasGrafico += count;
-
-                if (status === 'Perigoso') {
-                    areasAcimaDoLimite += count;
+                total++
+                if (dados[i].ppm <= 20) {
+                    seguro++;
+                } else if (dados[i].ppm <= 30) {
+                    atencao++;
+                } else if (dados[i].ppm <= 39) {
+                    alerta++;
+                } else {
+                    perigoso++;
                 }
             }
-            console.log(statusNivel);
-            console.log(numeroAreas);
-            console.log(totalAreasGrafico);
-            console.log(areasAcimaDoLimite);
 
+            console.log("areas totais: seguro " + seguro)
+            console.log("areas totais: atencao " + atencao)
+            console.log("areas totais: alerta " + alerta)
+            console.log("areas totais: perigoso " + perigoso)
+            console.log("areas totais: total " + total)
+
+            quantidadeNivel.push(seguro)
+            quantidadeNivel.push(atencao)
+            quantidadeNivel.push(alerta)
+            quantidadeNivel.push(perigoso)
+            
             const kpiTotalAreasEl = document.getElementById('kpiTotalAreas');
             const kpiAreasPerigosasEl = document.getElementById('kpiAreasPerigosas');
-
+            
             if (kpiTotalAreasEl) {
-                kpiTotalAreasEl.textContent = totalAreasGrafico;
+                kpiTotalAreasEl.textContent = `${total}`;
             }
             if (kpiAreasPerigosasEl) {
-                kpiAreasPerigosasEl.textContent = areasAcimaDoLimite;
-                if (areasAcimaDoLimite > 0) {
+                kpiAreasPerigosasEl.textContent = `${perigoso}`;
+                
+                if (perigoso > 0) {
                     kpiAreasPerigosasEl.classList.add('texto-alerta-vermelho');
                 } else {
                     kpiAreasPerigosasEl.classList.remove('texto-alerta-vermelho');
                 }
             }
-
-            const canvasElement = document.getElementById('COperArea');
-            if (!canvasElement) {
-                console.error("Canvas 'COperArea' não encontrado.");
-                if (kpiTotalAreasEl) kpiTotalAreasEl.textContent = 'N/A';
-                if (kpiAreasPerigosasEl) kpiAreasPerigosasEl.textContent = 'N/A';
-                return;
+            
+            
+            var labels = statusNivel;
+            var data = quantidadeNivel;
+            if (!meuGraficoCOperArea) {
+                criarGraficoCOperArea(labels, data);
+                console.log("Criando o gráfico")
+            } else {
+                meuGraficoCOperArea.data.datasets[0].data = data;
+                meuGraficoCOperArea.update();
             }
-            const COperAreaCtx = canvasElement.getContext('2d');
-
-            if (statusNivel.length === 0) {
-                COperAreaCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-                COperAreaCtx.font = "14px DM Sans"; COperAreaCtx.fillStyle = "#555";
-                COperAreaCtx.textAlign = "center";
-                COperAreaCtx.fillText("Sem dados para exibir", canvasElement.width / 2, canvasElement.height / 2);
-                if (kpiTotalAreasEl) kpiTotalAreasEl.textContent = '0';
-                if (kpiAreasPerigosasEl) kpiAreasPerigosasEl.textContent = '0';
-                return;
-            }
-
-            const coresPorStatus = {
-                'Seguro': '#2ECC71',
-                'Atenção': '#F1C40F',
-                'Alerta': '#E74C3C',
-                'Perigoso': '#5f0a00'
-            };
-
-            const backgroundColorsArray = statusNivel.map(status => coresPorStatus[status] || '#CCCCCC');
-
-
-            meuGraficoCOperArea = new Chart(COperAreaCtx, {
-                type: 'pie',
-                data: {
-                    labels: statusNivel,
-                    datasets: [{
-                        data: numeroAreas,
-                        backgroundColor: backgroundColorsArray,
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: { font: { family: 'DM Sans' } }
-                        },
-                        title: {
-                            display: false
-                        }
-                    }
-                }
-            });
 
         })
         .catch(function (erro) {
@@ -254,6 +217,36 @@ function listarAreasLimite() {
                 ctx.fillText("Erro ao carregar dados", canvasElement.width / 2, canvasElement.height / 2);
             }
         });
+}
+
+function criarGraficoCOperArea(labels, dados) {
+    const canvasElement = document.getElementById('COperArea');
+    const ctx = canvasElement.getContext('2d');
+
+    backgroundColorsArray = ['#2ECC71', '#F1C40F', '#E74C3C', '#5f0a00']
+
+    meuGraficoCOperArea = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: dados,
+                backgroundColor: backgroundColorsArray,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { family: 'DM Sans' } }
+                },
+                title: { display: false }
+            }
+        }
+    });
 }
 
 function getAlertaById() {
@@ -300,5 +293,4 @@ setInterval(function () {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
-    getAlertaById();
-}, 10000); 
+}, 1000);

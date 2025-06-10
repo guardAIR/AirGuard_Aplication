@@ -54,21 +54,21 @@ function getMediaAreaById(id) {
 
 function getSensorsAndReads(fkarea) {
     var instrucaoSql = `
-        SELECT  
-            l.fksensor,
-            l.data_hora,
-            l.concentracao_gas,
-            s.eixo_x,
-            s.eixo_y,
-            s.fkarea
-        FROM leitura l
-        INNER JOIN sensor s ON s.id = l.fksensor
-        INNER JOIN (
-            SELECT fksensor, MAX(data_hora) AS ultima_leitura
-            FROM leitura
-            GROUP BY fksensor
-        ) u ON l.fksensor = u.fksensor AND l.data_hora = u.ultima_leitura
-        WHERE s.fkarea = ${fkarea};
+        select  
+        l.fksensor,
+        l.data_hora,
+        l.concentracao_gas,
+        s.eixo_x,
+        s.eixo_y,
+        s.fkarea
+        from leitura l
+        inner join sensor s on s.id = l.fksensor
+        inner join (
+            select fksensor, max(data_hora) as ultima_leitura
+            from leitura
+            group by fksensor
+        ) u on l.fksensor = u.fksensor and l.data_hora = u.ultima_leitura
+        where s.fkarea = ${fkarea} and l.data_hora = u.ultima_leitura;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
