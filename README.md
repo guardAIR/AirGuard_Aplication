@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/suporte/logo-airguard.pnggit" alt="AirGuard Logo" width="300px">
+  <img src="public/assets/suporte/logo-airguard.png" alt="AirGuard Logo" width="300px">
 </p>
 
 <h1 align="center">AirGuard</h1>
