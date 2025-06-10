@@ -28,4 +28,8 @@ router.get('/ultimasLeituras/:fkarea', function(req, res){
 });
 
 
+router.get('/ultimasLeiturasTotais/', function(req, res){
+    areaController.ultimasLeiturasTotais(req, res);
+});
+
 module.exports = router;

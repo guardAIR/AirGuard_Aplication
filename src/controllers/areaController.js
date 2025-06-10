@@ -85,7 +85,15 @@ function ultimasLeiturasPorArea(req, res) {
         });
 }
 
-
+function ultimasLeiturasTotais(req, res) {
+    areaModel.getUltimasLeiturasTotais()
+        .then(resultado => {
+            res.status(200).json(resultado);
+        }).catch(erro => {
+            console.error("Erro ao buscar leituras por área:", erro);
+            res.status(500).json({ erro: erro });
+        });
+}
 
 
 module.exports = {
@@ -94,5 +102,6 @@ module.exports = {
   getSensorsAndRead,
   getAlertaById,
   buscarMediaCOPorHoraPorID,
-  ultimasLeiturasPorArea
+  ultimasLeiturasPorArea,
+  ultimasLeiturasTotais
 }

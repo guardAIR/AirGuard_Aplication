@@ -72,7 +72,7 @@ function getSensorsAndReads(fkarea) {
     return database.executar(instrucaoSql);
 }
 
-function buscarMediaCOPorHoraPorID(areaID){
+function buscarMediaCOPorHoraPorID(areaID) {
     var instrucaoSql = `
         SELECT HOUR(data_hora) AS hora, ROUND(AVG(concentracao_gas), 0) AS media_gas
         FROM leitura lei
@@ -119,6 +119,19 @@ function getUltimasLeiturasPorArea(fkarea) {
     return database.executar(instrucaoSql);
 }
 
+function getUltimasLeiturasTotais() {
+    let instrucaoSql = `
+                SELECT s.id AS sensor_id, l.concentracao_gas, s.fkArea
+                    FROM sensor s
+                    INNER JOIN leitura l ON s.id = l.fksensor
+                    WHERE l.data_hora = (
+                        SELECT MAX(l2.data_hora)
+                        FROM leitura l2
+                    WHERE l2.fksensor = s.id
+                );
+    `;
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     getAllByFkEmpresa,
@@ -126,5 +139,6 @@ module.exports = {
     getSensorsAndReads,
     getAlertaById,
     buscarMediaCOPorHoraPorID,
-    getUltimasLeiturasPorArea
+    getUltimasLeiturasPorArea,
+    getUltimasLeiturasTotais
 }

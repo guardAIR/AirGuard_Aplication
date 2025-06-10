@@ -93,17 +93,17 @@ function getAreasById(id) {
                                                             <canvas id="alert_graph1" class="alert_graph" width="700" height="400"></canvas>
                                                         </div>
                                                     </div>
-                                                    <div class="sensors_wrapper">
-                                                        <div class="sensors_graph_container">
-                                                            <h3>Medição dos sensores (atual)</h3>
-                                                            <canvas id="sensors_graph1" class="sensors_graph" width="700" height="400"></canvas>
-                                                        </div>
-                                                        <div class="sensors_kpis">
-                                                            <h3>Estado dos sensores</h3>
-                                                            <div class="sensors_kpis_container" id="kpis_leitura_sensor">git git
+                                                        <div class="sensors_wrapper">
+                                                            <div class="sensors_graph_container">
+                                                                <h3>Medição dos sensores (atual)</h3>
+                                                                <canvas id="sensors_graph1" class="sensors_graph" width="700" height="400"></canvas>
+                                                            </div>
+                                                            <div class="sensors_kpis">
+                                                                <h3>Estado dos sensores</h3>
+                                                                <div class="sensors_kpis_container" id="kpis_leitura_sensor${i}">
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         `;
