@@ -1,8 +1,8 @@
 <p align="center">
   <img src="public/assets/suporte/logo-airguard.png" alt="AirGuard Logo" width="300px">
+  <h1 align="center">AirGuard</h1>
 </p>
 
-<h1 align="center">AirGuard</h1>
 
 <p align="center">
   🛡️ Monitoramento de qualidade do ar em tempo real usando sensores de gases.
