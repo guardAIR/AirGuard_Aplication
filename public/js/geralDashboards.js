@@ -293,4 +293,5 @@ setInterval(function () {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
+    getAlertaById();
 }, 1000);

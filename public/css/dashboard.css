@@ -177,6 +177,8 @@ nav ul li a {
     /* 20px */
     margin: 1.042vh 0.521vw 0 0.521vw;
     /* 20px 10px 0 10px */
+    overflow-y: scroll;
+    height: 800px;
 }
 
 .alerts .alert {

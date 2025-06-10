@@ -127,7 +127,14 @@ function showAlerts(element) {
     const fkarea = element.getAttribute('fkarea');
 
 
-    exibirAlertasPorArea(fkarea);
+
+
+    const result = exibirQuantidadeDeAlertasPorHorario(alerts_wrapper);
+
+    setInterval(function() {
+        exibirAlertasPorArea(fkarea);
+        chamaExibirQuantidadeDeAlertasPorHorario(fkarea, result);
+    }, 1000)
 };
 
 function showGraphs(element) {
@@ -286,6 +293,7 @@ function exibirAlertasPorArea(idArea) {
 
     // let fkEmpresa = 1;
     // let idArea = 1;
+    document.getElementById("alerts_bruno" + idArea).innerHTML = "";
 
     fetch(`/areas/exibirAlertasPorArea/${fkEmpresa}/${idArea}`)
         .then(function (resultado) {
@@ -314,5 +322,49 @@ function exibirAlertasPorArea(idArea) {
         .catch(function (resposta) {
             console.log("Erro na exibição de alertas por área!", resposta);
         })
+}
 
+function exibirQuantidadeDeAlertasPorHorario(local) {
+    const graph_local = local.getElementsByClassName('alert_graph')[0];
+
+    const chart_nivel = new Chart(graph_local, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Quantidade de alertas por horário',
+                    data: [],
+                    borderColor: '#006DAC',
+                    backgroundColor: '#006DAC',
+                    fill: true,
+                    borderRadius: 5
+                }
+            ]
+        },
+    });
+
+    return chart_nivel;
+}
+
+function chamaExibirQuantidadeDeAlertasPorHorario(idArea, graficoGasHora) {
+
+    fetch(`/areas/exibirQuantidadeDeAlertasPorHorario/${idArea}`)
+        .then(function(resultado) {
+            resultado.json()
+                .then(function(resposta) {
+                    let labels = [];
+                    let dados = [];
+        
+                    for (let i = 0; i < resposta.length; i++) {
+                        labels.push(resposta[i].horario + 'h');
+                        dados.push(resposta[i].quantidade);
+                    }
+        
+                    graficoGasHora.data.datasets[0].data = dados;
+                    graficoGasHora.data.labels = labels;
+        
+                    graficoGasHora.update();
+                })
+        })
 }
