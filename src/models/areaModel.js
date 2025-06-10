@@ -65,7 +65,7 @@ function getSensorsAndReads(fkarea) {
             from leitura
             group by fksensor
         ) u on l.fksensor = u.fksensor and l.data_hora = u.ultima_leitura
-        where s.fkarea = ${fkarea};
+        where s.fkarea = ${fkarea} and l.data_hora = u.ultima_leitura;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

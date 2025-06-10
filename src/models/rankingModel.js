@@ -1,47 +1,81 @@
 var database = require("../database/config");
 
-function buscarMaioresCO() {
+function buscarMaioresCO(idempresa) {
     var instrucaoSql = `
-        SELECT a.nome AS nome_area, 
-               ROUND(AVG(l.concentracao_gas), 2) AS ppm 
-        FROM leitura l
-        JOIN sensor s ON l.fksensor = s.id
-        JOIN area a ON s.fkarea = a.id
-        GROUP BY a.nome
-        ORDER BY ppm DESC
-        LIMIT 5;
+SELECT
+    ultima_leitura_sensor.nome_area_sub AS nome_area, 
+    ROUND(AVG(ultima_leitura_sensor.ultima_concentracao_gas_sub), 2) AS ppm 
+FROM (
+
+    SELECT
+        a.id AS id_area_sub,
+        a.nome AS nome_area_sub,
+        MAX(l_final.concentracao_gas) AS ultima_concentracao_gas_sub
+    FROM
+        area a
+    INNER JOIN
+        sensor s ON a.id = s.fkarea  
+    LEFT JOIN (
+        
+        SELECT
+            fksensor,
+            MAX(data_hora) AS max_data_hora
+        FROM
+            leitura
+        GROUP BY
+            fksensor
+    ) AS max_info ON s.id = max_info.fksensor 
+    LEFT JOIN
+        leitura l_final ON max_info.fksensor = l_final.fksensor
+                       AND max_info.max_data_hora = l_final.data_hora
+	WHERE a.fkempresa = ${idempresa}
+    GROUP BY
+        a.id, a.nome, s.id 
+) AS ultima_leitura_sensor
+GROUP BY
+    ultima_leitura_sensor.id_area_sub, ultima_leitura_sensor.nome_area_sub 
+ORDER BY 
+    ppm DESC 
+LIMIT 5; 
     `;
 
     return database.executar(instrucaoSql);
 }
 
-function listarAreasLimite() {
+function listarAreasLimite(idempresa) {
     var instrucaoSql = `
         SELECT
-    status_calculado.mensagem_status AS status_nivel,
-    COUNT(*) AS numero_de_areas
-FROM (
-    SELECT
-        a.id AS id_area,
-        CASE
-            WHEN ROUND(AVG(l.concentracao_gas), 2) <= 20 THEN 'Seguro'
-            WHEN ROUND(AVG(l.concentracao_gas), 2) <= 30 THEN 'Atenção'
-            WHEN ROUND(AVG(l.concentracao_gas), 2) <= 39 THEN 'Alerta'
-            ELSE 'Perigoso'
-        END AS mensagem_status
-    FROM area a
-    JOIN sensor s ON s.fkarea = a.id
-    JOIN leitura l ON l.fksensor = s.id
-    GROUP BY a.id, a.nome
-) AS status_calculado
-GROUP BY status_calculado.mensagem_status
-ORDER BY
-    CASE status_calculado.mensagem_status
-        WHEN 'Seguro' THEN 1
-        WHEN 'Atenção' THEN 2
-        WHEN 'Alerta' THEN 3
-        ELSE 'Perigoso' 
-    END;
+                ultima_leitura_sensor.nome_area_sub AS nome_area, 
+                ROUND(AVG(ultima_leitura_sensor.ultima_concentracao_gas_sub), 2) AS ppm 
+            FROM (
+
+                SELECT
+                    a.id AS id_area_sub,
+                    a.nome AS nome_area_sub,
+                    MAX(l_final.concentracao_gas) AS ultima_concentracao_gas_sub
+                FROM
+                    area a
+                INNER JOIN
+                    sensor s ON a.id = s.fkarea  
+                LEFT JOIN (
+                    
+                    SELECT
+                        fksensor,
+                        MAX(data_hora) AS max_data_hora
+                    FROM
+                        leitura
+                    GROUP BY
+                        fksensor
+                ) AS max_info ON s.id = max_info.fksensor 
+                LEFT JOIN
+                    leitura l_final ON max_info.fksensor = l_final.fksensor
+                                AND max_info.max_data_hora = l_final.data_hora
+                WHERE a.fkempresa = ${idempresa}
+                GROUP BY
+                    a.id, a.nome, s.id 
+            ) AS ultima_leitura_sensor
+            GROUP BY
+                ultima_leitura_sensor.id_area_sub, ultima_leitura_sensor.nome_area_sub;
     `;
     return database.executar(instrucaoSql);
 }
