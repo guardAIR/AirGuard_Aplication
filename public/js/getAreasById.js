@@ -2,6 +2,7 @@ let charts = {};
 let datasets = {};
 let ids = [];
 let graficoMedicao = null;
+var areaId = [];
 function getAreasById(id) {
     fetch('/areas/getAllById/' + id, { method: 'GET' })
         .then((resultado) => {
@@ -12,6 +13,7 @@ function getAreasById(id) {
                     cards_container.innerHTML = "";
                     for (let i = 0; i < areas.length; i++) {
                         var id = areas[i].id
+                        areaId.push(id);
                         fetch('/areas/getMediaAreaById/' + id, { method: 'GET' })
                             .then((resultado) => {
                                 resultado.json()
@@ -48,7 +50,7 @@ function getAreasById(id) {
                                                 </div>
                                                 <div class="card_row row_graphs expand">
                                                     <div class="graph_buttons">
-                                                        <button onclick="showAlerts(this)" class="button">Alertas</button>
+                                                        <button onclick="showAlerts(this)" class="button" fkarea="${areas[i].id}">Alertas</button>
                                                         <button onclick="showGraphs(this)" class="clicked button" fkarea="${areas[i].id}">Geral</button>
                                                         <button onclick="showSensors(this)" class="button" fkarea="${areas[i].id}">Sensores</button>
                                                     </div>
@@ -65,27 +67,9 @@ function getAreasById(id) {
                                                     <div class="alerts_wrapper">
                                                         <div class="alerts_specific">
                                                             <h3>Alertas (últimas 24h)</h3>
-                                                            <div class="alerts_container">
-                                                                <div class="alert_specific">
-                                                                    <p class="alert_text">
-                                                                        <span class="material-symbols-outlined alert_icon_specific_high">
-                                                                            error
-                                                                        </span>
-                                                                        Sensor 6 - Linha de produção 1
-                                                                    </p>
-                                                                    <p>45ppm</p>
-                                                                    <p class="alert_time">17:00h</p>
-                                                                </div>
-                                                                <div class="alert_specific">
-                                                                    <p class="alert_text">
-                                                                        <span class="material-symbols-outlined alert_icon_specific_medium">
-                                                                            error
-                                                                        </span>
-                                                                        Sensor 6 - Linha de produção 1
-                                                                    </p>
-                                                                    <p>30ppm</p>
-                                                                    <p class="alert_time">16:00h</p>
-                                                                </div>
+                                                            <div class="alerts_container" id="alerts_bruno${areas[i].id}">
+                                                                
+
                                                             </div>
                                                         </div>
                                                         <div class="alerts_graph">

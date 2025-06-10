@@ -117,6 +117,10 @@ function showAlerts(element) {
         buttons[i].classList.remove('clicked')
     }
     element.classList.add('clicked');
+    const fkarea = element.getAttribute('fkarea');
+
+
+    exibirAlertasPorArea(fkarea);
 };
 
 function showGraphs(element) {
@@ -173,7 +177,7 @@ function MedicaoSensor(fkarea, local) {
             local.data.datasets[0].data = valores;
             local.update();
         });
-        bolinhas()
+    bolinhas()
 }
 
 function showSensors(element) {
@@ -270,3 +274,38 @@ function bolinhas() {
         });
 }
 
+function exibirAlertasPorArea(idArea) {
+    let fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+    // let fkEmpresa = 1;
+    // let idArea = 1;
+
+    fetch(`/areas/exibirAlertasPorArea/${fkEmpresa}/${idArea}`)
+        .then(function (resultado) {
+            resultado.json()
+                .then(function (data) {
+                    console.log(data);
+
+                    for (let i = 0; i < data.length; i++) {
+                        document.getElementById("alerts_bruno" + idArea).innerHTML +=
+                            `<div class="alert_specific">
+                                <p class="alert_text">
+                                    <span class="material-symbols-outlined alert_icon_specific_high">
+                                        error
+                                    </span>
+                                    Sensor ${data[i].idSensor}
+                                </p>
+                                <p>${data[i].concentracao}ppm</p>
+                                <p class="alert_time">${data[i].data_hora}</p>
+                            </div>`
+                    }
+
+
+                })
+            console.log("Por enquanto deu certo!", resultado);
+        })
+        .catch(function (resposta) {
+            console.log("Erro na exibição de alertas por área!", resposta);
+        })
+
+}
