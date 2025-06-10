@@ -288,10 +288,14 @@ window.onload = function () {
     carregarRankingComChartJs();
     listarAreasLimite();
     getAlertaById();
+    time();
 };
-setInterval(function () {
+
+function time() {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
-    getAlertaById();
-}, 1000);
+    setTimeout(function () {
+        time()
+    }, 5000);
+}
