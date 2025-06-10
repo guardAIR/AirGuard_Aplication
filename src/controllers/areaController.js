@@ -95,6 +95,20 @@ function ultimasLeiturasTotais(req, res) {
         });
 }
 
+function exibirAlertasPorArea(req, res) {
+
+  const fkEmpresa = req.params.fkEmpresa;
+  const idArea = req.params.idArea;
+
+  areaModel.exibirAlertasPorArea(fkEmpresa, idArea)
+    .then(function(resultado) {
+      res.json(resultado);
+    })
+    .catch(function(erro) {
+      console.log("Erro ao exibir os alertas por área: ", erro);
+    })
+}
+
 
 module.exports = {
   getAllByFkEmpresa,
@@ -103,5 +117,6 @@ module.exports = {
   getAlertaById,
   buscarMediaCOPorHoraPorID,
   ultimasLeiturasPorArea,
-  ultimasLeiturasTotais
+  ultimasLeiturasTotais,
+  exibirAlertasPorArea
 }

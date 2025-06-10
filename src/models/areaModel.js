@@ -136,6 +136,30 @@ function getUltimasLeiturasTotais() {
     return database.executar(instrucaoSql);
 }
 
+function exibirAlertasPorArea(fkEmpresa, idArea) {
+    let instrucaoSql = `
+        SELECT 
+            e.id AS id,
+            s.id AS idSensor,
+            a.nome AS nome,
+            l.concentracao_gas AS concentracao,
+            l.data_hora AS data_hora
+        FROM 
+			alerta al 
+		INNER JOIN
+			leitura l ON al.fkleitura = l.id
+		INNER JOIN 
+			sensor s ON l.fksensor = s.id
+		INNER JOIN
+			area a ON s.fkarea = a.id
+		INNER JOIN
+			empresa e ON a.fkempresa = a.fkempresa
+		WHERE
+			e.id = ${fkEmpresa} AND a.id = ${idArea} AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP());
+    `;
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     getAllByFkEmpresa,
     getMediaAreaById,
@@ -143,5 +167,6 @@ module.exports = {
     getAlertaById,
     buscarMediaCOPorHoraPorID,
     getUltimasLeiturasPorArea,
-    getUltimasLeiturasTotais
+    getUltimasLeiturasTotais,
+    exibirAlertasPorArea
 }

@@ -32,4 +32,8 @@ router.get('/ultimasLeiturasTotais/', function(req, res){
     areaController.ultimasLeiturasTotais(req, res);
 });
 
+router.get('/exibirAlertasPorArea/:fkEmpresa/:idArea', function(req, res) {
+    areaController.exibirAlertasPorArea(req, res);
+});
+
 module.exports = router;
