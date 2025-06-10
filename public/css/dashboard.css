@@ -1160,3 +1160,34 @@ header.kpis_airguard div p.number {
     display: flex;
     align-items: center;
 }
+
+#botao-suporte {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  
+  background-color: #006DAC;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 0.3s ease;
+}
+
+#botao-suporte img {
+  width: 60%;  
+  height: auto; 
+}
+
+#botao-suporte:hover {
+  background-color: #005A8C;
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
