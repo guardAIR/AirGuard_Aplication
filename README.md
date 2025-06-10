@@ -1,6 +1,5 @@
-<p>
-  <img src="public/assets/suporte/AirGuard-logo.png" alt="AirGuard Logo" width="300px">
-  <h1 align="center">AirGuard</h1>
+<p align="center">
+  <img src="public/assets/suporte/logo-airguard.png" alt="AirGuard Logo" width="450px">
 </p>
 
 
