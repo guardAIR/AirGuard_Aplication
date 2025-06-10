@@ -249,13 +249,48 @@ function criarGraficoCOperArea(labels, dados) {
     });
 }
 
+function getAlertaById() {
+
+    let fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+    fetch(`/areas/getAlertaById/${fkEmpresa}`)
+        .then(function (resposta) {
+            if (!resposta.ok) {
+                console.log("Erro ao executar o getAlertaById");
+            }
+            return resposta.json();
+        })
+        .then(function (resultado) {
+
+            let alerta = document.getElementById("alert");
+
+            alerta.innerHTML = ``;
+
+            for (let i = 0; i < resultado.length; i++) {
+                alerta.innerHTML +=
+                    `<div class="alert alert1">
+                        <img src="/assets/dashboard/img_area.png">
+                        <h4>${resultado[i].nome}</h4>
+                        <p>${resultado[i].concentracao}ppm</p>
+                        <p class="comparison trending_up">
+                            <span class="material-symbols-outlined alert_icon">
+                                trending_up
+                            </span>
+                            ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
+                        </p>
+                    </div>`
+            }
+        })
+}
+
 window.onload = function () {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
+    getAlertaById();
 };
 setInterval(function () {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
-}, 1000); 
+}, 1000);

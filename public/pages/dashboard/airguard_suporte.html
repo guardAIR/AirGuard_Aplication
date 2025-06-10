@@ -21,10 +21,12 @@
             <img src="/assets/dashboard/logo.svg">
         </a>
         <div class="links">
-            <ul>
-                <li><a href="/pages/sobre-nos/sobre_nos.html">Sobre nós</a></li>
-                <li><a href="/pages/calculadora/calculadora.html">Orçamento</a></li>
-                <li><a href="./dashboard_area.html" class="destaque_link">dashboard area</a></li>
+            <ul class="nav_superior">
+                <li><a href="airguard_dash.html"><span class="material-symbols-outlined">domain</span> Empresas</a></li>
+                <li><a href="airguard_suporte.html"><span class="material-symbols-outlined">support_agent</span> BOB
+                        IA</a></li>
+                <li><a href="perfil_airguard.html" class="active"><span class="material-symbols-outlined">account_circle</span>
+                        Perfil</a></li>
             </ul>
         </div>
     </nav>
@@ -33,7 +35,7 @@
             <li><a href="airguard_dash.html"><span class="material-symbols-outlined">domain</span></a></li>
             <li><a href="airguard_suporte.html" class="active"><span
                         class="material-symbols-outlined">support_agent</span></a></li>
-            <li><a href="perfil.html"><span class="material-symbols-outlined">account_circle</span></a></li>
+            <li><a href="perfil_airguard.html"><span class="material-symbols-outlined">account_circle</span></a></li>
         </ul>
     </nav>
     <div class="Suporte_container">
@@ -46,12 +48,25 @@
             <button onclick="enviar()"><img src="../../assets/dashboard/buttonEviar.svg" alt=""></button>
         </div>
     </div>
+    <a href="https://airguard2025.atlassian.net/servicedesk/customer/portal/1" target="_blank" id="botao-suporte" title="Precisa de ajuda?">
+        <i class="fas fa-comment-dots"></i>
+        <img src="../../assets/suporte/suporte.png" alt="">
+    </a>
 </body>
 
 <script>
-    function enviar() {
-        var pergunta = iptPergunta.value;
-        var resposta = `Oi! Tudo ótimo por aqui, obrigado por perguntar! E você, como está? 😊 Me chame de BOBIA, o assistente sempre pronto para ajudar! O que posso fazer por você hoje?`;
+    async function enviar() {
+        const pergunta = iptPergunta.value;
+
+        const response = await fetch('/perguntar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pergunta })
+        });
+
+        const data = await response.json();
         divChat.innerHTML += `
             <section class="pergunta">
                 <p>${pergunta}</p>
@@ -59,9 +74,9 @@
             </section>
             <section class="resposta">
                 <img src="../../assets/dashboard/bobia.svg" alt="Foto do bobIA">
-                <p>${resposta}</p>
-            </section>
-        `
+                <p>${data.resultado}</p>
+            `
+
     }
 </script>
 

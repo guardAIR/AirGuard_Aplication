@@ -1,6 +1,7 @@
 let charts = {};
 let datasets = {};
 let ids = [];
+let graficoMedicao = null;
 function getAreasById(id) {
     fetch('/areas/getAllById/' + id, { method: 'GET' })
         .then((resultado) => {
@@ -49,7 +50,7 @@ function getAreasById(id) {
                                                     <div class="graph_buttons">
                                                         <button onclick="showAlerts(this)" class="button">Alertas</button>
                                                         <button onclick="showGraphs(this)" class="clicked button" fkarea="${areas[i].id}">Geral</button>
-                                                        <button onclick="showSensors(this)" class="button">Sensores</button>
+                                                        <button onclick="showSensors(this)" class="button" fkarea="${areas[i].id}">Sensores</button>
                                                     </div>
                                                     <div class="graph selected">
                                                         <div class="first_graph">
@@ -92,53 +93,17 @@ function getAreasById(id) {
                                                             <canvas id="alert_graph1" class="alert_graph" width="700" height="400"></canvas>
                                                         </div>
                                                     </div>
-                                                    <div class="sensors_wrapper">
-                                                        <div class="sensors_graph_container">
-                                                            <h3>Medição dos sensores (atual)</h3>
-                                                            <canvas id="sensors_graph1" class="sensors_graph" width="700" height="400"></canvas>
-                                                        </div>
-                                                        <div class="sensors_kpis">
-                                                            <h3>Estado dos sensores</h3>
-                                                            <div class="sensors_kpis_container">
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 1<br>5ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 2<br>19ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 3<br>20ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 4<br>20ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi alerta">
-                                                                    <p>Sensor 5<br>30ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi alerta">
-                                                                    <p>Sensor 6<br>45ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 7<br>18ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 8<br>24ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 9<br>25ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi normal">
-                                                                    <p>Sensor 10<br>15ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi atencao">
-                                                                    <p>Sensor 11<br>20ppm</p>
-                                                                </div>
-                                                                <div class="sensor_kpi alerta">
-                                                                    <p>Sensor 12<br>30ppm</p>
+                                                        <div class="sensors_wrapper">
+                                                            <div class="sensors_graph_container">
+                                                                <h3>Medição dos sensores (atual)</h3>
+                                                                <canvas id="sensors_graph1" class="sensors_graph" width="700" height="400"></canvas>
+                                                            </div>
+                                                            <div class="sensors_kpis">
+                                                                <h3>Estado dos sensores</h3>
+                                                                <div class="sensors_kpis_container" id="kpis_leitura_sensor${i}">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         `;
@@ -235,3 +200,7 @@ function mediaDoSpan(mediaSpan) {
     else attention_level = `<span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span><span class="red"></span>`
     return attention_level;
 }
+
+
+
+

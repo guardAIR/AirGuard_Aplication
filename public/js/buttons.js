@@ -1,43 +1,43 @@
-function renderPrimeiraVezHeatmap(local){
-    if(local){
+function renderPrimeiraVezHeatmap(local) {
+    if (local) {
         const container = local.querySelector('.heatmap');
-        
+
         const instanciaHeatmap = h337.create({
             container: container
         });
 
-        return instanciaHeatmap; 
+        return instanciaHeatmap;
     }
 }
 
 function renderHeatmap(fkarea, instanciaHeatmap) {
-    if(instanciaHeatmap){
+    if (instanciaHeatmap) {
         let data = [];
 
         fetch('/areas/getSensorsAndRead/' + fkarea, { method: 'GET' })
-        .then((result) => result.json())
-        .then((json) => {
-            for (let i = 0; i < json.length; i++) {
-                data.push({ 
-                    x: json[i].eixo_x,
-                    y: json[i].eixo_y,
-                    value: json[i].concentracao_gas,
-                    radius: json[i].concentracao_gas,
-                    dataHora: json[i].data_hora
-                });
-            }
+            .then((result) => result.json())
+            .then((json) => {
+                for (let i = 0; i < json.length; i++) {
+                    data.push({
+                        x: json[i].eixo_x,
+                        y: json[i].eixo_y,
+                        value: json[i].concentracao_gas,
+                        radius: json[i].concentracao_gas,
+                        dataHora: json[i].data_hora
+                    });
+                }
 
-            instanciaHeatmap.setData({ data: data });
-        })
-        .catch((error) => {
-            console.error("Erro ao obter os dados dos sensores:", error);
-        });
+                instanciaHeatmap.setData({ data: data });
+            })
+            .catch((error) => {
+                console.error("Erro ao obter os dados dos sensores:", error);
+            });
     }
 }
 
-function renderPrimeiraVezNivelGasHora(local){
+function renderPrimeiraVezNivelGasHora(local) {
     const graph_local = local.getElementsByClassName('limitPerArea_graph')[0];
-    
+
     const chart_nivel = new Chart(graph_local, {
         type: 'bar',
         data: {
@@ -57,17 +57,17 @@ function renderPrimeiraVezNivelGasHora(local){
 
     return chart_nivel;
 }
-function renderNivelGasHora(fkarea, graphGasHora){
+function renderNivelGasHora(fkarea, graphGasHora) {
 
-    fetch('/areas/buscarMediaCOPorHoraPorID/'+fkarea, {
+    fetch('/areas/buscarMediaCOPorHoraPorID/' + fkarea, {
         method: 'GET'
     }).then(res => {
         res.json().then(data => {
             let labels = [];
             let dados = [];
-            
-            for(let i=0; i<data.length; i++){
-                labels.push(data[i].hora+'h');
+
+            for (let i = 0; i < data.length; i++) {
+                labels.push(data[i].hora + 'h');
                 dados.push(data[i].media_gas);
             }
 
@@ -145,6 +145,44 @@ function showGraphs(element) {
     renderHeatmap(fkarea);
 };
 
+function renderPrimeiraVezMedicaoAtual(local) {
+    const graph_local = local.getElementsByClassName('sensors_graph')[0];
+
+    const chart_nivel = new Chart(graph_local, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'PPM dos Sensores',
+                data: [],
+                backgroundColor: '#006DAC',
+                borderColor: '#006DAC',
+                borderRadius: 5,
+                tension: 0.3,
+            }]
+        },
+        options: options_sensor_graph
+    });
+
+    return chart_nivel;
+}
+
+function MedicaoSensor(fkarea, local) {
+    fetch(`/areas/ultimasLeituras/${fkarea}`)
+        .then(res => res.json())
+        .then(dados => {
+            const labels = [];
+            for (i = 1; i <= dados.length; i++) {
+                labels.push(`Sensor ${i}`);
+            }
+            const valores = dados.map(sensor => sensor.concentracao_gas);
+            local.data.labels = labels;
+            local.data.datasets[0].data = valores;
+            local.update();
+        });
+        bolinhas()
+}
+
 function showSensors(element) {
     const sensors_wrapper = element.parentElement.parentElement.getElementsByClassName('sensors_wrapper')[0];
     const alerts_wrapper = element.parentElement.parentElement.getElementsByClassName('alerts_wrapper')[0];
@@ -154,9 +192,88 @@ function showSensors(element) {
     alerts_wrapper.classList.remove('selected');
     graph.classList.remove('selected');
 
+    const fkarea = element.getAttribute('fkarea');
+
+    const graphMedicao = renderPrimeiraVezMedicaoAtual(sensors_wrapper);
     const buttons = element.parentElement.getElementsByClassName("button")
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove('clicked')
     }
     element.classList.add('clicked');
+
+
+    setInterval(() => {
+        MedicaoSensor(fkarea, graphMedicao);
+    }, 1000);
 }
+
+function bolinhas() {
+    var completo = true;
+    fetch(`/areas/ultimasLeiturasTotais`)
+
+        .then(res => res.json())
+        .then(dados => {
+            console.log("Esses sao os dados", dados)
+
+            const fkAreas = [];
+            const dadosFinais = [];
+            // Criando a matriz
+            for (let i = 0; i < dados.length; i++) {
+                if (!fkAreas.includes(dados[i].fkArea)) {
+                    fkAreas.push(dados[i].fkArea)
+                }
+            }
+
+            for (let j = 0; j < fkAreas.length; j++) {
+                const array = [];
+                for (let i = 0; i < dados.length; i++) {
+                    if (dados[i].fkArea == fkAreas[j]) {
+                        array.push(dados[i])
+                    }
+                }
+                dadosFinais.push(array)
+            }
+            console.log("Estes sao os dados finais", dadosFinais)
+            for (let i = 0; i < dadosFinais.length; i++) {
+                for (let j = 0; j < dadosFinais[i].length; j++) {
+                    const divId = "kpis_leitura_sensor" + i;
+                    const divKpi = document.getElementById(divId);
+                    if (completo) {
+                        divKpi.innerHTML = ``;
+                        completo = false;
+                    }
+                    if (dadosFinais[i][j].concentracao_gas < 20) {
+                        divKpi.innerHTML +=
+                            `
+                            <div class="sensor_kpi seguro">
+                                <p>Sensor ${j + 1}<br>${dadosFinais[i][j].concentracao_gas}ppm</p>
+                            </div> 
+                            `
+                    } else if (dadosFinais[i][j].concentracao_gas < 30) {
+                        divKpi.innerHTML +=
+                            `
+                            <div class="sensor_kpi atencao">
+                                <p>Sensor ${j + 1}<br>${dadosFinais[i][j].concentracao_gas}ppm</p>
+                            </div>
+                            `
+                    } else if (dadosFinais[i][j].concentracao_gas < 39) {
+                        divKpi.innerHTML +=
+                            `
+                            <div class="sensor_kpi alerta">
+                                <p>Sensor ${j + 1}<br>${dadosFinais[i][j].concentracao_gas}ppm</p>
+                            </div>
+                            `
+                    } else {
+                        divKpi.innerHTML +=
+                            `
+                            <div class="sensor_kpi perigo">
+                                <p>Sensor ${j + 1}<br>${dadosFinais[i][j].concentracao_gas}ppm</p>
+                            </div>
+                            `
+                    }
+                }
+                completo = true;
+            }
+        });
+}
+

@@ -2,27 +2,30 @@ var database = require("../database/config");
 
 function getAlertaById(fkEmpresa) {
     var instrucaoSql = `
-        select 
-	        e.id as 'id',
-            a.nome as 'nome',
-            l.concentracao_gas as 'concentracao'
-        from 
-	        empresa e
-        inner join
-	        area a on e.id = a.${fkEmpresa}
-        inner join
-	        sensor s on a.id = s.fkarea
-        inner join
-	        leitura l on s.id = l.fksensor;
-    `;
+        SELECT 
+            e.id AS id,
+            a.nome AS nome,
+            l.concentracao_gas AS concentracao
+        FROM 
+			alerta al 
+		INNER JOIN
+			leitura l ON al.fkleitura = l.id
+		INNER JOIN 
+			sensor s ON l.fksensor = s.id
+		INNER JOIN
+			area a ON s.fkarea = a.id
+		INNER JOIN
+			empresa e ON a.fkempresa = ${fkEmpresa}
+		WHERE
+			e.id = 1 AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP());`
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function getAllByFkEmpresa(fkEmpresa) {
     var instrucaoSql = `
-        select * from area where fkEmpresa = ${fkEmpresa};
+        SELECT * FROM area WHERE fkEmpresa = ${fkEmpresa};
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -72,16 +75,64 @@ function getSensorsAndReads(fkarea) {
     return database.executar(instrucaoSql);
 }
 
-
-function buscarMediaCOPorHoraPorID(areaID){
+function buscarMediaCOPorHoraPorID(areaID) {
     var instrucaoSql = `
-        select hour(data_hora) hora, round(avg(concentracao_gas), 0) media_gas from leitura lei
-        inner join sensor sen on sen.id = lei.fksensor
-        inner join area ar on ar.id = sen.fkarea
-        where ar.id = ${areaID} and date(data_hora) = curdate()
-        group by hora;
+        SELECT HOUR(data_hora) AS hora, ROUND(AVG(concentracao_gas), 0) AS media_gas
+        FROM leitura lei
+        INNER JOIN sensor sen ON sen.id = lei.fksensor
+        INNER JOIN area ar ON ar.id = sen.fkarea
+        WHERE ar.id = ${areaID} AND DATE(data_hora) = CURDATE()
+        GROUP BY hora;
     `;
 
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function medicaoSensores(fkarea) {
+    var instrucaoSql = `
+        SELECT  
+           DISTINCT
+           s.id,
+           l.concentracao_gas,
+           max(l.data_hora),
+           FROM sensor s
+           INNER JOIN leitura l
+           ON s.id = l.fksensor
+           GROUP BY s.id, l.concentracao_gas
+        ) WHERE s.fkarea = ${fkarea};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function getUltimasLeiturasPorArea(fkarea) {
+    let instrucaoSql = `
+        SELECT s.id AS sensor_id, l.concentracao_gas
+        FROM sensor s
+        INNER JOIN leitura l ON s.id = l.fksensor
+        WHERE s.fkarea = ${fkarea}
+        AND l.data_hora = (
+            SELECT MAX(l2.data_hora)
+            FROM leitura l2
+            WHERE l2.fksensor = s.id
+        );
+    `;
+    return database.executar(instrucaoSql);
+}
+
+function getUltimasLeiturasTotais() {
+    let instrucaoSql = `
+                SELECT s.id AS sensor_id, l.concentracao_gas, s.fkArea
+                    FROM sensor s
+                    INNER JOIN leitura l ON s.id = l.fksensor
+                    WHERE l.data_hora = (
+                        SELECT MAX(l2.data_hora)
+                        FROM leitura l2
+                    WHERE l2.fksensor = s.id
+                );
+    `;
     return database.executar(instrucaoSql);
 }
 
@@ -90,5 +141,7 @@ module.exports = {
     getMediaAreaById,
     getSensorsAndReads,
     getAlertaById,
-    buscarMediaCOPorHoraPorID
+    buscarMediaCOPorHoraPorID,
+    getUltimasLeiturasPorArea,
+    getUltimasLeiturasTotais
 }
