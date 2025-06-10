@@ -36,4 +36,8 @@ router.get('/exibirAlertasPorArea/:fkEmpresa/:idArea', function(req, res) {
     areaController.exibirAlertasPorArea(req, res);
 });
 
+router.get('/exibirQuantidadeDeAlertasPorHorario/:idArea', function(req, res) {
+    areaController.exibirQuantidadeDeAlertasPorHorario(req, res);
+})
+
 module.exports = router;

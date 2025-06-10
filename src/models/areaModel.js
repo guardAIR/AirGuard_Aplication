@@ -17,7 +17,8 @@ function getAlertaById(fkEmpresa) {
 		INNER JOIN
 			empresa e ON a.fkempresa = ${fkEmpresa}
 		WHERE
-			e.id = 1 AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP());`
+			e.id = 1 AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP())
+        ORDER BY data_hora DESC;`;
 
     console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -143,7 +144,7 @@ function exibirAlertasPorArea(fkEmpresa, idArea) {
             s.id AS idSensor,
             a.nome AS nome,
             l.concentracao_gas AS concentracao,
-            l.data_hora AS data_hora
+            DATE_FORMAT(l.data_hora, '%H:%i:%s') AS data_hora
         FROM 
 			alerta al 
 		INNER JOIN
@@ -160,6 +161,28 @@ function exibirAlertasPorArea(fkEmpresa, idArea) {
     return database.executar(instrucaoSql);
 }
 
+function exibirQuantidadeDeAlertasPorHorario(idArea) {
+    let instrucaoSql = `
+        SELECT
+            count(*) AS quantidade,
+            hour(l.data_hora) AS horario
+        FROM
+            alerta a
+        INNER JOIN
+            leitura l on l.id = a.fkleitura
+        INNER JOIN
+            sensor s on s.id = l.fksensor
+        INNER JOIN
+            area ar on ar.id = s.fkarea
+        WHERE 
+            WEEK(data_hora) = WEEK(current_timestamp) AND ar.id = ${idArea}
+        GROUP BY
+            hour(l.data_hora);
+    `;
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     getAllByFkEmpresa,
     getMediaAreaById,
@@ -168,5 +191,6 @@ module.exports = {
     buscarMediaCOPorHoraPorID,
     getUltimasLeiturasPorArea,
     getUltimasLeiturasTotais,
-    exibirAlertasPorArea
+    exibirAlertasPorArea,
+    exibirQuantidadeDeAlertasPorHorario
 }

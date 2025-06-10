@@ -109,6 +109,19 @@ function exibirAlertasPorArea(req, res) {
     })
 }
 
+function exibirQuantidadeDeAlertasPorHorario(req, res) {
+
+  const idArea = req.params.idArea;
+
+  areaModel.exibirQuantidadeDeAlertasPorHorario(idArea)
+    .then(function(resultado) {
+      res.json(resultado);
+    })
+    .catch(function(erro) {
+      console.log("Erro ao exibir quantidade de alertas por horário", erro);
+    })
+}
+
 
 module.exports = {
   getAllByFkEmpresa,
@@ -118,5 +131,6 @@ module.exports = {
   buscarMediaCOPorHoraPorID,
   ultimasLeiturasPorArea,
   ultimasLeiturasTotais,
-  exibirAlertasPorArea
+  exibirAlertasPorArea,
+  exibirQuantidadeDeAlertasPorHorario
 }
