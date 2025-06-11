@@ -42,13 +42,13 @@ const options_sensor_graph = {
                 },
                 alertaMedio: {
                     type: 'line',
-                    yMin: 30,
-                    yMax: 30,
+                    yMin: 20,
+                    yMax: 20,
                     borderColor: '#FF9900',
                     borderWidth: 2,
                     borderDash: [6, 4],
                     label: {
-                        content: "Alerta (30ppm)",
+                        content: "Atenção (20ppm)",
                         enabled: true,
                         backgroundColor: "#006DAC",
                         color: "white",

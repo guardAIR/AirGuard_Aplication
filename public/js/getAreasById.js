@@ -86,6 +86,25 @@ function getAreasById(id) {
                                                                 <h3>Estado dos sensores</h3>
                                                                 <div class="sensors_kpis_container" id="kpis_leitura_sensor${i}">
                                                                 </div>
+                                                                <div class="ranking_legend">
+                                                                <strong>Legenda:</strong><br>
+                                                                <div class="legend-item green">
+                                                                    <span class="legend-circle"></span>
+                                                                    Abaixo de 20 ppm – Seguro (verde)
+                                                                </div>
+                                                                <div class="legend-item yellow">
+                                                                    <span class="legend-circle"></span>
+                                                                    Abaixo de 30 ppm – Atenção (amarelo)
+                                                                </div>
+                                                                <div class="legend-item red">
+                                                                    <span class="legend-circle"></span>
+                                                                    Até 39 ppm – Alerta (vermelho)
+                                                                </div>
+                                                                <div class="legend-item dark-red">
+                                                                    <span class="legend-circle"></span>
+                                                                    Acima de 39 ppm – Perigoso (vermelho escuro)
+                                                                </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                 </div>
