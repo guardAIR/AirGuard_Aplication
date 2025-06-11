@@ -26,7 +26,8 @@ function getAlertaById(fkEmpresa) {
 
 function getAllByFkEmpresa(fkEmpresa) {
     var instrucaoSql = `
-        SELECT * FROM area WHERE fkEmpresa = ${fkEmpresa};
+        SELECT * FROM area WHERE fkEmpresa = ${fkEmpresa}
+        order by id DESC;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -123,7 +124,7 @@ function getUltimasLeiturasPorArea(fkarea) {
     return database.executar(instrucaoSql);
 }
 
-function getUltimasLeiturasTotais() {
+function getUltimasLeiturasTotais(fkArea) {
     let instrucaoSql = `
                 SELECT s.id AS sensor_id, l.concentracao_gas, s.fkArea
                     FROM sensor s
@@ -132,7 +133,7 @@ function getUltimasLeiturasTotais() {
                         SELECT MAX(l2.data_hora)
                         FROM leitura l2
                     WHERE l2.fksensor = s.id
-                );
+                ) AND s.fkarea = ${fkArea};
     `;
     return database.executar(instrucaoSql);
 }

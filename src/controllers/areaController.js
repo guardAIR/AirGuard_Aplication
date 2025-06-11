@@ -86,7 +86,9 @@ function ultimasLeiturasPorArea(req, res) {
 }
 
 function ultimasLeiturasTotais(req, res) {
-    areaModel.getUltimasLeiturasTotais()
+  let fkArea = req.params.fkarea;
+
+    areaModel.getUltimasLeiturasTotais(fkArea)
         .then(resultado => {
             res.status(200).json(resultado);
         }).catch(erro => {
