@@ -314,6 +314,7 @@ function time() {
     dados();
     carregarRankingComChartJs();
     listarAreasLimite();
+    getAlertaById();
     setTimeout(function () {
         time()
     }, 5000);

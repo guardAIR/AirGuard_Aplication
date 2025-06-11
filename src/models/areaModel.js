@@ -157,7 +157,8 @@ function exibirAlertasPorArea(fkEmpresa, idArea) {
 		INNER JOIN
 			empresa e ON a.fkempresa = a.fkempresa
 		WHERE
-			e.id = ${fkEmpresa} AND a.id = ${idArea} AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP());
+			e.id = ${fkEmpresa} AND a.id = ${idArea} AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP())
+        ORDER BY l.data_hora DESC;
     `;
     return database.executar(instrucaoSql);
 }

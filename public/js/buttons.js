@@ -126,9 +126,6 @@ function showAlerts(element) {
     element.classList.add('clicked');
     const fkarea = element.getAttribute('fkarea');
 
-
-
-
     const result = exibirQuantidadeDeAlertasPorHorario(alerts_wrapper);
 
     setInterval(function () {
@@ -264,13 +261,12 @@ function showSensors(element) {
 function exibirAlertasPorArea(idArea) {
     let fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-    document.getElementById("alerts_bruno" + idArea).innerHTML = "";
-
+    
     fetch(`/areas/exibirAlertasPorArea/${fkEmpresa}/${idArea}`)
-        .then(function (resultado) {
-            resultado.json()
-                .then(function (data) {
-                    console.log(data);
+    .then(function (resultado) {
+        resultado.json()
+        .then(function (data) {
+                document.getElementById("alerts_bruno" + idArea).innerHTML = "";
 
                     for (let i = 0; i < data.length; i++) {
                         document.getElementById("alerts_bruno" + idArea).innerHTML +=
