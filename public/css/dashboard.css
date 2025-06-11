@@ -179,6 +179,7 @@ nav ul li a {
     /* 20px 10px 0 10px */
     overflow-y: scroll;
     height: 800px;
+    padding: 5px;
 }
 
 .alerts .alert {

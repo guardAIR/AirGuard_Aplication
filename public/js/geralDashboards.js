@@ -267,18 +267,37 @@ function getAlertaById() {
             alerta.innerHTML = ``;
 
             for (let i = 0; i < resultado.length; i++) {
-                alerta.innerHTML +=
-                    `<div class="alert alert1">
-                        <img src="/assets/dashboard/img_area.png">
-                        <h4>${resultado[i].nome}</h4>
-                        <p>${resultado[i].concentracao}ppm</p>
-                        <p class="comparison trending_up">
-                            <span class="material-symbols-outlined alert_icon">
-                                trending_up
-                            </span>
-                            ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
-                        </p>
-                    </div>`
+                if(resultado[i].concentracao > 39){
+                    alerta.innerHTML +=
+                        `<div class="alert alert1">
+                            <img src="/assets/dashboard/img_area.png">
+                            <h4>${resultado[i].nome}</h4>
+                            <p>${resultado[i].concentracao}ppm</p>
+                            <p class="comparison" style="color:#be1300; font-weight: 900; border-color: #be1300; border-width: 3px">
+                                ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
+                            </p>
+                        </div>`
+                }else if(resultado[i].concentracao > 30){
+                    alerta.innerHTML +=
+                        `<div class="alert alert1">
+                            <img src="/assets/dashboard/img_area.png">
+                            <h4>${resultado[i].nome}</h4>
+                            <p>${resultado[i].concentracao}ppm</p>
+                            <p class="comparison" style="color:#E74C3C; font-weight: 900; border-color: #E74C3C; border-width: 3px">
+                                ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
+                            </p>
+                        </div>`
+                }else{
+                    alerta.innerHTML +=
+                        `<div class="alert alert1">
+                            <img src="/assets/dashboard/img_area.png">
+                            <h4>${resultado[i].nome}</h4>
+                            <p>${resultado[i].concentracao}ppm</p>
+                            <p class="comparison" style="color:#F1C40F; font-weight: 900; border-color: #F1C40F; border-width: 3px">
+                                ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
+                            </p>
+                        </div>`
+                }
             }
         })
 }

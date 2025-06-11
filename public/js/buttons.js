@@ -328,17 +328,17 @@ function exibirQuantidadeDeAlertasPorHorario(local) {
     const graph_local = local.getElementsByClassName('alert_graph')[0];
 
     const chart_nivel = new Chart(graph_local, {
-        type: 'bar',
+        type: 'line',
         data: {
             labels: [],
             datasets: [
                 {
                     label: 'Quantidade de alertas por horário',
                     data: [],
-                    borderColor: '#006DAC',
                     backgroundColor: '#006DAC',
-                    fill: true,
-                    borderRadius: 5
+                    borderColor: '#006DAC',
+                    borderRadius: 5,
+                    tension: 0.3, // deixa o gráfico mais suave
                 }
             ]
         },
