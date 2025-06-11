@@ -293,24 +293,46 @@ nav ul li a {
 
 .ranking_legend {
     margin-top: 20px;
-    font-size: 0.937vw;
+    font-size: 0.75vw;
     color: #333;
     background-color: #ffffff;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
-.ranking_legend ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 10px;
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
 }
 
-.ranking_legend li {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
+.legend-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.legend-item.green .legend-circle {
+  background-color: #28a745;
+}
+
+.legend-item.yellow .legend-circle {
+  background-color: #F1C40F;
+}
+
+.legend-item.red .legend-circle {
+  background-color: #ff5c5c;
+}
+
+.legend-item.dark-red .legend-circle {
+  background-color: #8B0000;
+}
+
+.legend-note {
+  font-size: 0.7em;
+  margin-top: 6px;
 }
 
 .legend_color {
@@ -698,6 +720,10 @@ h3 {
     margin-left: 20px;
     width: 100%;
     justify-content: center;
+
+    overflow-y: auto;
+    padding-right: 10px;
+
 }
 
 .sensor_kpi {
@@ -733,7 +759,7 @@ h3 {
 }
 
 .sensor_kpi.perigo {
-    background-color: #E74C3C;
+    background-color: #8B0000;
 }
 
 .sensors_kpis_container,
