@@ -50,11 +50,11 @@ function getAreasById(id) {
                                                 </div>
                                                 <div class="card_row row_graphs expand">
                                                     <div class="graph_buttons">
+                                                        <button onclick="showGraphs(this)" class="button" fkarea="${areas[i].id}">Geral</button>
+                                                        <button onclick="showSensors(this)" class="clicked button" fkarea="${areas[i].id}">Sensores</button>
                                                         <button onclick="showAlerts(this)" class="button" fkarea="${areas[i].id}">Alertas</button>
-                                                        <button onclick="showGraphs(this)" class="clicked button" fkarea="${areas[i].id}">Geral</button>
-                                                        <button onclick="showSensors(this)" class="button" fkarea="${areas[i].id}">Sensores</button>
                                                     </div>
-                                                    <div class="graph selected">
+                                                    <div class="graph">
                                                         <div class="first_graph">
                                                             <h3>Nível de gás (por hora)</h3>
                                                             <canvas class="limitPerArea_graph" width="700" height="400"></canvas>
@@ -77,7 +77,7 @@ function getAreasById(id) {
                                                             <canvas id="alert_graph1" class="alert_graph" width="700" height="400"></canvas>
                                                         </div>
                                                     </div>
-                                                        <div class="sensors_wrapper">
+                                                        <div class="sensors_wrapper selected">
                                                             <div class="sensors_graph_container">
                                                                 <h3>Medição dos sensores (atual)</h3>
                                                                 <canvas id="sensors_graph1" class="sensors_graph" width="700" height="400"></canvas>
@@ -177,7 +177,6 @@ function plotGraph() {
 
                         charts[id].data.datasets[0].data = dataset;
                         charts[id].update();
-                        console.log("Gráfico " + id + " plotado");
 
                         p_span.innerHTML = `${mediaDoSpan((valor / 39) * 10)}`;
                         p_ppm.innerHTML = `${valor.toFixed(2)}ppm`;

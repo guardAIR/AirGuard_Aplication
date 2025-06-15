@@ -96,17 +96,22 @@ function expandir_area(element) {
     const fkarea = element.getAttribute('fkarea');
     const graphGasHora = renderPrimeiraVezNivelGasHora(expandElement);
     const heatmap = renderPrimeiraVezHeatmap(expandElement);
+    const graphMedicao = renderPrimeiraVezMedicaoAtual(expandElement);
+    const alertas = exibirQuantidadeDeAlertasPorHorario(expandElement);
     // setInterval(() => {
     //     renderHeatmap(fkarea, heatmap);
     //     renderNivelGasHora(fkarea, graphGasHora)
     // }, 100);
-    buscarDados(fkarea, heatmap, graphGasHora);
+    buscarDados(fkarea, heatmap, graphGasHora, graphMedicao, expandElement, alertas);
 };
 
-function buscarDados(fkarea, heatmap, graphGasHora) {
+function buscarDados(fkarea, heatmap, graphGasHora, graphMedicao, expandElement, alertas) {
     renderHeatmap(fkarea, heatmap);
-    renderNivelGasHora(fkarea, graphGasHora)
-    setTimeout(() => buscarDados(fkarea, heatmap, graphGasHora), 1000);
+    renderNivelGasHora(fkarea, graphGasHora);
+    MedicaoSensor(fkarea, graphMedicao, expandElement);
+    exibirAlertasPorArea(fkarea);
+    chamaExibirQuantidadeDeAlertasPorHorario(fkarea, alertas);
+    setTimeout(() => buscarDados(fkarea, heatmap, graphGasHora, graphMedicao, expandElement, alertas), 1000);
 }
 
 function showAlerts(element) {
@@ -126,11 +131,9 @@ function showAlerts(element) {
     element.classList.add('clicked');
     const fkarea = element.getAttribute('fkarea');
 
-    const result = exibirQuantidadeDeAlertasPorHorario(alerts_wrapper);
 
     setInterval(function () {
-        exibirAlertasPorArea(fkarea);
-        chamaExibirQuantidadeDeAlertasPorHorario(fkarea, result);
+
     }, 1000)
 };
 
@@ -184,8 +187,6 @@ function MedicaoSensor(fkarea, local, divpai) {
             
             for (i = 0; i < dados.length; i++) {
                 labels.push(`Sensor ${dados[i].sensor_id}`);
-
-
 
                 var concentracao = dados[i].concentracao_gas;
                 const divKpi = divpai.getElementsByClassName('sensors_kpis_container')[0];
@@ -241,26 +242,17 @@ function showSensors(element) {
     sensors_wrapper.classList.add('selected');
     alerts_wrapper.classList.remove('selected');
     graph.classList.remove('selected');
-
-    const fkarea = element.getAttribute('fkarea');
-
-    const graphMedicao = renderPrimeiraVezMedicaoAtual(sensors_wrapper);
+   
     const buttons = element.parentElement.getElementsByClassName("button")
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove('clicked')
     }
     element.classList.add('clicked');
-
-
-    setInterval(() => {
-        MedicaoSensor(fkarea, graphMedicao, sensors_wrapper);
-    }, 1000);
 }
 
 
 function exibirAlertasPorArea(idArea) {
     let fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-
     
     fetch(`/areas/exibirAlertasPorArea/${fkEmpresa}/${idArea}`)
     .then(function (resultado) {
