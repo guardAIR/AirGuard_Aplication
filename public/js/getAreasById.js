@@ -84,9 +84,14 @@ function getAreasById(id) {
                                                             </div>
                                                             <div class="sensors_kpis">
                                                                 <h3>Estado dos sensores</h3>
+                                                                <button onclick="showLegends(this)" class="show_legends">
+                                                                    <span class="material-symbols-outlined">
+                                                                        info
+                                                                    </span>
+                                                                </button>
                                                                 <div class="sensors_kpis_container" id="kpis_leitura_sensor${i}">
                                                                 </div>
-                                                                <div class="ranking_legend">
+                                                                <div class="ranking_legend hidden">
                                                                 <strong>Legenda:</strong><br>
                                                                 <div class="legend-item green">
                                                                     <span class="legend-circle"></span>

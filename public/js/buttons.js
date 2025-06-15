@@ -327,3 +327,13 @@ function chamaExibirQuantidadeDeAlertasPorHorario(idArea, graficoGasHora) {
                 })
         })
 }
+
+function showLegends(element){
+    const legend = element.parentElement.getElementsByClassName('ranking_legend')[0];
+
+    if(legend.classList.contains('hidden')){
+        legend.classList.remove('hidden');
+    }else{
+        legend.classList.add('hidden');
+    }
+}

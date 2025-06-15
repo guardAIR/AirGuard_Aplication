@@ -743,6 +743,7 @@ h3 {
 
 .sensors_kpis {
     width: 50% !important;
+    position: relative;
 }
 
 .sensors_kpis h3 {
