@@ -46,10 +46,15 @@
                 <div class="row row2">
                     <div class="card card3">
                         <h3>5 Áreas com a maior concentração de CO</h3>
-                        <div style="width:100%; height:300px;">
+                        <button onclick="showLegends()" class="show_legends">
+                            <span class="material-symbols-outlined">
+                                info
+                            </span>
+                        </button>
+                        <div style="width:100%; height:230px;">
                             <canvas id="rankingCOChart"></canvas>
                         </div>
-                        <div class="ranking_legend">
+                        <div class="ranking_legend hidden">
                             <p><strong>Legenda:</strong></p>
                             <ul>
                                 <li><span class="legend_color blackred_bar"></span> Acima de 39 ppm – Perigoso
@@ -105,5 +110,16 @@
         var sobrenome = sessionStorage.SOBRENOME_USUARIO;
 
         NomeUsuario.innerHTML = `${nome} ${sobrenome}`;
+    }
+
+    function showLegends(){
+        const local = document.getElementsByClassName('ranking_legend')[0];
+
+        if(local.classList.contains('hidden')){
+            local.classList.remove('hidden')
+        }else{
+            local.classList.add('hidden')
+        }
+
     }
 </script>

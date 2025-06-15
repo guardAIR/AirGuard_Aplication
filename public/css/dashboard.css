@@ -152,6 +152,7 @@ nav ul li a {
 .card3 {
     flex: 1;
     padding: 15px !important;
+    position: relative;
 }
 
 .card4 {
@@ -178,7 +179,7 @@ nav ul li a {
     margin: 1.042vh 0.521vw 0 0.521vw;
     /* 20px 10px 0 10px */
     overflow-y: scroll;
-    height: 800px;
+    height: 550px;
     padding: 5px;
 }
 
@@ -299,6 +300,28 @@ nav ul li a {
     padding: 10px 12px;
     border-radius: 8px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    transition: .25s;
+    height: 150px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.ranking_legend.hidden{
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+.show_legends{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    color: #0000008e;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
 }
 
 .ranking_legend ul {
@@ -473,6 +496,7 @@ nav ul li a {
     border-radius: 20px;
     cursor: pointer;
     transition: box-shadow 0.25s;
+    position: relative;
 }
 
 .dashboard_specific_cards .cards .card:hover {
