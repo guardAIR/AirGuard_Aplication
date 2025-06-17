@@ -1,11 +1,6 @@
 -- Exculindo o database se já existir
 DROP DATABASE IF EXISTS air_guard;
 
--- Criando usuário air guard
-CREATE USER 'webdataviz' IDENTIFIED BY 'Sptech#2024';
-GRANT INSERT, SELECT, DELETE, UPDATE ON air_guard.* TO 'webdataviz';
-GRANT INSERT, SELECT ON air_guard.* TO 'dataquino';
-
 -- Criando o banco de dados
 CREATE DATABASE air_guard;
 
