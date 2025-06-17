@@ -1265,3 +1265,7 @@ header.kpis_airguard div p.number {
     display: flex;
     gap: 50px;
 }
+
+.dash_geral_body{
+    overflow: hidden;
+}
