@@ -442,15 +442,11 @@ nav ul li a {
     display: flex;
     flex-direction: row;
     margin-left: 13.020vw;
-    /* 260px */
     font-size: 1.146vw;
-    /* 22px */
     font-weight: 600;
     color: rgba(0, 0, 0, 0.60);
-    gap: 6.771vw;
-    /* 130px */
-    margin-bottom: 0.9vh;
-    /* 10px */
+    gap: 250px;
+    margin-bottom: 10px;
 }
 
 .attention_level {
@@ -507,10 +503,13 @@ nav ul li a {
     display: flex;
     position: relative;
     align-items: center;
-    gap: 4.167vw;
+    justify-content: space-between;
     cursor: pointer;
 }
-
+.card_header{
+    padding-right: 100px;
+    box-sizing: border-box;
+}
 .area_graph {
     width: 18.750vw !important;
     height: 7.500vh !important;
@@ -534,23 +533,19 @@ nav ul li a {
 
 .card .area_name_specific {
     font-size: 1.042vw;
-    text-align: center;
     align-self: center;
-    /* 20px */
+
     font-weight: 600;
     color: #000;
-    min-width: 8.7vw;
-    max-width: 9vw;
+    width: 200px;
 }
 
 .atual {
-    margin-left: -2.604vw;
-    /* -50px */
+    margin-left: -9.5vw;
 }
 
 .variacao {
-    margin-left: -5.208vw;
-    /* -100px */
+    margin-left: -8.0vw;
 }
 
 .dashboard_area {
@@ -1260,4 +1255,9 @@ header.kpis_airguard div p.number {
   background-color: #005A8C;
   transform: scale(1.1);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.row_img_name{
+    display: flex;
+    gap: 50px;
 }

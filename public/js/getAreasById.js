@@ -31,15 +31,14 @@ function getAreasById(id) {
 
                                         cards_container.innerHTML += `
                                             <div class="card">
-                                                <div class="card_row" fkarea="${areas[i].id}" onclick="expandir_area(this)">
-                                                    <img src="/assets/dashboard/img_area.png" alt="Imagem ${areas[i].nome}">
-                                                    <p class="area_name_specific">${areas[i].nome}</p>
+                                                <div class="card_row card_header" fkarea="${areas[i].id}" onclick="expandir_area(this)">
+                                                    <div class="row_img_name">
+                                                        <img src="/assets/dashboard/img_area.png" alt="Imagem ${areas[i].nome}">
+                                                        <p class="area_name_specific">${areas[i].nome}</p>
+                                                    </div>
                                                     <div class="attention_level" id="span${areas[i].id}">
                                                         ${attention_level}
                                                     </div>
-
-                                                    <canvas class="area_graph" id="${canvasId}" width="360" height="85"></canvas>
-
                                                     <p id="ppm${areas[i].id}">${valorMedio.toFixed(2)}ppm</p>
                                                     <p id="porcentagem${areas[i].id}" class="comparison">${porcentagem.toFixed(2)}%</p>
                                                     <button class="button_expand">
@@ -67,10 +66,7 @@ function getAreasById(id) {
                                                     <div class="alerts_wrapper">
                                                         <div class="alerts_specific">
                                                             <h3>Alertas (últimas 24h)</h3>
-                                                            <div class="alerts_container" id="alerts_bruno${areas[i].id}">
-                                                                
-
-                                                            </div>
+                                                            <div class="alerts_container" id="alerts_bruno${areas[i].id}"></div>
                                                         </div>
                                                         <div class="alerts_graph">
                                                             <h3>Quantidades de alertas por horário (últimos 7 dias)</h3>
