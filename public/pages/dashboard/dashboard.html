@@ -39,7 +39,7 @@
     <section>
         <div class="dashboard_header">
             <h1>Medição geral</h1>
-            <p>Bem-vindo de volta, <strong id="NomeUsuario">Air Guard ADM</strong></p>
+            <p>Acompanhe a situação <strong>geral</strong> da metalúrgica neste momento.</p>
         </div>
         <div class="dashboard_cards">
             <div class="left">
@@ -105,12 +105,6 @@
 <script src="../../js/geralDashboards.js"></script>
 
 <script>
-    function dados() {
-        var nome = sessionStorage.NOME_USUARIO;
-        var sobrenome = sessionStorage.SOBRENOME_USUARIO;
-
-        NomeUsuario.innerHTML = `${nome} ${sobrenome}`;
-    }
 
     function showLegends(){
         const local = document.getElementsByClassName('ranking_legend')[0];

@@ -333,7 +333,6 @@ function getAlertaById() {
 }
 
 window.onload = function () {
-    dados();
     carregarRankingComChartJs();
     listarAreasLimite();
     getAlertaById();
@@ -341,7 +340,6 @@ window.onload = function () {
 };
 
 function time() {
-    dados();
     carregarRankingComChartJs();
     listarAreasLimite();
     getAlertaById();

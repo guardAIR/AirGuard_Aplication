@@ -106,7 +106,7 @@ nav ul li a {
 
 
 .dashboard_header {
-    margin: 100px 0 20px 100px;
+    margin: 100px 0 20px 200px;
     color: rgba(0, 0, 0, 0.7);
 }
 
@@ -482,7 +482,7 @@ nav ul li a {
 }
 
 .dashboard_specific_cards {
-    margin-left: 2.083vw;
+    margin-left: 11vw;
     /* 40px */
 }
 
@@ -534,11 +534,6 @@ nav ul li a {
     /* 45px */
 }
 
-.dashboard_specific_header {
-    margin-left: 10.833vw;
-    /* 207px */
-}
-
 .card .area_name_specific {
     font-size: 1.042vw;
     align-self: center;
@@ -549,14 +544,15 @@ nav ul li a {
 }
 
 .atual {
-    margin-left: -9.5vw;
+    margin-left: -6.5vw;
 }
 
 .variacao {
-    margin-left: -8.0vw;
+    margin-left: -6vw;
 }
 
 .dashboard_area {
+    width: 100vw;
     padding-bottom: 5.208vh;
     /* 100px */
 }
