@@ -1,5 +1,18 @@
 var areaModel = require("../models/areaModel");
 
+function deleteAlertaById(req, res) {
+  
+  const alertaId = req.params.alertaId;
+
+  areaModel.deleteAlertaById(alertaId)
+    .then(function(resposta) {
+      res.json(resposta);
+    })
+    .catch(function(error) {
+      console.error("Erro ao deletar alerta");
+    })
+}
+
 function getAlertaById(req, res) {
 
   const fkEmpresa = req.params.fkEmpresa;
@@ -12,7 +25,6 @@ function getAlertaById(req, res) {
       console.log("Erro ao buscar alertas pelo fkEmpresa");
     })
 }
-
 
 function getAllByFkEmpresa(req, res) {
   var fkEmpresa = req.params.id;
@@ -134,5 +146,6 @@ module.exports = {
   ultimasLeiturasPorArea,
   ultimasLeiturasTotais,
   exibirAlertasPorArea,
-  exibirQuantidadeDeAlertasPorHorario
+  exibirQuantidadeDeAlertasPorHorario,
+  deleteAlertaById
 }
