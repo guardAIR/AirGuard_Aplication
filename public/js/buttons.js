@@ -251,6 +251,28 @@ function showSensors(element) {
 }
 
 
+function calcularTempoRelativo(horaBanco) {
+    const agora = new Date();
+
+    const [hora, minuto, segundo] = horaBanco.split(':');
+    const dataBanco = new Date(
+    agora.getFullYear(),
+    agora.getMonth(),
+    agora.getDate(),
+    parseInt(hora),
+    parseInt(minuto),
+    parseInt(segundo)
+    );
+
+    const diffMs = agora - dataBanco;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHoras = Math.floor(diffMin / 60);
+
+    if (diffHoras > 0) return `há ${diffHoras} hora${diffHoras > 1 ? 's' : ''} atrás`;
+    if (diffMin > 0) return `há ${diffMin} minuto${diffMin > 1 ? 's' : ''} atrás`;
+    return "agora mesmo";
+}
+
 function exibirAlertasPorArea(idArea) {
     let fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     
@@ -261,6 +283,7 @@ function exibirAlertasPorArea(idArea) {
                 document.getElementById("alerts_bruno" + idArea).innerHTML = "";
 
                     for (let i = 0; i < data.length; i++) {
+                        let momento = calcularTempoRelativo(data[i].data_hora)
                         document.getElementById("alerts_bruno" + idArea).innerHTML +=
                             `<div class="alert_specific">
                                 <p class="alert_text">
@@ -270,7 +293,7 @@ function exibirAlertasPorArea(idArea) {
                                     Sensor ${data[i].idSensor}
                                 </p>
                                 <p>${data[i].concentracao}ppm</p>
-                                <p class="alert_time">${data[i].data_hora}</p>
+                                <p class="alert_time">${momento}</p>
                             </div>`
                     }
 
