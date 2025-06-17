@@ -11,25 +11,39 @@ function deleteAlertaById(alertaId) {
 
 function getAlertaById(fkEmpresa) {
     var instrucaoSql = `
-        SELECT 
-            e.id AS id,
-            a.nome AS nome,
-            a.id AS idAlerta,
-            date_format(l.data_hora, "%H:%i") AS data_hora,
-            l.concentracao_gas AS concentracao
-        FROM 
-			alerta al 
-		INNER JOIN
-			leitura l ON al.fkleitura = l.id
-		INNER JOIN 
-			sensor s ON l.fksensor = s.id
-		INNER JOIN
-			area a ON s.fkarea = a.id
-		INNER JOIN
-			empresa e ON a.fkempresa = ${fkEmpresa}
-		WHERE
-			e.id = ${fkEmpresa} AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP())
-        ORDER BY data_hora DESC;`;
+        SELECT
+            ar.nome AS nome,
+            l.concentracao_gas AS concentracao,
+            DATE_FORMAT(l.data_hora, "%H:%i:%s") AS data_hora
+        FROM
+            alerta a
+        INNER JOIN
+            leitura l ON a.fkleitura = l.id
+        INNER JOIN
+            sensor s ON l.fksensor = s.id
+        INNER JOIN
+            area ar ON s.fkarea = ar.id
+        INNER JOIN
+            empresa e ON ar.fkempresa = e.id
+        INNER JOIN (
+            SELECT
+                s_sub.fkarea AS area_id_da_subquery,
+                MAX(l_sub.data_hora) AS max_data_hora_por_area
+            FROM
+                leitura l_sub
+            INNER JOIN
+                sensor s_sub ON l_sub.fksensor = s_sub.id
+            INNER JOIN
+                alerta al_sub ON al_sub.fkleitura = l_sub.id 
+            WHERE l_sub.data_hora >= NOW() - INTERVAL 24 HOUR 
+            GROUP BY
+                s_sub.fkarea 
+        ) AS max_alertas_por_area
+            ON ar.id = max_alertas_por_area.area_id_da_subquery
+            AND l.data_hora = max_alertas_por_area.max_data_hora_por_area
+        WHERE e.id = ${fkEmpresa}
+        ORDER BY
+        l.data_hora DESC;`;
 
     console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -209,3 +223,101 @@ module.exports = {
     exibirQuantidadeDeAlertasPorHorario,
     deleteAlertaById
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+SELECT 
+    id,
+    nome,
+    idAlerta,
+    sensorID,
+    data_hora,
+    concentracao
+FROM (
+    SELECT 
+        e.id AS id,
+        a.nome AS nome,
+        a.id AS idAlerta,
+        s.id AS sensorID,
+        DATE_FORMAT(l.data_hora, "%H:%i:%s") AS data_hora,
+        l.concentracao_gas AS concentracao,
+        ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY l.data_hora DESC, l.id DESC) AS rn
+    FROM 
+        alerta al 
+    INNER JOIN leitura l ON al.fkleitura = l.id
+    INNER JOIN sensor s ON l.fksensor = s.id
+    INNER JOIN area a ON s.fkarea = a.id
+    INNER JOIN empresa e ON a.fkempresa = 2
+    WHERE
+        e.id = 2
+        AND DATE(l.data_hora) = CURDATE()
+) AS sub
+WHERE rn = 1;
+
+*/
