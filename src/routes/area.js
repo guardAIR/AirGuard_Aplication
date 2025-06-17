@@ -3,6 +3,10 @@ var router = express.Router();
 
 const areaController = require('../controllers/areaController');
 
+router.delete('/deleteAlertaById/:alertaId', function(req, res) {
+    areaController.deleteAlertaById(req, res);
+});
+
 router.get('/getAlertaById/:fkEmpresa', function (req, res){
     areaController.getAlertaById(req, res);
 });
