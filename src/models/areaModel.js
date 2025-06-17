@@ -1,10 +1,21 @@
 var database = require("../database/config");
 
+function deleteAlertaById(alertaId) {
+    var instrucaoSql = `
+        DELETE FROM alerta WHERE id = ${alertaId}
+    `;
+
+    console.log("Executando a instrução SQL (deletar o alerta pelo id): \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function getAlertaById(fkEmpresa) {
     var instrucaoSql = `
         SELECT 
             e.id AS id,
             a.nome AS nome,
+            a.id AS idAlerta,
+            date_format(l.data_hora, "%H:%i") AS data_hora,
             l.concentracao_gas AS concentracao
         FROM 
 			alerta al 
@@ -17,7 +28,7 @@ function getAlertaById(fkEmpresa) {
 		INNER JOIN
 			empresa e ON a.fkempresa = ${fkEmpresa}
 		WHERE
-			e.id = 1 AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP())
+			e.id = ${fkEmpresa} AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP())
         ORDER BY data_hora DESC;`;
 
     console.log("Executando a instrução SQL (exibir todos os alertas pelo id da empresa): \n" + instrucaoSql);
@@ -143,6 +154,7 @@ function exibirAlertasPorArea(fkEmpresa, idArea) {
         SELECT 
             e.id AS id,
             s.id AS idSensor,
+            al.id AS idAlerta,
             a.nome AS nome,
             l.concentracao_gas AS concentracao,
             DATE_FORMAT(l.data_hora, '%H:%i:%s') AS data_hora
@@ -155,7 +167,7 @@ function exibirAlertasPorArea(fkEmpresa, idArea) {
 		INNER JOIN
 			area a ON s.fkarea = a.id
 		INNER JOIN
-			empresa e ON a.fkempresa = a.fkempresa
+			empresa e ON a.fkempresa = e.id
 		WHERE
 			e.id = ${fkEmpresa} AND a.id = ${idArea} AND DAY(l.data_hora) = DAY(CURRENT_TIMESTAMP())
         ORDER BY l.data_hora DESC;
@@ -194,5 +206,6 @@ module.exports = {
     getUltimasLeiturasPorArea,
     getUltimasLeiturasTotais,
     exibirAlertasPorArea,
-    exibirQuantidadeDeAlertasPorHorario
+    exibirQuantidadeDeAlertasPorHorario,
+    deleteAlertaById
 }
