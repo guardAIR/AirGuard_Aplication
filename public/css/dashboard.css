@@ -1269,3 +1269,7 @@ header.kpis_airguard div p.number {
 .dash_geral_body{
     overflow: hidden;
 }
+
+.imgs_alertas{
+    width: 100px;
+}

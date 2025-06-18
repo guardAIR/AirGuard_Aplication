@@ -172,24 +172,24 @@ function listarAreasLimite() {
             quantidadeNivel.push(atencao)
             quantidadeNivel.push(alerta)
             quantidadeNivel.push(perigoso)
-            
+
             const kpiTotalAreasEl = document.getElementById('kpiTotalAreas');
             const kpiAreasPerigosasEl = document.getElementById('kpiAreasPerigosas');
-            
+
             if (kpiTotalAreasEl) {
                 kpiTotalAreasEl.textContent = `${total}`;
             }
             if (kpiAreasPerigosasEl) {
                 kpiAreasPerigosasEl.textContent = `${perigoso}`;
-                
+
                 if (perigoso > 0) {
                     kpiAreasPerigosasEl.classList.add('texto-alerta-vermelho');
                 } else {
                     kpiAreasPerigosasEl.classList.remove('texto-alerta-vermelho');
                 }
             }
-            
-            
+
+
             var labels = statusNivel;
             var data = quantidadeNivel;
             if (!meuGraficoCOperArea) {
@@ -254,12 +254,12 @@ function calcularTempoRelativo(horaBanco) {
 
     const [hora, minuto, segundo] = horaBanco.split(':');
     const dataBanco = new Date(
-    agora.getFullYear(),
-    agora.getMonth(),
-    agora.getDate(),
-    parseInt(hora),
-    parseInt(minuto),
-    parseInt(segundo)
+        agora.getFullYear(),
+        agora.getMonth(),
+        agora.getDate(),
+        parseInt(hora),
+        parseInt(minuto),
+        parseInt(segundo)
     );
 
     const diffMs = agora - dataBanco;
@@ -289,8 +289,8 @@ function getAlertaById() {
             alerta.innerHTML = ``;
 
             for (let i = 0; i < resultado.length; i++) {
-                if(resultado[i].concentracao > 39){
-                    let tempo = calcularTempoRelativo(resultado[i].data_hora)
+                let tempo = calcularTempoRelativo(resultado[i].data_hora)
+                if (resultado[i].concentracao > 39) {
                     alerta.innerHTML +=
                         `<div class="alert">
                             <div>
@@ -307,25 +307,40 @@ function getAlertaById() {
                             </div>
 
                         </div>`
-                }else if(resultado[i].concentracao > 30){
+                } else if (resultado[i].concentracao > 30) {
                     alerta.innerHTML +=
-                        `<div class="alert alert1">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>${resultado[i].nome}</h4>
-                            <p>${resultado[i].concentracao}ppm</p>
-                            <p class="comparison" style="color:#E74C3C; font-weight: 900; border-color: #E74C3C; border-width: 3px">
-                                ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
-                            </p>
+
+                        `<div class="alert">
+                            <div>
+                                <img src="/assets/dashboard/img_area.png">
+                                <h4>${resultado[i].nome}</h4>
+                                <p>${resultado[i].concentracao}ppm</p>
+                                <p class="comparison" style="color:#E74C3C; font-weight: 900; border-color: #E74C3C; border-width: 3px">
+                                    ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
+                                </p>
+                            </div>
+                            <div class="alert_hour">
+                                <p></p>
+                                <p>${tempo}</p>
+                            </div>
+
                         </div>`
-                }else{
+                } else {
                     alerta.innerHTML +=
-                        `<div class="alert alert1">
-                            <img src="/assets/dashboard/img_area.png">
-                            <h4>${resultado[i].nome}</h4>
-                            <p>${resultado[i].concentracao}ppm</p>
-                            <p class="comparison" style="color:#F1C40F; font-weight: 900; border-color: #F1C40F; border-width: 3px">
-                                ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
-                            </p>
+                        `<div class="alert">
+                            <div>
+                                <img src="/assets/dashboard/img_area.png">
+                                <h4>${resultado[i].nome}</h4>
+                                <p>${resultado[i].concentracao}ppm</p>
+                                <p class="comparison" style="color:#F1C40F; font-weight: 900; border-color: #F1C40F; border-width: 3px">
+                                    ${((resultado[i].concentracao / 39) * 100).toFixed(0)}%
+                                </p>
+                            </div>
+                            <div class="alert_hour">
+                                <p></p>
+                                <p>${tempo}</p>
+                            </div>
+
                         </div>`
                 }
             }
